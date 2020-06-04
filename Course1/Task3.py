@@ -53,21 +53,35 @@ class TelTypes(Enum):
     telemarketer = 3
 
 
-bangalore_numbers_dict = dict()
+bangalore_numbers_set = set()
 
 
 def create_bangalore_numbers_dict(calls_list):
     for item in calls_list:
-        outgoint_tel_type = get_type_of_number(item[0])
-        incoming_tel_type = get_type_of_number(item[1])
-        # print("outgoint_tel_type={}".format(outgoint_tel_type))
-        # raise Exception('tel_number is not in valid format!')
+        calling_tel_number = item[0]
+        calling_tel_type = get_type_of_number(calling_tel_number)
+
+        if calling_tel_type == TelTypes.not_valid.value:
+            raise Exception('tel_number is not in valid format!')
+
+        if calling_tel_type == TelTypes.fixed_line.value:
+            area_code = get_area_code(calling_tel_number)
+            bangalore_numbers_set.add(area_code)
+
+
+def get_area_code(tel_numer):
+    index = tel_numer.find(")")
+    if index != -1:
+        return tel_numer[1: index]
+    else:
+        print("Could not find ')' in the telephone number!")
+        raise Exception("There is no ')' in the provided tel number! ")
 
 
 def get_type_of_number(tel_number):
     if (tel_number == ""):
         raise Exception('tel_number should not be an empty string!')
-    #print("->get_type_of_number: tel_number={}".format(tel_number))
+    # print("->get_type_of_number: tel_number={}".format(tel_number))
     if tel_number[0] == "(" and tel_number[1] == "0":
         return TelTypes.fixed_line.value
     if tel_number[0:3] == "140" and " " not in tel_number:
@@ -77,32 +91,44 @@ def get_type_of_number(tel_number):
 
     return TelTypes.not_valid.value
 
-#def add_dictionary(tel_number, type, area_code):
 
 def main():
     create_bangalore_numbers_dict(calls)
 
 
+# TEST CASES----------------------------------------------
 def test_get_type_of_number():
     print("->test_get_type_of_number--------------")
-    #mobile
+    # mobile
     assert (get_type_of_number("93427 40118") == TelTypes.mobile.value)
     assert (get_type_of_number("83427 40118") == TelTypes.mobile.value)
     assert (get_type_of_number("73427 40118") == TelTypes.mobile.value)
     assert (get_type_of_number("23427 40118") == TelTypes.not_valid.value)
-    #fixed_line
+    # fixed_line
     assert (get_type_of_number("(04344)228249") == TelTypes.fixed_line.value)
     assert (get_type_of_number("(140)8371942") == TelTypes.not_valid.value)
-    #telemarketer
+    # telemarketer
     assert (get_type_of_number("1408371942") == TelTypes.telemarketer.value)
     assert (get_type_of_number("14083 71942") == TelTypes.not_valid.value)
 
     print("->test_get_type_of_number: is finished")
 
 
+def test_get_area_code():
+    print("->test_get_area_code--------------")
+    assert (get_area_code("(04344)228249") == "04344")
+    assert (get_area_code("(080)228249") == "080")
+    assert (get_area_code("(080228249") != "080")
+    print("->test_get_area_code: is finished")
+
+
 def test():
     test_get_type_of_number()
+    test_get_area_code()
+    print("ALL TESTS FINISHED....")
 
+
+# ----------------------------------------------------------
 
 test()
 # main()
