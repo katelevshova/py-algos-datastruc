@@ -3,6 +3,7 @@ Read file into texts and calls.
 It's ok if you don't understand how to read files.
 """
 import csv
+from enum import Enum
 
 with open('texts.csv', 'r') as f:
     reader = csv.reader(f)
@@ -43,3 +44,65 @@ Print the answer as a part of a message::
 to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
+
+
+class TelTypes(Enum):
+    not_valid = 0
+    fixed_line = 1
+    mobile = 2
+    telemarketer = 3
+
+
+bangalore_numbers_dict = dict()
+
+
+def create_bangalore_numbers_dict(calls_list):
+    for item in calls_list:
+        outgoint_tel_type = get_type_of_number(item[0])
+        incoming_tel_type = get_type_of_number(item[1])
+        # print("outgoint_tel_type={}".format(outgoint_tel_type))
+        # raise Exception('tel_number is not in valid format!')
+
+
+def get_type_of_number(tel_number):
+    if (tel_number == ""):
+        raise Exception('tel_number should not be an empty string!')
+    #print("->get_type_of_number: tel_number={}".format(tel_number))
+    if tel_number[0] == "(" and tel_number[1] == "0":
+        return TelTypes.fixed_line.value
+    if tel_number[0:3] == "140" and " " not in tel_number:
+        return TelTypes.telemarketer.value
+    if len(tel_number.split(" ")) == 2 and (tel_number[0] == '7' or tel_number[0] == '8' or tel_number[0] == '9'):
+        return TelTypes.mobile.value
+
+    return TelTypes.not_valid.value
+
+#def add_dictionary(tel_number, type, area_code):
+
+def main():
+    create_bangalore_numbers_dict(calls)
+
+
+def test_get_type_of_number():
+    print("->test_get_type_of_number--------------")
+    #mobile
+    assert (get_type_of_number("93427 40118") == TelTypes.mobile.value)
+    assert (get_type_of_number("83427 40118") == TelTypes.mobile.value)
+    assert (get_type_of_number("73427 40118") == TelTypes.mobile.value)
+    assert (get_type_of_number("23427 40118") == TelTypes.not_valid.value)
+    #fixed_line
+    assert (get_type_of_number("(04344)228249") == TelTypes.fixed_line.value)
+    assert (get_type_of_number("(140)8371942") == TelTypes.not_valid.value)
+    #telemarketer
+    assert (get_type_of_number("1408371942") == TelTypes.telemarketer.value)
+    assert (get_type_of_number("14083 71942") == TelTypes.not_valid.value)
+
+    print("->test_get_type_of_number: is finished")
+
+
+def test():
+    test_get_type_of_number()
+
+
+test()
+# main()
