@@ -92,8 +92,14 @@ def get_type_of_number(tel_number):
     return TelTypes.not_valid.value
 
 
+def print_answer_part_a():
+    print("The numbers called by people in Bangalore have codes:")
+    print(*bangalore_numbers_set, sep="\n")
+
+
 def main():
     create_bangalore_numbers_dict(calls)
+    print_answer_part_a()
 
 
 # TEST CASES----------------------------------------------
@@ -130,5 +136,5 @@ def test():
 
 # ----------------------------------------------------------
 
-test()
-# main()
+# test()
+main()
