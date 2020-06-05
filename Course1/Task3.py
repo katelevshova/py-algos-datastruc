@@ -75,7 +75,7 @@ def get_area_code(tel_numer):
         return tel_numer[1: index]
     else:
         print("Could not find ')' in the telephone number!")
-        raise Exception("There is no ')' in the provided tel number! ")
+        #raise Exception("There is no ')' in the provided tel number! ")
 
 
 def get_type_of_number(tel_number):
@@ -86,7 +86,7 @@ def get_type_of_number(tel_number):
         return TelTypes.fixed_line.value
     if tel_number[0:3] == "140" and " " not in tel_number:
         return TelTypes.telemarketer.value
-    if len(tel_number.split(" ")) == 2 and (tel_number[0] == '7' or tel_number[0] == '8' or tel_number[0] == '9'):
+    if len(tel_number.split(" ")) == 2 and (int(tel_number[0]) in range (7, 10)):
         return TelTypes.mobile.value
 
     return TelTypes.not_valid.value
@@ -136,5 +136,5 @@ def test():
 
 # ----------------------------------------------------------
 
-# test()
-main()
+test()
+#main()
