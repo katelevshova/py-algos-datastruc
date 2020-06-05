@@ -62,7 +62,8 @@ def create_bangalore_numbers_dict(calls_list):
         calling_tel_type = get_type_of_number(calling_tel_number)
 
         if calling_tel_type == TelTypes.not_valid.value:
-            raise Exception('tel_number is not in valid format!')
+            print("tel_number is not in valid format!")
+            #raise Exception('tel_number is not in valid format!')
 
         if calling_tel_type == TelTypes.fixed_line.value:
             area_code = get_area_code(calling_tel_number)
@@ -96,10 +97,16 @@ def print_answer_part_a():
     print("The numbers called by people in Bangalore have codes:")
     print(*bangalore_numbers_set, sep="\n")
 
+def print_answer_part_b():
+    percentage = "" #only 2 digits
+    print("{} percent of calls from fixed lines in Bangalore are "
+          "calls to other fixed lines in Bangalore.".format(percentage))
 
 def main():
     create_bangalore_numbers_dict(calls)
     print_answer_part_a()
+    
+    print_answer_part_b()
 
 
 # TEST CASES----------------------------------------------
