@@ -53,8 +53,8 @@ class TelTypes(Enum):
     telemarketer = 3
 
 
-bangalore_numbers_set = set()
-
+# bangalore_numbers_set = set()
+bangalore_numbers_dict = dict()
 
 def create_bangalore_numbers_dict(calls_list):
     for item in calls_list:
@@ -63,12 +63,18 @@ def create_bangalore_numbers_dict(calls_list):
 
         if calling_tel_type == TelTypes.not_valid.value:
             print("tel_number is not in valid format!")
-            #raise Exception('tel_number is not in valid format!')
+            # raise Exception('tel_number is not in valid format!')
 
         if calling_tel_type == TelTypes.fixed_line.value:
             area_code = get_area_code(calling_tel_number)
-            bangalore_numbers_set.add(area_code)
+            answering_tel_num = item[1]
+            to_bangalore = is_bangalore_area(answering_tel_num)
+            info_dict = {'area_code': area_code, 'to_bangalore': to_bangalore}
 
+            if calling_tel_number not in bangalore_numbers_dict:
+                bangalore_numbers_dict[calling_tel_number] = list()
+
+            bangalore_numbers_dict[calling_tel_number].append(info_dict)
 
 def get_area_code(tel_numer):
     index = tel_numer.find(")")
@@ -76,8 +82,10 @@ def get_area_code(tel_numer):
         return tel_numer[1: index]
     else:
         print("Could not find ')' in the telephone number!")
-        #raise Exception("There is no ')' in the provided tel number! ")
+        # raise Exception("There is no ')' in the provided tel number! ")
 
+def is_bangalore_area(tel_number):
+    return (get_type_of_number(tel_number) == TelTypes.fixed_line.value)
 
 def get_type_of_number(tel_number):
     if (tel_number == ""):
@@ -87,26 +95,29 @@ def get_type_of_number(tel_number):
         return TelTypes.fixed_line.value
     if tel_number[0:3] == "140" and " " not in tel_number:
         return TelTypes.telemarketer.value
-    if len(tel_number.split(" ")) == 2 and (int(tel_number[0]) in range (7, 10)):
+    if len(tel_number.split(" ")) == 2 and (int(tel_number[0]) in range(7, 10)):
         return TelTypes.mobile.value
 
     return TelTypes.not_valid.value
 
 
+'''
 def print_answer_part_a():
     print("The numbers called by people in Bangalore have codes:")
     print(*bangalore_numbers_set, sep="\n")
+'''
+
 
 def print_answer_part_b():
-    percentage = "" #only 2 digits
+    percentage = ""  # only 2 digits
     print("{} percent of calls from fixed lines in Bangalore are "
           "calls to other fixed lines in Bangalore.".format(percentage))
 
+
 def main():
     create_bangalore_numbers_dict(calls)
-    print_answer_part_a()
-    
-    print_answer_part_b()
+    # print_answer_part_a()
+    # print_answer_part_b()
 
 
 # TEST CASES----------------------------------------------
@@ -135,13 +146,27 @@ def test_get_area_code():
     print("->test_get_area_code: is finished")
 
 
+def test_create_bangalore_numbers_dict():
+    calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
+                  ["(080)69245029", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(080)69245029", "90365 06212", "1/9/2016  7:31", "15"],
+                  ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"],
+                  ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"]]
+    create_bangalore_numbers_dict(calls_list)
+    print("bangalore_numbers_dict=" + str(bangalore_numbers_dict))
+
+    print("test="+str(bangalore_numbers_dict["(080)69245029"][0]['area_code']))
+
+
+
 def test():
-    test_get_type_of_number()
-    test_get_area_code()
+    # test_get_type_of_number()
+    # test_get_area_code()
+    test_create_bangalore_numbers_dict()
     print("ALL TESTS FINISHED....")
 
 
 # ----------------------------------------------------------
 
 test()
-#main()
+# main()
