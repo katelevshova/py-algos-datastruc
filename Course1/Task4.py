@@ -38,6 +38,8 @@ possible_telemarketers_set = set()
 
 
 def check_calls_data(calls_list):
+    possible_telemarketers_set.clear()
+
     for item in calls_list:
         calling_tel_number = item[0]
         calling_tel_type = get_type_of_number(calling_tel_number)
@@ -48,7 +50,7 @@ def check_calls_data(calls_list):
         if calling_tel_type == TelTypes.telemarketer.value:
             possible_telemarketers_set.add(calling_tel_number)
         # check the answering tel_number
-        verify_number(item[1])
+        verify_tel_number(item[1])
 
 
 def check_texts_data(texts_list):
@@ -56,11 +58,11 @@ def check_texts_data(texts_list):
         raise Exception("->check_texts_data: you need to call check_texts_data() "
                         "after check_calls_data() to fill in the possible_telemarketers_set")
     for item in texts_list:
-        verify_number(item[0])  # checking the sending texts tel_number
-        verify_number(item[1])  # checking the receiving texts tel_number
+        verify_tel_number(item[0])  # checking the sending texts tel_number
+        verify_tel_number(item[1])  # checking the receiving texts tel_number
 
 
-def verify_number(tel_number):
+def verify_tel_number(tel_number):
     # telemarketers never send and receive texts so if the number is found and it exists
     # in the possible_telemarketers_set we need to delete it because it is not considered a telemarketer
     tel_type = get_type_of_number(tel_number)
