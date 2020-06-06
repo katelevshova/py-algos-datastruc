@@ -53,8 +53,11 @@ class TelTypes(Enum):
     telemarketer = 3
 
 
-# bangalore_numbers_set = set()
 bangalore_numbers_dict = dict()
+# dictionary properties:
+area_code_id = 'area_code'
+to_bangalore_id = 'to_bangalore'
+
 
 def create_bangalore_numbers_dict(calls_list):
     for item in calls_list:
@@ -69,12 +72,13 @@ def create_bangalore_numbers_dict(calls_list):
             area_code = get_area_code(calling_tel_number)
             answering_tel_num = item[1]
             to_bangalore = is_bangalore_area(answering_tel_num)
-            info_dict = {'area_code': area_code, 'to_bangalore': to_bangalore}
+            info_dict = {area_code_id: area_code, to_bangalore_id: to_bangalore}
 
             if calling_tel_number not in bangalore_numbers_dict:
                 bangalore_numbers_dict[calling_tel_number] = list()
 
             bangalore_numbers_dict[calling_tel_number].append(info_dict)
+
 
 def get_area_code(tel_numer):
     index = tel_numer.find(")")
@@ -84,8 +88,10 @@ def get_area_code(tel_numer):
         print("Could not find ')' in the telephone number!")
         # raise Exception("There is no ')' in the provided tel number! ")
 
+
 def is_bangalore_area(tel_number):
     return (get_type_of_number(tel_number) == TelTypes.fixed_line.value)
+
 
 def get_type_of_number(tel_number):
     if (tel_number == ""):
@@ -101,11 +107,17 @@ def get_type_of_number(tel_number):
     return TelTypes.not_valid.value
 
 
-'''
+def get_unique_area_codes(dictionary):
+    result_set = set()
+    for tel_number in dictionary.keys():  # keys are always unique
+        # print("get_unique_area_codes="+str(tel_number))
+        result_set.add(get_area_code(tel_number))
+    return result_set
+
+
 def print_answer_part_a():
     print("The numbers called by people in Bangalore have codes:")
-    print(*bangalore_numbers_set, sep="\n")
-'''
+    print(*get_unique_area_codes(bangalore_numbers_dict), sep="\n")
 
 
 def print_answer_part_b():
@@ -116,13 +128,14 @@ def print_answer_part_b():
 
 def main():
     create_bangalore_numbers_dict(calls)
-    # print_answer_part_a()
+    print_answer_part_a()
     # print_answer_part_b()
 
 
 # TEST CASES----------------------------------------------
 def test_get_type_of_number():
-    print("->test_get_type_of_number--------------")
+    print("---------------------------------------------")
+    print("->test_get_type_of_number:start")
     # mobile
     assert (get_type_of_number("93427 40118") == TelTypes.mobile.value)
     assert (get_type_of_number("83427 40118") == TelTypes.mobile.value)
@@ -134,12 +147,12 @@ def test_get_type_of_number():
     # telemarketer
     assert (get_type_of_number("1408371942") == TelTypes.telemarketer.value)
     assert (get_type_of_number("14083 71942") == TelTypes.not_valid.value)
-
     print("->test_get_type_of_number: is finished")
 
 
 def test_get_area_code():
-    print("->test_get_area_code--------------")
+    print("---------------------------------------------")
+    print("->test_get_area_code:start")
     assert (get_area_code("(04344)228249") == "04344")
     assert (get_area_code("(080)228249") == "080")
     assert (get_area_code("(080228249") != "080")
@@ -147,6 +160,8 @@ def test_get_area_code():
 
 
 def test_create_bangalore_numbers_dict():
+    print("---------------------------------------------")
+    print("->test_create_bangalore_numbers_dict:start")
     calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
                   ["(080)69245029", "(034)78655", "1/9/2016  7:31", "15"],
                   ["(080)69245029", "90365 06212", "1/9/2016  7:31", "15"],
@@ -154,19 +169,42 @@ def test_create_bangalore_numbers_dict():
                   ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"]]
     create_bangalore_numbers_dict(calls_list)
     print("bangalore_numbers_dict=" + str(bangalore_numbers_dict))
+    assert (len(bangalore_numbers_dict.keys()) == 2)
+    assert (bangalore_numbers_dict["(080)69245029"][0][area_code_id] == '080')
+    assert (bangalore_numbers_dict["(080)69245029"][0][to_bangalore_id] == True)
+    assert (bangalore_numbers_dict["(04456)69245029"][0][area_code_id] == '04456')
+    assert (bangalore_numbers_dict["(04456)69245029"][1][to_bangalore_id] == False)
+    print("->test_create_bangalore_numbers_dict: is finished")
 
-    print("test="+str(bangalore_numbers_dict["(080)69245029"][0]['area_code']))
 
+def test_get_unique_area_codes():
+    print("---------------------------------------------")
+    print("->test_get_unique_area_codes:start")
+    test_dict = {
+        '(080)3333333': [{'area_code': '080', 'to_bangalore': True},
+                         {'area_code': '080', 'to_bangalore': False}],
+        '(080)2222222': [{'area_code': '080', 'to_bangalore': True},
+                         {'area_code': '080', 'to_bangalore': False}],
+        '(04456)69245029': [{'area_code': '04456', 'to_bangalore': False},
+                            {'area_code': '04456', 'to_bangalore': False}]}
+    result_set = get_unique_area_codes(test_dict)
+    # print(result_set)
+    assert (('080' in result_set) == True)
+    assert (('04456' in result_set) == True)
+    assert (len(result_set) == 2)
+    print("->test_get_unique_area_codes: is finished")
 
 
 def test():
-    # test_get_type_of_number()
-    # test_get_area_code()
+    print("START ALL TESTS....")
+    test_get_type_of_number()
+    test_get_area_code()
     test_create_bangalore_numbers_dict()
+    test_get_unique_area_codes()
     print("ALL TESTS FINISHED....")
 
 
 # ----------------------------------------------------------
 
 test()
-# main()
+main()
