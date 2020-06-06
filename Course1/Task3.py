@@ -56,9 +56,12 @@ class TelTypes(Enum):
 bangalore_numbers_dict = dict()
 # dictionary property:
 to_bangalore_id = 'to_bangalore'
+amount_of_bangalor_responses = 0
 
 
 def create_bangalore_numbers_dict(calls_list):
+    bangalore_numbers_dict.clear()
+
     for item in calls_list:
         calling_tel_number = item[0]
         calling_tel_type = get_type_of_number(calling_tel_number)
@@ -71,6 +74,10 @@ def create_bangalore_numbers_dict(calls_list):
             answering_tel_num = item[1]
             to_bangalore = is_bangalore_area(answering_tel_num)
             info_dict = {to_bangalore_id: to_bangalore}
+
+            if to_bangalore:
+                global amount_of_bangalor_responses
+                amount_of_bangalor_responses += 1
 
             if calling_tel_number not in bangalore_numbers_dict:
                 bangalore_numbers_dict[calling_tel_number] = list()
@@ -112,12 +119,10 @@ def get_unique_area_codes(dictionary):
         result_set.add(get_area_code(tel_number))
     return result_set
 
+
 def get_amount_calling_from_bangalor(dictionary):
     return len(dictionary.keys())
 
-def get_amount_answering_in_bangalor(dictionary):
-
-    return 0
 
 def print_answer_part_a():
     print("The numbers called by people in Bangalore have codes:")
@@ -176,6 +181,9 @@ def test_create_bangalore_numbers_dict():
     assert (len(bangalore_numbers_dict.keys()) == 2)
     assert (bangalore_numbers_dict["(080)69245029"][0][to_bangalore_id] == True)
     assert (bangalore_numbers_dict["(04456)69245029"][1][to_bangalore_id] == False)
+
+    assert amount_of_bangalor_responses == 1
+    print("amount_of_bangalor_responses= "+str(amount_of_bangalor_responses))
     print("->test_create_bangalore_numbers_dict: is finished")
 
 
@@ -196,10 +204,13 @@ def test_get_unique_area_codes():
     assert (len(result_set) == 2)
     print("->test_get_unique_area_codes: is finished")
 
+'''
 def test_get_amount_answering_in_bangalor():
     print("---------------------------------------------")
     print("->test_get_amount_answering_in_bangalor:start")
-    test_dict = {
+
+    # case1
+    test_dict1 = {
         '(080)3333333': [{'to_bangalore': True},
                          {'to_bangalore': False},
                          {'to_bangalore': False},
@@ -209,6 +220,31 @@ def test_get_amount_answering_in_bangalor():
                          {'to_bangalore': False}],
         '(04456)69245029': [{'to_bangalore': False},
                             {'to_bangalore': False}]}
+    print("test_dict1=" + str(test_dict1))
+
+    create_bangalore_numbers_dict(test_dict1)
+    actual_result = get_amount_answering_in_bangalor()
+    expected_result = 3
+
+    assert actual_result == expected_result, \
+        "Actual result= {}, expected result = {}".format(actual_result, expected_result)
+    # case2
+    test_dict2 = {
+        '(080)3333333': [{'to_bangalore': True},
+                         {'to_bangalore': True},
+                         {'to_bangalore': True},
+                         {'to_bangalore': True},
+                         {'to_bangalore': True}],
+        '(080)2222222': [{'to_bangalore': True},
+                         {'to_bangalore': True}],
+        '(04456)69245029': [{'to_bangalore': True},
+                            {'to_bangalore': True}]}
+    create_bangalore_numbers_dict(test_dict2)
+    actual_result = get_amount_answering_in_bangalor()
+    expected_result = 9
+    assert actual_result == expected_result, \
+        "Actual result= {}, expected result = {}".format(actual_result, expected_result)
+'''
 
 def test():
     print("START ALL TESTS....")
@@ -222,4 +258,4 @@ def test():
 # ----------------------------------------------------------
 
 test()
-main()
+# main()
