@@ -122,12 +122,17 @@ def get_unique_area_codes(dictionary):
 
 
 def get_amount_calling_from_bangalor(dictionary):
-    return len(dictionary.keys())
+    counter = 0
+    for tel_number in bangalore_numbers_dict:
+        length = len(bangalore_numbers_dict[tel_number])
+        counter += length
+        #print("tel_number= {}, length={} => counter= {}".format(tel_number, length, counter))
+    return counter
 
 def calculate_percentage():
     all_calls_from_bangalor = get_amount_calling_from_bangalor(bangalore_numbers_dict)
-    print("all_calls_from_bangalor= {}, amount_of_bangalor_responses= {}".
-          format(all_calls_from_bangalor, amount_of_bangalor_responses))
+    #print("all_calls_from_bangalor= {}, amount_of_bangalor_responses= {}".
+    #     format(all_calls_from_bangalor, amount_of_bangalor_responses))
     if all_calls_from_bangalor == 0:
         return 0
     if(all_calls_from_bangalor < amount_of_bangalor_responses):
@@ -141,7 +146,7 @@ def print_answer_part_a():
 
 
 def print_answer_part_b():
-    percentage = calculate_percentage()  # only 2 digits
+    percentage = int(calculate_percentage())  # only 2 digits
     print("{} percent of calls from fixed lines in Bangalore are "
           "calls to other fixed lines in Bangalore.".format(percentage))
 
@@ -241,7 +246,7 @@ def test_get_amount_calling_from_bangalor():
                  '(04456)333333': [{'to_bangalore': True}],
                  '(04456)666666': [{'to_bangalore': False}]}
     actual_result = get_amount_calling_from_bangalor(test_dict)
-    expected_result = 4
+    expected_result = 5
     assert actual_result == expected_result, \
         "Actual result= {}, expected result = {}".format(actual_result, expected_result)
     print("->test_get_amount_calling_from_bangalor: is finished")
@@ -260,7 +265,7 @@ def test_calculate_percentage():
     print("bangalore_numbers_dict= "+str(bangalore_numbers_dict))
     # 4 calls, 3 answers
     actual_result = calculate_percentage()
-    expected_result = (3*100)/4
+    expected_result = (3*100)/5 # 3 - answers, 5 - all calls from bangalor
 
     assert actual_result == expected_result, \
         "Actual result= {}, expected result = {}".format(actual_result, expected_result)
@@ -281,5 +286,5 @@ def test():
 
 # ----------------------------------------------------------
 
-test()
+#test()
 main()
