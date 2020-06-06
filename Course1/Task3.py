@@ -76,13 +76,10 @@ def create_bangalore_numbers_set(calls_list):
         if calling_tel_type == TelTypes.fixed_line.value:
             answering_tel_num = item[1]
             to_bangalore = is_bangalore_area(answering_tel_num)
-            code_area = get_area_code(calling_tel_number)
-
             if to_bangalore:
                 amount_bangalor_responses += 1
-
             amount_all_bangalor_calls +=1
-
+            code_area = get_area_code(calling_tel_number)
             bangalore_codes_set.add(code_area)
 
 
