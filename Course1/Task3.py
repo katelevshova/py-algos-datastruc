@@ -182,8 +182,9 @@ def test_create_bangalore_numbers_dict():
     assert (bangalore_numbers_dict["(080)69245029"][0][to_bangalore_id] == True)
     assert (bangalore_numbers_dict["(04456)69245029"][1][to_bangalore_id] == False)
 
-    assert amount_of_bangalor_responses == 1
-    print("amount_of_bangalor_responses= "+str(amount_of_bangalor_responses))
+    expected_result = 1
+    assert amount_of_bangalor_responses == expected_result, \
+        "Actual result= {}, expected result = {}".format(amount_of_bangalor_responses, expected_result)
     print("->test_create_bangalore_numbers_dict: is finished")
 
 
@@ -204,47 +205,6 @@ def test_get_unique_area_codes():
     assert (len(result_set) == 2)
     print("->test_get_unique_area_codes: is finished")
 
-'''
-def test_get_amount_answering_in_bangalor():
-    print("---------------------------------------------")
-    print("->test_get_amount_answering_in_bangalor:start")
-
-    # case1
-    test_dict1 = {
-        '(080)3333333': [{'to_bangalore': True},
-                         {'to_bangalore': False},
-                         {'to_bangalore': False},
-                         {'to_bangalore': False},
-                         {'to_bangalore': True}],
-        '(080)2222222': [{'to_bangalore': True},
-                         {'to_bangalore': False}],
-        '(04456)69245029': [{'to_bangalore': False},
-                            {'to_bangalore': False}]}
-    print("test_dict1=" + str(test_dict1))
-
-    create_bangalore_numbers_dict(test_dict1)
-    actual_result = get_amount_answering_in_bangalor()
-    expected_result = 3
-
-    assert actual_result == expected_result, \
-        "Actual result= {}, expected result = {}".format(actual_result, expected_result)
-    # case2
-    test_dict2 = {
-        '(080)3333333': [{'to_bangalore': True},
-                         {'to_bangalore': True},
-                         {'to_bangalore': True},
-                         {'to_bangalore': True},
-                         {'to_bangalore': True}],
-        '(080)2222222': [{'to_bangalore': True},
-                         {'to_bangalore': True}],
-        '(04456)69245029': [{'to_bangalore': True},
-                            {'to_bangalore': True}]}
-    create_bangalore_numbers_dict(test_dict2)
-    actual_result = get_amount_answering_in_bangalor()
-    expected_result = 9
-    assert actual_result == expected_result, \
-        "Actual result= {}, expected result = {}".format(actual_result, expected_result)
-'''
 
 def test():
     print("START ALL TESTS....")
