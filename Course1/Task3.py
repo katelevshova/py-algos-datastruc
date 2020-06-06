@@ -124,6 +124,16 @@ def get_unique_area_codes(dictionary):
 def get_amount_calling_from_bangalor(dictionary):
     return len(dictionary.keys())
 
+def calculate_percentage():
+    all_calls_from_bangalor = get_amount_calling_from_bangalor(bangalore_numbers_dict)
+    print("all_calls_from_bangalor= {}, amount_of_bangalor_responses= {}".
+          format(all_calls_from_bangalor, amount_of_bangalor_responses))
+    if all_calls_from_bangalor == 0:
+        return 0
+    if(all_calls_from_bangalor < amount_of_bangalor_responses):
+        raise Exception('all_calls_from_bangalor must be equal or larger than amount_of_bangalor_responses!')
+
+    return (amount_of_bangalor_responses*100)/all_calls_from_bangalor
 
 def print_answer_part_a():
     print("The numbers called by people in Bangalore have codes:")
@@ -131,7 +141,7 @@ def print_answer_part_a():
 
 
 def print_answer_part_b():
-    percentage = ""  # only 2 digits
+    percentage = calculate_percentage()  # only 2 digits
     print("{} percent of calls from fixed lines in Bangalore are "
           "calls to other fixed lines in Bangalore.".format(percentage))
 
@@ -223,6 +233,39 @@ def test_get_unique_area_codes():
     assert (len(result_set) == 2)
     print("->test_get_unique_area_codes: is finished")
 
+def test_get_amount_calling_from_bangalor():
+    print("---------------------------------------------")
+    print("->test_get_amount_calling_from_bangalor:start")
+    test_dict = {'(080)44444444': [{'to_bangalore': True}, {'to_bangalore': True}],
+                 '(080)2222222': [{'to_bangalore': True}],
+                 '(04456)333333': [{'to_bangalore': True}],
+                 '(04456)666666': [{'to_bangalore': False}]}
+    actual_result = get_amount_calling_from_bangalor(test_dict)
+    expected_result = 4
+    assert actual_result == expected_result, \
+        "Actual result= {}, expected result = {}".format(actual_result, expected_result)
+    print("->test_get_amount_calling_from_bangalor: is finished")
+
+def test_calculate_percentage():
+    print("---------------------------------------------")
+    print("->test_calculate_percentage:start")
+    calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
+                  ["(080)44444444", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(080)2222222", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["11111111111", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(080)44444444", "66666 6666", "1/9/2016  7:31", "15"],
+                  ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
+                  ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"]]
+    create_bangalore_numbers_dict(calls_list)
+    print("bangalore_numbers_dict= "+str(bangalore_numbers_dict))
+    # 4 calls, 3 answers
+    actual_result = calculate_percentage()
+    expected_result = (3*100)/4
+
+    assert actual_result == expected_result, \
+        "Actual result= {}, expected result = {}".format(actual_result, expected_result)
+
+    print("->test_calculate_percentage: is finished")
 
 def test():
     print("START ALL TESTS....")
@@ -231,10 +274,12 @@ def test():
     test_create_bangalore_numbers_dict_1()
     test_create_bangalore_numbers_dict_2()
     test_get_unique_area_codes()
+    test_get_amount_calling_from_bangalor()
+    test_calculate_percentage()
     print("ALL TESTS FINISHED....")
 
 
 # ----------------------------------------------------------
 
 test()
-# main()
+main()
