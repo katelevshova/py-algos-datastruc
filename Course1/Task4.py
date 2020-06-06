@@ -25,15 +25,19 @@ Print a message:
 <list of numbers>
 The list of numbers should be print out one per line in lexicographic order with no duplicates.
 """
+
+
 class TelTypes(Enum):
     not_valid = 0
     fixed_line = 1
     mobile = 2
     telemarketer = 3
 
+
 possible_telemarketers_set = set()
 
-def add_telemarketers_from_calls(calls_list):
+
+def check_calls_data(calls_list):
     for item in calls_list:
         calling_tel_number = item[0]
         answering_tel_number = item[1]
@@ -52,22 +56,27 @@ def add_telemarketers_from_calls(calls_list):
 
         if answering_tel_type == TelTypes.telemarketer.value:
             # telemarketers never receive incoming calls so we don't need to add to possible_telemarketers_set
-            # but if this number exists in the possible_telemarketers_set we need to delete it
+            # but if answering_tel_number exists in the possible_telemarketers_set we need to delete it
             # discard() removes only if the item exists
             possible_telemarketers_set.discard(answering_tel_number)
 
 
-def add_telemarketers_from_texts(texts_list):
+def check_texts_data(texts_list):
     for item in texts_list:
-        sending_tel_number = item[0]
-        receiving_tel_number = item[1]
-        print("sending_tel_number={}, receiving_tel_number={}".format(sending_tel_number, receiving_tel_number))
-
-        sending_tel_type = get_type_of_number(sending_tel_number)
-        
+        verify_number(item[0])  # sending texts tel_number
+        verify_number(item[1])  # receiving texts tel_number
 
 
+def verify_number(tel_number):
+    # telemarketers never send and receive texts so if the number is found and it exists
+    # in the possible_telemarketers_set we need to delete it because it is not considered a telemarketer
+    tel_type = get_type_of_number(tel_number)
 
+    if tel_type == TelTypes.not_valid.value:
+        print("tel_number {} is not in valid format!".format(tel_number))
+
+    if tel_type == TelTypes.telemarketer.value:
+        possible_telemarketers_set.discard(tel_number)
 
 
 def get_type_of_number(tel_number):
@@ -83,17 +92,21 @@ def get_type_of_number(tel_number):
 
     return TelTypes.not_valid.value
 
+
 def create_telemarketers_set():
-    add_telemarketers_from_calls(calls)
-    add_telemarketers_from_texts(texts)
+    check_calls_data(calls)
+    check_texts_data(texts)
+
 
 def print_all_telemarketers_new_line():
     print("These numbers could be telemarketers: ")
     print(*possible_telemarketers_set, sep='\n')
 
+
 def main():
     create_telemarketers_set()
     print_all_telemarketers_new_line()
+
 
 # TEST CASES----------------------------------------------
 def test_get_type_of_number():
@@ -112,6 +125,7 @@ def test_get_type_of_number():
     assert (get_type_of_number("14083 71942") == TelTypes.not_valid.value)
     print("->test_get_type_of_number: is finished")
 
+
 def test_create_telemarketers_set():
     test_calls_list = list()
 
@@ -126,4 +140,4 @@ def test():
 # ----------------------------------------------------------
 
 test()
-#main()
+# main()
