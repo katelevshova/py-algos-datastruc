@@ -54,8 +54,7 @@ class TelTypes(Enum):
 
 
 bangalore_numbers_dict = dict()
-# dictionary properties:
-area_code_id = 'area_code'
+# dictionary property:
 to_bangalore_id = 'to_bangalore'
 
 
@@ -69,10 +68,9 @@ def create_bangalore_numbers_dict(calls_list):
             # raise Exception('tel_number is not in valid format!')
 
         if calling_tel_type == TelTypes.fixed_line.value:
-            area_code = get_area_code(calling_tel_number)
             answering_tel_num = item[1]
             to_bangalore = is_bangalore_area(answering_tel_num)
-            info_dict = {area_code_id: area_code, to_bangalore_id: to_bangalore}
+            info_dict = {to_bangalore_id: to_bangalore}
 
             if calling_tel_number not in bangalore_numbers_dict:
                 bangalore_numbers_dict[calling_tel_number] = list()
@@ -176,9 +174,7 @@ def test_create_bangalore_numbers_dict():
     create_bangalore_numbers_dict(calls_list)
     print("bangalore_numbers_dict=" + str(bangalore_numbers_dict))
     assert (len(bangalore_numbers_dict.keys()) == 2)
-    assert (bangalore_numbers_dict["(080)69245029"][0][area_code_id] == '080')
     assert (bangalore_numbers_dict["(080)69245029"][0][to_bangalore_id] == True)
-    assert (bangalore_numbers_dict["(04456)69245029"][0][area_code_id] == '04456')
     assert (bangalore_numbers_dict["(04456)69245029"][1][to_bangalore_id] == False)
     print("->test_create_bangalore_numbers_dict: is finished")
 
@@ -187,12 +183,12 @@ def test_get_unique_area_codes():
     print("---------------------------------------------")
     print("->test_get_unique_area_codes:start")
     test_dict = {
-        '(080)3333333': [{'area_code': '080', 'to_bangalore': True},
-                         {'area_code': '080', 'to_bangalore': False}],
-        '(080)2222222': [{'area_code': '080', 'to_bangalore': True},
-                         {'area_code': '080', 'to_bangalore': False}],
-        '(04456)69245029': [{'area_code': '04456', 'to_bangalore': False},
-                            {'area_code': '04456', 'to_bangalore': False}]}
+        '(080)3333333': [{'to_bangalore': True},
+                         {'to_bangalore': False}],
+        '(080)2222222': [{'to_bangalore': True},
+                         {'to_bangalore': False}],
+        '(04456)69245029': [{'to_bangalore': False},
+                            {'to_bangalore': False}]}
     result_set = get_unique_area_codes(test_dict)
     # print(result_set)
     assert (('080' in result_set) == True)
@@ -204,15 +200,15 @@ def test_get_amount_answering_in_bangalor():
     print("---------------------------------------------")
     print("->test_get_amount_answering_in_bangalor:start")
     test_dict = {
-        '(080)3333333': [{'area_code': '080', 'to_bangalore': True},
-                         {'area_code': '080', 'to_bangalore': False},
-                         {'area_code': '080', 'to_bangalore': False},
-                         {'area_code': '080', 'to_bangalore': False},
-                         {'area_code': '080', 'to_bangalore': True}],
-        '(080)2222222': [{'area_code': '080', 'to_bangalore': True},
-                         {'area_code': '080', 'to_bangalore': False}],
-        '(04456)69245029': [{'area_code': '04456', 'to_bangalore': False},
-                            {'area_code': '04456', 'to_bangalore': False}]}
+        '(080)3333333': [{'to_bangalore': True},
+                         {'to_bangalore': False},
+                         {'to_bangalore': False},
+                         {'to_bangalore': False},
+                         {'to_bangalore': True}],
+        '(080)2222222': [{'to_bangalore': True},
+                         {'to_bangalore': False}],
+        '(04456)69245029': [{'to_bangalore': False},
+                            {'to_bangalore': False}]}
 
 def test():
     print("START ALL TESTS....")
