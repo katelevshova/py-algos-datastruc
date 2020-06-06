@@ -114,6 +114,12 @@ def get_unique_area_codes(dictionary):
         result_set.add(get_area_code(tel_number))
     return result_set
 
+def get_amount_calling_from_bangalor(dictionary):
+    return len(dictionary.keys())
+
+def get_amount_answering_in_bangalor(dictionary):
+
+    return 0
 
 def print_answer_part_a():
     print("The numbers called by people in Bangalore have codes:")
@@ -129,7 +135,7 @@ def print_answer_part_b():
 def main():
     create_bangalore_numbers_dict(calls)
     print_answer_part_a()
-    # print_answer_part_b()
+    print_answer_part_b()
 
 
 # TEST CASES----------------------------------------------
@@ -194,6 +200,19 @@ def test_get_unique_area_codes():
     assert (len(result_set) == 2)
     print("->test_get_unique_area_codes: is finished")
 
+def test_get_amount_answering_in_bangalor():
+    print("---------------------------------------------")
+    print("->test_get_amount_answering_in_bangalor:start")
+    test_dict = {
+        '(080)3333333': [{'area_code': '080', 'to_bangalore': True},
+                         {'area_code': '080', 'to_bangalore': False},
+                         {'area_code': '080', 'to_bangalore': False},
+                         {'area_code': '080', 'to_bangalore': False},
+                         {'area_code': '080', 'to_bangalore': True}],
+        '(080)2222222': [{'area_code': '080', 'to_bangalore': True},
+                         {'area_code': '080', 'to_bangalore': False}],
+        '(04456)69245029': [{'area_code': '04456', 'to_bangalore': False},
+                            {'area_code': '04456', 'to_bangalore': False}]}
 
 def test():
     print("START ALL TESTS....")
