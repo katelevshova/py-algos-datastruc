@@ -61,6 +61,8 @@ amount_of_bangalor_responses = 0
 
 def create_bangalore_numbers_dict(calls_list):
     bangalore_numbers_dict.clear()
+    global amount_of_bangalor_responses
+    amount_of_bangalor_responses = 0
 
     for item in calls_list:
         calling_tel_number = item[0]
@@ -76,7 +78,6 @@ def create_bangalore_numbers_dict(calls_list):
             info_dict = {to_bangalore_id: to_bangalore}
 
             if to_bangalore:
-                global amount_of_bangalor_responses
                 amount_of_bangalor_responses += 1
 
             if calling_tel_number not in bangalore_numbers_dict:
@@ -168,16 +169,16 @@ def test_get_area_code():
     print("->test_get_area_code: is finished")
 
 
-def test_create_bangalore_numbers_dict():
+def test_create_bangalore_numbers_dict_1():
     print("---------------------------------------------")
-    print("->test_create_bangalore_numbers_dict:start")
+    print("->test_create_bangalore_numbers_dict_1:start")
     calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
                   ["(080)69245029", "(034)78655", "1/9/2016  7:31", "15"],
                   ["(080)69245029", "90365 06212", "1/9/2016  7:31", "15"],
                   ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"],
                   ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"]]
     create_bangalore_numbers_dict(calls_list)
-    print("bangalore_numbers_dict=" + str(bangalore_numbers_dict))
+    #print("bangalore_numbers_dict=" + str(bangalore_numbers_dict))
     assert (len(bangalore_numbers_dict.keys()) == 2)
     assert (bangalore_numbers_dict["(080)69245029"][0][to_bangalore_id] == True)
     assert (bangalore_numbers_dict["(04456)69245029"][1][to_bangalore_id] == False)
@@ -185,8 +186,25 @@ def test_create_bangalore_numbers_dict():
     expected_result = 1
     assert amount_of_bangalor_responses == expected_result, \
         "Actual result= {}, expected result = {}".format(amount_of_bangalor_responses, expected_result)
-    print("->test_create_bangalore_numbers_dict: is finished")
+    print("->test_create_bangalore_numbers_dict_1: is finished")
 
+def test_create_bangalore_numbers_dict_2():
+    print("---------------------------------------------")
+    print("->test_create_bangalore_numbers_dict_2:start")
+    calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
+                  ["(080)44444444", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(080)2222222", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["11111111111", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(080)44444444", "(003)65 06212", "1/9/2016  7:31", "15"],
+                  ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
+                  ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"]]
+    create_bangalore_numbers_dict(calls_list)
+    print("bangalore_numbers_dict=" + str(bangalore_numbers_dict))
+
+    expected_result = 4
+    assert amount_of_bangalor_responses == expected_result, \
+        "Actual result= {}, expected result = {}".format(amount_of_bangalor_responses, expected_result)
+    print("->test_create_bangalore_numbers_dict_2: is finished")
 
 def test_get_unique_area_codes():
     print("---------------------------------------------")
@@ -210,7 +228,8 @@ def test():
     print("START ALL TESTS....")
     test_get_type_of_number()
     test_get_area_code()
-    test_create_bangalore_numbers_dict()
+    test_create_bangalore_numbers_dict_1()
+    test_create_bangalore_numbers_dict_2()
     test_get_unique_area_codes()
     print("ALL TESTS FINISHED....")
 
