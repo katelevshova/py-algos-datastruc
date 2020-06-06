@@ -40,31 +40,24 @@ possible_telemarketers_set = set()
 def check_calls_data(calls_list):
     for item in calls_list:
         calling_tel_number = item[0]
-        answering_tel_number = item[1]
-        print("calling_tel_number={}, answering_tel_number={}".format(calling_tel_number, answering_tel_number))
-
         calling_tel_type = get_type_of_number(calling_tel_number)
+
         if calling_tel_type == TelTypes.not_valid.value:
             print("calling_tel_type is not in valid format!")
-
-        answering_tel_type = get_type_of_number(answering_tel_number)
-        if answering_tel_type == TelTypes.not_valid.value:
-            print("answering_tel_type is not in valid format!")
-
+        # add the number as possible telemarketer
         if calling_tel_type == TelTypes.telemarketer.value:
             possible_telemarketers_set.add(calling_tel_number)
-
-        if answering_tel_type == TelTypes.telemarketer.value:
-            # telemarketers never receive incoming calls so we don't need to add to possible_telemarketers_set
-            # but if answering_tel_number exists in the possible_telemarketers_set we need to delete it
-            # discard() removes only if the item exists
-            possible_telemarketers_set.discard(answering_tel_number)
+        # check the answering tel_number
+        verify_number(item[1])
 
 
 def check_texts_data(texts_list):
+    if len(possible_telemarketers_set) == 0:
+        raise Exception("->check_texts_data: you need to call check_texts_data() "
+                        "after check_calls_data() to fill in the possible_telemarketers_set")
     for item in texts_list:
-        verify_number(item[0])  # sending texts tel_number
-        verify_number(item[1])  # receiving texts tel_number
+        verify_number(item[0])  # checking the sending texts tel_number
+        verify_number(item[1])  # checking the receiving texts tel_number
 
 
 def verify_number(tel_number):
@@ -126,14 +119,14 @@ def test_get_type_of_number():
     print("->test_get_type_of_number: is finished")
 
 
-def test_create_telemarketers_set():
+def test_check_calls_data():
     test_calls_list = list()
 
 
 def test():
     print("START ALL TESTS....")
     test_get_type_of_number()
-    test_create_telemarketers_set()
+    test_check_calls_data()
     print("ALL TESTS FINISHED....")
 
 
