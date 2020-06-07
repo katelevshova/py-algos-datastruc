@@ -16,7 +16,7 @@ Let's N be the number of records in a file.
 Let's M be the number of elements in telnumbers_calltime_dict.
     Call of the function get_telnumber_with_max_calltime() takes O(M) where
     we go through all elements in the dictionary.
-The number of M elements is smaller than N records.
+The number of M elements is smaller than N records however it still adds some time.
 To print the result takes O(1) time.
-We can count the total complexity as O(N+M).
-We can reduce it to O(N) if we check the max_duration inside create_telnumbers_dict_for_period().
+That's why we can count the total complexity as O(N+M).
+ANSWER: O(N+M)
