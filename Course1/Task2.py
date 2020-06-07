@@ -29,10 +29,10 @@ telnumbers_calltime_dict = dict()
 Creates a dictionary where key = tel_number and value = the total duration in seconds
 spent on incoming and outgoing calls for a specific time period.
 ARGS:
-	calls_list (list) - list of lists. Example:
-					[["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
-					["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"]]
-	period_month and period_year (tuple of int)
+    calls_list (list) - list of lists. Example:
+                    [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
+                    ["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"]]
+    period_month and period_year (tuple of int)
 '''
 
 
@@ -56,7 +56,7 @@ def create_telnumbers_dict_for_period(calls_list, period_month, period_year):
 
 '''
 Creates a dictionary where key = tel_number and value = the total duration in seconds
-spent on incoming and outcoming calls.
+spent on incoming and outgoing calls.
 ARGS:
     tel_number (string) in any format.
         Example: input tel_number="(080)46304537" would be converted to "08046304537" and used as a key
@@ -75,7 +75,7 @@ def check_dictionary(tel_number, call_duration):
 '''
 Returns a date object based on the given date string in two formats day-month-year and day/month/year
 ARGS:
-	datetime_str (string) Example_1: 27-09-2016 Example_2: 1/9/2016
+    datetime_str (string) Example_1: 27-09-2016 Example_2: 1/9/2016
 '''
 
 

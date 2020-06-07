@@ -62,6 +62,14 @@ def check_texts_data(texts_list):
         verify_tel_number(item[1])  # checking the receiving texts tel_number
 
 
+'''
+Takes the telephone number and if it has telemarketer format and exists in possible_telemarketers_set 
+than deletes it otherwise does nothing
+ARGS:
+tel_number (string)
+'''
+
+
 def verify_tel_number(tel_number):
     # telemarketers never send and receive texts so if the number is found and it exists
     # in the possible_telemarketers_set we need to delete it because it is not considered a telemarketer
