@@ -66,7 +66,7 @@ def check_texts_data(texts_list):
 Takes the telephone number and if it has telemarketer format and exists in possible_telemarketers_set 
 than deletes it otherwise does nothing
 ARGS:
-tel_number (string)
+    tel_number (string)
 '''
 
 
