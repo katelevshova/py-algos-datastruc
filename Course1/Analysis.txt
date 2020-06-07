@@ -1,0 +1,10 @@
+#Task1------------------------
+Let's N be the number of records.
+Going through all records of 1 file in the function count_unique_telephone_number() will take O(N).
+We can disregard everything in line#25 because
+the length of telephone number is not larger than 20 chars which is not insignificant.
+The same for line#26.
+We call the function count_unique_telephone_number() two times for each file which can be counted as O(2N)
+however we can disregard all coefficients which leaves us with the result runtime complexity O(N).
+
+#Task2------------------------
