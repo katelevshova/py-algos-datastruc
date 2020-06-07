@@ -9,6 +9,7 @@ however we can disregard all coefficients which leaves us with the result runtim
 ANSWER: O(N)
 
 #Task2------------------------
+Start analysis from function main().
 Let's N be the number of records in a file.
     Call of the function create_telnumbers_dict_for_period() takes O(N) times because we are going through
     all records in the file. We can disregard the time for calling the function get_date() in line#46 because it is not
@@ -16,11 +17,26 @@ Let's N be the number of records in a file.
 Let's M be the number of elements in telnumbers_calltime_dict.
     Call of the function get_telnumber_with_max_calltime() takes O(M) where
     we go through all elements in the dictionary. So the total can be counted as O(N+M).
-    However the number of M elements is smaller than N records and does not really
-    affect the result so we can disregard it.
+    However the number of elements in the dictionary (M) is smaller than the number of all records (N)
+    and in most cases it would be insignificant compared to the N and the complexity will be O(N) in most cases.
+    In worst case scenario it will be O(N+M)
 To print the result takes O(1) time.
-That's why we can count the total complexity as O(N).
-ANSWER: O(N)
+ANSWER: O(N+M)
 
 #Task3------------------------
+Start analysis from function main().
 Let's N be the number of records in a file.
+    It will take O(N) time to perform a code in a function create_bangalore_numbers_set() because we need to
+    go through all records in the file. The rest lines in it take constant O(1) time or the time is insignificant.
+Let's M be a number of elements in bangalore_codes_set.
+    To perform the function print_answer_part_a() will take O(M*logM)
+    because we are using built-in sorted() function before printing the result.
+    The amount of M is much smaller than N because it contains only unique bangalore area codes.
+    Thus at this moment it doesn't take much time to perform.
+    However in worst case scenario if all records would contain unique area codes we will have the same large amount
+    of elements in the bangalore_codes_set (this won't happen often). Which would give us O(N+M*logM)
+O(N+M*logM)
+To perform funciton print_answer_part_b() will take O(1) because we are doing simple math operations and just printing
+the result
+ANSWER: O(N+M*logM)
+
