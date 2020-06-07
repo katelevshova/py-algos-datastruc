@@ -24,13 +24,13 @@ PROVIDED CODE complexity (reading from two files):
 O(N+M)
 
 SOLUTION complexity:
-    Let's N be the number of elements in calls list.
+    Let's N be the number of elements in calls list which is equal to the amount of records in a file calls.
     Going through all elements of calls list in the function count_unique_telephone_number() will take O(N).
         We can disregard everything in line#25 and line#26 because
         the length of telephone number is not larger than 20 chars which is not insignificant.
         The rest lines in the function takes constant time O(1).
         Total: O(N)
-    Let's M be the number of elements in texts list.
+    Let's M be the number of elements in texts list which is equal to the amount of records in a file texts.
         The same as for the calls list.
         Total: O(M)
     Total solution complexity is
@@ -56,17 +56,17 @@ SOLUTION complexity:
         all elements in the list. We can disregard the time for calling the function get_date()
         in line#46 because it is not significant. Adding to the dictionary takes constant O(1) time.
         Total: O(N)
-    Let's M be the number of elements in telnumbers_calltime_dict.
-        Call of the function get_telnumber_with_max_calltime() takes O(M) where
+    Let's A be the number of elements in telnumbers_calltime_dict.
+        Call of the function get_telnumber_with_max_calltime() takes O(A) where
         we go through all elements in the dictionary.
-        Total: O(M)
+        Total: O(A)
     To print the result takes O(1) time.
     Since we performed these 2 functions one by one the total solution complexity is
- O(N+M)
+ O(N+A)
 
 TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
-TOTAL complexity = O(N+M) + O(N+M) = 2*O(N+M). We can omit the coefficients
-TOTAL = O(N+M)
+TOTAL complexity = O(N+M) + O(N+A) = O(2*N+M+A). We can omit the coefficients
+TOTAL = O(N+M+A)
 
 #Task3------------------------
 PROVIDED CODE complexity (reading from two files):
@@ -79,21 +79,21 @@ O(N+M)
 
 SOLUTION complexity:
     Start analysis from function main().
-    Let's N be the number of elements in a calls list.
+    Let's N be the number of elements in a calls list (equal to the amount of records in a calls file).
         It will take O(N) time to perform a code in a function create_bangalore_numbers_set() because we need to
         go through all elements. The rest lines in it take constant O(1) time or the time is insignificant.
         Total: O(N)
-    Let's M be a number of elements in bangalore_codes_set.
-        To perform the function print_answer_part_a() will take O(M*logM)
+    Let's A be a number of elements in bangalore_codes_set.
+        To perform the function print_answer_part_a() will take O(A*logA)
         because we are using built-in sorted() function before printing the result.
-        Total: O(M*logM)
+        Total: O(A*logA)
     To perform function print_answer_part_b() will take O(1) because we are doing simple
     math operations and just printing the result
     Since we performed operations one by one the we can sum up the total SOLUTION complexity:
-O(N+M*logM)
+O(N+A*logA)
 
 TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
-TOTAL complexity = O(N+M) + O(N+M*logM) = O(2*N+M*logM).  We can omit the coefficients
-TOTAL = O(N+M*logM)
+TOTAL complexity = O(N+M) + O(N+A*logA) = O(2*N+M+A*logA).  We can omit the coefficients
+TOTAL = O(N+M+A*logA)
 
 
