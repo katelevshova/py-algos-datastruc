@@ -93,14 +93,14 @@ def create_telemarketers_set():
     check_texts_data(texts)
 
 
-def print_all_telemarketers_new_line():
+def print_sorted_telemarketers_new_line():
     print("These numbers could be telemarketers: ")
-    print(*possible_telemarketers_set, sep='\n')
+    print(*sorted(possible_telemarketers_set), sep='\n')  # in lexicographic order with no duplicates
 
 
 def main():
     create_telemarketers_set()
-    print_all_telemarketers_new_line()
+    print_sorted_telemarketers_new_line()
 
 
 # TEST CASES----------------------------------------------
@@ -200,5 +200,5 @@ def test():
 
 # ----------------------------------------------------------
 
-#test()
+# test()
 main()
