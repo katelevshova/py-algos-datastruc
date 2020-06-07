@@ -69,19 +69,31 @@ TOTAL complexity = O(N+M) + O(N+M) = 2*O(N+M). We can omit the coefficients
 TOTAL = O(N+M)
 
 #Task3------------------------
-Start analysis from function main().
-Let's N be the number of records in a file.
-    It will take O(N) time to perform a code in a function create_bangalore_numbers_set() because we need to
-    go through all records in the file. The rest lines in it take constant O(1) time or the time is insignificant.
-Let's M be a number of elements in bangalore_codes_set.
-    To perform the function print_answer_part_a() will take O(M*logM)
-    because we are using built-in sorted() function before printing the result.
-    The amount of M is much smaller than N because it contains only unique bangalore area codes.
-    Thus at this moment it doesn't take much time to perform.
-    However in worst case scenario if all records would contain unique area codes we will have the same large amount
-    of elements in the bangalore_codes_set (this won't happen often). Which would give us O(N+M*logM)
+PROVIDED CODE complexity (reading from two files):
+    Let's N be the number of records in calls file.
+    Let's M be the number of records in texts file.
+    To read N records from file and create the list of call will take O(N)
+    To read M records from file and create the list of texts will take O(M)
+    We do this operations one by one so the total complexity is
+O(N+M)
+
+SOLUTION complexity:
+    Start analysis from function main().
+    Let's N be the number of elements in a calls list.
+        It will take O(N) time to perform a code in a function create_bangalore_numbers_set() because we need to
+        go through all elements. The rest lines in it take constant O(1) time or the time is insignificant.
+        Total: O(N)
+    Let's M be a number of elements in bangalore_codes_set.
+        To perform the function print_answer_part_a() will take O(M*logM)
+        because we are using built-in sorted() function before printing the result.
+        Total: O(M*logM)
+    To perform function print_answer_part_b() will take O(1) because we are doing simple
+    math operations and just printing the result
+    Since we performed operations one by one the we can sum up the total SOLUTION complexity:
 O(N+M*logM)
-To perform funciton print_answer_part_b() will take O(1) because we are doing simple math operations and just printing
-the result
-ANSWER: O(N+M*logM)
+
+TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
+TOTAL complexity = O(N+M) + O(N+M*logM) = O(2*N+M*logM).  We can omit the coefficients
+TOTAL = O(N+M*logM)
+
 
