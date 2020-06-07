@@ -93,7 +93,35 @@ SOLUTION complexity:
 O(N+A*logA)
 
 TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
-TOTAL complexity = O(N+M) + O(N+A*logA) = O(2*N+M+A*logA).  We can omit the coefficients
+TOTAL complexity = O(N+M) + O(N+A*logA) = O(2*N+M+A*logA). We can omit the coefficients
 TOTAL = O(N+M+A*logA)
 
+#Task4------------------------
+PROVIDED CODE complexity (reading from two files):
+    Let's N be the number of records in calls file.
+    Let's M be the number of records in texts file.
+    To read N records from file and create the list of call will take O(N)
+    To read M records from file and create the list of texts will take O(M)
+    We do this operations one by one so the total complexity is
+O(N+M)
 
+SOLUTION complexity:
+    Start analysis from function main().
+    create_telemarketers_set() function is consists of 2 sequential calls of function check_calls_data()
+        Let's N be the number of elements in calls list (equal to number of records in the calls file).
+            It will take O(N) time to go through all elements in a list.
+            The rest operations will take insignificant amount of time or O(1) and we can omit any coefficients.
+        O(N)
+        Let's M be the number of elements in texts list (equal to number of records in the texts file).
+            The same here.
+        O(M)
+    Total O(N+M)
+    Let's A be a number of elements in possible_telemarketers_set.
+        The function print_sorted_telemarketers_new_line() will take O(A*logA)
+        because we are using built-in sorted() function before printing the result.
+    Total: O(A*logA)
+O(N+M+A*logA)
+
+TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
+TOTAL complexity = O(N+M) + O(N+M+A*logA) = O(2N+2M+A*logA). We can omit the coefficients
+TOTAL = O(N+M+A*logA)
