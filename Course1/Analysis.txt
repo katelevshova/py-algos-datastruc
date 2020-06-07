@@ -40,7 +40,7 @@ Total solution complexity: O(N+M)
 TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
 TOTAL complexity = O(N+M) + O(N+M) = 2*O(N+M)
 We can omit the coefficients
-
+TOTAL complexity = O(N+M)
 
 #Task2------------------------
 Start analysis from function main().
