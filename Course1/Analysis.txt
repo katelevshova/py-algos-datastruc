@@ -110,7 +110,8 @@ SOLUTION complexity:
     create_telemarketers_set() function is consists of 2 sequential calls of function check_calls_data()
         Let's N be the number of elements in calls list (equal to number of records in the calls file).
             It will take O(N) time to go through all elements in a list.
-            The rest operations will take insignificant amount of time or O(1) and we can omit any coefficients.
+            The rest operations will take insignificant amount of time or O(1). Even if discard()
+            takes O(N) time in a worst case scenario we can omit any coefficients and still get O(N).
         O(N)
         Let's M be the number of elements in texts list (equal to number of records in the texts file).
             The same here.
