@@ -1,20 +1,46 @@
 #Task0------------------------
 PROVIDED CODE complexity (reading from two files):
-Let's N be the number of records in calls file.
-Let's M be the number of records in texts file.
-To read N records from file and create the list of call will take O(N)
-To read M records from file and create the list of texts will take O(M)
-We do this operations one by one so the total complexity is
+    Let's N be the number of records in calls file.
+    Let's M be the number of records in texts file.
+    To read N records from file and create the list of call will take O(N)
+    To read M records from file and create the list of texts will take O(M)
+    We do this operations one by one so the total complexity is
 O(N+M)
 
 SOLUTION complexity:
-To print the result message takes
+    To print the result message takes
 O(1) time.
 
 TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
 TOTAL = O(N+M) + O(1) => O(N+M)
 
 #Task1------------------------
+PROVIDED CODE complexity (reading from two files):
+    Let's N be the number of records in calls file.
+    Let's M be the number of records in texts file.
+    To read N records from file and create the list of call will take O(N)
+    To read M records from file and create the list of texts will take O(M)
+    We do this operations one by one so the total complexity is
+O(N+M)
+
+SOLUTION complexity:
+    Let's N be the number of elements in calls list.
+    Going through all elements of calls list in the function count_unique_telephone_number() will take O(N).
+        We can disregard everything in line#25 and line#26 because
+        the length of telephone number is not larger than 20 chars which is not insignificant.
+        The rest lines in the function takes constant time O(1).
+        Total: O(N)
+    Let's M be the number of elements in texts list.
+        The same as for the calls list.
+        Total: O(M)
+    Total solution complexity is
+O(N+M)
+
+TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
+TOTAL complexity = O(N+M) + O(N+M) = 2*O(N+M). We can omit the coefficients
+TOTAL = O(N+M)
+
+#Task2------------------------
 PROVIDED CODE complexity (reading from two files):
 Let's N be the number of records in calls file.
 Let's M be the number of records in texts file.
@@ -24,25 +50,6 @@ We do this operations one by one so the total complexity is
 O(N+M)
 
 SOLUTION complexity:
-Let's N be the number of elements in calls list.
-Going through all elements of calls list in the function count_unique_telephone_number() will take O(N).
-    We can disregard everything in line#25 and line#26 because
-    the length of telephone number is not larger than 20 chars which is not insignificant.
-    The rest lines in the function takes constant time O(1).
-    Total: O(N)
-
-Let's M be the number of elements in texts list.
-    The same as for the calls list.
-    Total: O(M)
-
-Total solution complexity: O(N+M)
-
-TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
-TOTAL complexity = O(N+M) + O(N+M) = 2*O(N+M)
-We can omit the coefficients
-TOTAL complexity = O(N+M)
-
-#Task2------------------------
 Start analysis from function main().
 Let's N be the number of records in a file.
     Call of the function create_telnumbers_dict_for_period() takes O(N) times because we are going through
