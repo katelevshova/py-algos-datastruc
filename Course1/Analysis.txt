@@ -1,3 +1,12 @@
+#Task0------------------------
+Let's N be the number of records in calls file.
+Let's M be the number of records in texts file.
+To read N records from file and create the list of call will take O(N)
+To read M records from file and create the list of texts will take O(M)
+We do this operations one by one so the total complexity is O(N+M)
+To print the result message takes O(1) time.
+ANSWER: O(N+M)
+
 #Task1------------------------
 Let's N be the number of records in a file.
     Going through all records of 1 file in the function count_unique_telephone_number() will take O(N).
