@@ -15,8 +15,12 @@ Let's N be the number of records in a file.
     significant. Adding to the dictionary takes constant O(1) time.
 Let's M be the number of elements in telnumbers_calltime_dict.
     Call of the function get_telnumber_with_max_calltime() takes O(M) where
-    we go through all elements in the dictionary.
-The number of M elements is smaller than N records however it still adds some time.
+    we go through all elements in the dictionary. So the total can be counted as O(N+M).
+    However the number of M elements is smaller than N records and does not really
+    affect the result so we can disregard it.
 To print the result takes O(1) time.
-That's why we can count the total complexity as O(N+M).
-ANSWER: O(N+M)
+That's why we can count the total complexity as O(N).
+ANSWER: O(N)
+
+#Task3------------------------
+Let's N be the number of records in a file.
