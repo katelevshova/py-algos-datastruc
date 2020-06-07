@@ -1,10 +1,22 @@
 #Task1------------------------
-Let's N be the number of records.
-Going through all records of 1 file in the function count_unique_telephone_number() will take O(N).
-We can disregard everything in line#25 because
-the length of telephone number is not larger than 20 chars which is not insignificant.
-The same for line#26.
+Let's N be the number of records in a file.
+    Going through all records of 1 file in the function count_unique_telephone_number() will take O(N).
+    We can disregard everything in line#25 and line#26 because
+    the length of telephone number is not larger than 20 chars which is not insignificant.
+    The rest lines in the function takes constant time O(1).
 We call the function count_unique_telephone_number() two times for each file which can be counted as O(2N)
 however we can disregard all coefficients which leaves us with the result runtime complexity O(N).
+ANSWER: O(N)
 
 #Task2------------------------
+Let's N be the number of records in a file.
+    Call of the function create_telnumbers_dict_for_period() takes O(N) times because we are going through
+    all records in the file. We can disregard the time for calling the function get_date() in line#46 because it is not
+    significant. Adding to the dictionary takes constant O(1) time.
+Let's M be the number of elements in telnumbers_calltime_dict.
+    Call of the function get_telnumber_with_max_calltime() takes O(M) where
+    we go through all elements in the dictionary.
+The number of M elements is smaller than N records.
+To print the result takes O(1) time.
+We can count the total complexity as O(N+M).
+We can reduce it to O(N) if we check the max_duration inside create_telnumbers_dict_for_period().
