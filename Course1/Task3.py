@@ -118,9 +118,12 @@ def calculate_percentage():
 
     return (amount_bangalor_responses*100)/amount_all_bangalor_calls
 
+def get_sorted_bangalore_codes_set():
+    return sorted(bangalore_codes_set)
+
 def print_answer_part_a():
     print("The numbers called by people in Bangalore have codes:")
-    print(*bangalore_codes_set, sep="\n")
+    print(*get_sorted_bangalore_codes_set(), sep="\n")
 
 
 def print_answer_part_b():
@@ -256,6 +259,24 @@ def test_calculate_percentage_2():
 
     print("->test_calculate_percentage_2: is finished")
 
+def test_get_sorted_bangalore_codes_set():
+    print("---------------------------------------------")
+    print("->test_get_sorted_bangalore_codes_set:start")
+    calls_list = [["(084)44444444", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
+                  ["(0843)44444444", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(0310)2222222", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(0334670)44444444", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(09910)44444444", "66666 6666", "1/9/2016  7:31", "15"],
+                  ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
+                  ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"]]
+    create_bangalore_numbers_set(calls_list)
+    print("bangalore_codes_set= " + str(bangalore_codes_set))
+    sorted_result = list(get_sorted_bangalore_codes_set())
+    expected_result = ["0310", "0334670", "04456", "084", "0843", "09910"]
+    assert sorted_result == expected_result, \
+        "expected={}, \n actual={}".format(expected_result, sorted_result)
+    print("->test_get_sorted_bangalore_codes_set: is finished")
+
 def test():
     print("START ALL TESTS....")
     test_get_type_of_number()
@@ -264,6 +285,7 @@ def test():
     test_create_bangalore_numbers_set_2()
     test_calculate_percentage_1()
     test_calculate_percentage_2()
+    test_get_sorted_bangalore_codes_set()
     print("ALL TESTS FINISHED....")
 
 
