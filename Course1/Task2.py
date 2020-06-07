@@ -27,7 +27,7 @@ telnumbers_calltime_dict = dict()
 
 '''
 Creates a dictionary where key = tel_number and value = the total duration in seconds
-spent on incoming and outcoming calls for a specific time period.
+spent on incoming and outgoing calls for a specific time period.
 ARGS:
 	calls_list (list) - list of lists. Example:
 					[["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
@@ -80,7 +80,7 @@ ARGS:
 
 
 def get_date(datetime_str):
-    #We assume that all dates are in european style format - day, month, year
+    # We assume that all dates are in european style format - day, month, year
     date_patterns = ["%d/%m/%Y", "%d-%m-%Y"]
     for pattern in date_patterns:
         try:
@@ -143,7 +143,7 @@ def test_tel_numb_1():
 
     assert (tel_number_result == "7813000821")
     assert (max_duration == 165)
-    #print("->test_tel_numb_1: Test finished")
+    # print("->test_tel_numb_1: Test finished")
 
 
 def test_tel_numb_2():
@@ -156,23 +156,23 @@ def test_tel_numb_2():
 
     assert (tel_number_result == "9036506212")
     assert (max_duration == (165 + 15))
-    #print("->test_tel_numb_2: Test finished")
+    # print("->test_tel_numb_2: Test finished")
 
 
 def test_get_full_month_name():
     assert (get_full_month_name(9) == "September")
     assert (get_full_month_name(3) == "March")
-    #print("->test_get_full_month_name: Test finished")
+    # print("->test_get_full_month_name: Test finished")
 
 
 def test():
     test_tel_numb_1()
     test_tel_numb_2()
     test_get_full_month_name()
-    #print("ALL TESTS FINISHED....")
+    # print("ALL TESTS FINISHED....")
 
 
 # ----------------------------------------------------------
 
-#test()
+# test()
 main()
