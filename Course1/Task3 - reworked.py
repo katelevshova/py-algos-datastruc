@@ -94,14 +94,14 @@ def get_fixed_line_area_code(tel_number):
 
 
 def is_bangalore_area(tel_number):
-    type, code = get_type_of_number(tel_number)
+    type, code = get_type_and_area_code_of_number(tel_number)
     return type == TelTypes.fixed_line.value, code
 
 
-def get_type_of_number(tel_number):
+def get_type_and_area_code_of_number(tel_number):
     if tel_number == "":
         raise Exception('tel_number should not be an empty string!')
-    # print("->get_type_of_number: tel_number={}".format(tel_number))
+    # print("->get_type_and_area_code_of_number: tel_number={}".format(tel_number))
     if tel_number[0] == "(" and tel_number[1] == "0":
         return TelTypes.fixed_line.value, get_fixed_line_area_code(tel_number)
     if tel_number[0:3] == "140" and " " not in tel_number:
@@ -147,37 +147,37 @@ def main():
 
 
 # TEST CASES----------------------------------------------
-def test_get_type_of_number():
+def test_get_type_and_area_code_of_number():
     print("---------------------------------------------")
-    print("->test_get_type_of_number:start")
+    print("->test_get_type_and_area_code_of_number:start")
     # mobile
-    tel_type, code = get_type_of_number("93427 40118")
+    tel_type, code = get_type_and_area_code_of_number("93427 40118")
     assert (tel_type == TelTypes.mobile.value)
     assert (code == "9342")
-    tel_type, code = get_type_of_number("83427 40118")
+    tel_type, code = get_type_and_area_code_of_number("83427 40118")
     assert (tel_type == TelTypes.mobile.value)
     assert (code == "8342")
-    tel_type, code = get_type_of_number("73427 40118")
+    tel_type, code = get_type_and_area_code_of_number("73427 40118")
     assert (tel_type == TelTypes.mobile.value)
     assert (code == "7342")
-    tel_type, code = get_type_of_number("23427 40118")
+    tel_type, code = get_type_and_area_code_of_number("23427 40118")
     assert (tel_type == TelTypes.not_valid.value)
     assert code == TelTypes.not_valid.value, "expected=0, actual={}".format(code)
     # fixed_line
-    tel_type, code = get_type_of_number("(04344)228249")
+    tel_type, code = get_type_and_area_code_of_number("(04344)228249")
     assert (tel_type == TelTypes.fixed_line.value)
     assert code == "04344", "expected=04344, actual={}".format(code)
-    tel_type, code = get_type_of_number("(140)8371942")
+    tel_type, code = get_type_and_area_code_of_number("(140)8371942")
     assert (tel_type == TelTypes.not_valid.value)
     assert code == TelTypes.not_valid.value, "expected=0, actual={}".format(code)
     # telemarketer
-    tel_type, code = get_type_of_number("1408371942")
+    tel_type, code = get_type_and_area_code_of_number("1408371942")
     assert (tel_type == TelTypes.telemarketer.value)
     assert (code == "140")
-    tel_type, code = get_type_of_number("14083 71942")
+    tel_type, code = get_type_and_area_code_of_number("14083 71942")
     assert (tel_type == TelTypes.not_valid.value)
     assert code == TelTypes.not_valid.value, "expected=0, actual={}".format(code)
-    print("->test_get_type_of_number: is finished")
+    print("->test_get_type_and_area_code_of_number: is finished")
 
 
 def test_get_fixed_line_area_code():
@@ -318,7 +318,7 @@ def test_get_sorted_bangalore_codes_set():
 
 def test():
     print("START ALL TESTS....")
-    test_get_type_of_number()
+    test_get_type_and_area_code_of_number()
     test_get_fixed_line_area_code()
     test_create_bangalore_numbers_set_1()
     test_create_bangalore_numbers_set_2()
