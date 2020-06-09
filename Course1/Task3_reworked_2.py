@@ -53,13 +53,13 @@ class TelTypes(Enum):
     telemarketer = 3
 
 
-bangalore_codes_set = set()
+codes_dialed_by_bangalor_set = set()
 amount_bangalor_responses = 0
 amount_all_bangalor_calls = 0
 
 
-def create_bangalore_numbers_set(calls_list):
-    bangalore_codes_set.clear()
+def create_codes_dialed_by_bangalor_set(calls_list):
+    codes_dialed_by_bangalor_set.clear()
     global amount_bangalor_responses
     amount_bangalor_responses = 0
     global amount_all_bangalor_calls
@@ -81,7 +81,7 @@ def create_bangalore_numbers_set(calls_list):
                 amount_bangalor_responses += 1
 
             if code_area_receiver != str(TelTypes.not_valid.value):
-                bangalore_codes_set.add(code_area_receiver)
+                codes_dialed_by_bangalor_set.add(code_area_receiver)
 
             # print("tel_type_caller={}, code_area_caller={} | "
             #     "tel_type_receiver={}, code_area_receiver={}".format(tel_type_caller, code_area_caller,
@@ -143,13 +143,13 @@ def calculate_percentage():
     return (amount_bangalor_responses * 100) / amount_all_bangalor_calls
 
 
-def get_sorted_bangalore_codes_set():
-    return sorted(bangalore_codes_set)
+def get_sorted_codes_dialed_by_bangalor_set():
+    return sorted(codes_dialed_by_bangalor_set)
 
 
 def print_answer_part_a():
     print("The numbers called by people in Bangalore have codes:")
-    print(*get_sorted_bangalore_codes_set(), sep="\n")
+    print(*get_sorted_codes_dialed_by_bangalor_set(), sep="\n")
 
 
 def print_answer_part_b():
@@ -159,7 +159,7 @@ def print_answer_part_b():
 
 
 def main():
-    create_bangalore_numbers_set(calls)
+    create_codes_dialed_by_bangalor_set(calls)
     print_answer_part_a()
     print_answer_part_b()
 
@@ -223,9 +223,9 @@ def test_get_fixed_line_area_code():
     print("->get_fixed_line_area_code: is finished")
 
 
-def test_create_bangalore_numbers_set_1():
+def test_create_codes_dialed_by_bangalor_set_1():
     print("---------------------------------------------")
-    print("->test_create_bangalore_numbers_set_1:start")
+    print("->test_create_codes_dialed_by_bangalor_set_1:start")
     calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
                   ["(080)69245029", "(034)78655", "1/9/2016  7:31", "15"],   # 034
                   ["(080)77777777", "(080)11111111", "1/9/2016  7:31", "15"],  # 080
@@ -233,9 +233,9 @@ def test_create_bangalore_numbers_set_1():
                   ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"],
                   ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"],
                   ["(080)69245029", "1408371942", "1/9/2016  7:31", "15"]]   # 140
-    create_bangalore_numbers_set(calls_list)
-    print("bangalore_codes_set=" + str(bangalore_codes_set))
-    assert (len(bangalore_codes_set) == 4)
+    create_codes_dialed_by_bangalor_set(calls_list)
+    print("codes_dialed_by_bangalor_set=" + str(codes_dialed_by_bangalor_set))
+    assert (len(codes_dialed_by_bangalor_set) == 4)
 
     expected_result = 1
     assert amount_bangalor_responses == expected_result, \
@@ -245,41 +245,44 @@ def test_create_bangalore_numbers_set_1():
     assert amount_all_bangalor_calls == expected_result, \
         "Actual result= {}, expected result = {}".format(amount_all_bangalor_calls, expected_result)
 
-    assert (('034' in bangalore_codes_set) == True)
-    assert (('8301' not in bangalore_codes_set) == True)
-    assert (('9036' in bangalore_codes_set) == True)
-    assert (('140' in bangalore_codes_set) == True)
-    print("->test_create_bangalore_numbers_set_1: is finished")
+    assert (('034' in codes_dialed_by_bangalor_set) == True)
+    assert (('8301' not in codes_dialed_by_bangalor_set) == True)
+    assert (('9036' in codes_dialed_by_bangalor_set) == True)
+    assert (('140' in codes_dialed_by_bangalor_set) == True)
+    print("->test_create_codes_dialed_by_bangalor_set_1: is finished")
 
 
-def test_create_bangalore_numbers_set_2():
+def test_create_codes_dialed_by_bangalor_set_2():
     print("---------------------------------------------")
-    print("->test_create_bangalore_numbers_set_2:start")
+    print("->test_create_codes_dialed_by_bangalor_set_2:start")
     calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
-                  ["(080)44444444", "(034)78655", "1/9/2016  7:31", "15"],
-                  ["(080)2222222", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(080)44444444", "(080)78655", "1/9/2016  7:31", "15"], #080
+                  ["(080)2222222", "(034)78655", "1/9/2016  7:31", "15"], #034
                   ["11111111111", "(034)78655", "1/9/2016  7:31", "15"],
-                  ["(080)44444444", "(003)65 06212", "1/9/2016  7:31", "15"],
+                  ["(080)44444444", "(003)65 06212", "1/9/2016  7:31", "15"], #003
                   ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
                   ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"]]
-    create_bangalore_numbers_set(calls_list)
-    print("bangalore_codes_set=" + str(bangalore_codes_set))
-    assert (len(bangalore_codes_set) == 4)
+    create_codes_dialed_by_bangalor_set(calls_list)
+    print("codes_dialed_by_bangalor_set=" + str(codes_dialed_by_bangalor_set))
+    assert (len(codes_dialed_by_bangalor_set) == 3)
 
-    expected_result = 4
+    print("amount_all_bangalor_calls={}, "
+          "amount_bangalor_responses={}".format(amount_all_bangalor_calls, amount_bangalor_responses))
+
+    expected_result = 1
     assert amount_bangalor_responses == expected_result, \
         "Actual result= {}, expected result = {}".format(amount_bangalor_responses, expected_result)
 
-    expected_result = 5
+    expected_result = 3
     assert amount_all_bangalor_calls == expected_result, \
         "Actual result= {}, expected result = {}".format(amount_all_bangalor_calls, expected_result)
 
-    assert (('080' in bangalore_codes_set) == True)
-    assert (('003' in bangalore_codes_set) == True)
-    assert (('8301' in bangalore_codes_set) == True)
-    assert (('034' in bangalore_codes_set) == True)
+    assert (('080' in codes_dialed_by_bangalor_set) == True)
+    assert (('003' in codes_dialed_by_bangalor_set) == True)
+    assert (('8301' not in codes_dialed_by_bangalor_set) == True)
+    assert (('034' in codes_dialed_by_bangalor_set) == True)
 
-    print("->test_create_bangalore_numbers_set_2: is finished")
+    print("->test_create_codes_dialed_by_bangalor_set_2: is finished")
 
 
 def test_calculate_percentage_1():
@@ -293,8 +296,8 @@ def test_calculate_percentage_1():
                   ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
                   ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"],  # not fixed line answer
                   ["(082)666666", "1401953227", "1/9/2016  7:31", "15"]]  # not fixed line answer
-    create_bangalore_numbers_set(calls_list)
-    print("bangalore_codes_set= " + str(bangalore_codes_set))
+    create_codes_dialed_by_bangalor_set(calls_list)
+    print("codes_dialed_by_bangalor_set= " + str(codes_dialed_by_bangalor_set))
     # 6 calls, 4 answers with fixed line
     actual_result = calculate_percentage()
     expected_result = (4 * 100) / 6  # 4 - answers, 6 - all calls from bangalor
@@ -309,14 +312,16 @@ def test_calculate_percentage_2():
     print("---------------------------------------------")
     print("->test_calculate_percentage_2:start")
     calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
-                  ["(080)44444444", "(034)78655", "1/9/2016  7:31", "15"],
-                  ["(080)2222222", "(034)78655", "1/9/2016  7:31", "15"],
+                  ["(080)44444444", "(034)78655", "1/9/2016  7:31", "15"],     #034
+                  ["(080)44444444", "(080)1111111111", "1/9/2016  7:31", "15"],#080
+                  ["(080)44444444", "1403565656", "1/9/2016  7:31", "15"],  #140
+                  ["(080)2222222", "(034)78655", "1/9/2016  7:31", "15"],   #034
                   ["11111111111", "(034)78655", "1/9/2016  7:31", "15"],
-                  ["(080)44444444", "66666 6666", "1/9/2016  7:31", "15"],
+                  ["(080)44444444", "66666 6666", "1/9/2016  7:31", "15"], #wrong format
                   ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
                   ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"]]
-    create_bangalore_numbers_set(calls_list)
-    print("bangalore_codes_set= " + str(bangalore_codes_set))
+    create_codes_dialed_by_bangalor_set(calls_list)
+    print("codes_dialed_by_bangalor_set= " + str(codes_dialed_by_bangalor_set))
     # 5 calls, 3 answers fixed line
     actual_result = calculate_percentage()
     expected_result = (3 * 100) / 5  # 3 - answers, 5 - all calls from bangalor
@@ -327,9 +332,9 @@ def test_calculate_percentage_2():
     print("->test_calculate_percentage_2: is finished")
 
 
-def test_get_sorted_bangalore_codes_set():
+def test_get_sorted_codes_dialed_by_bangalor_set():
     print("---------------------------------------------")
-    print("->test_get_sorted_bangalore_codes_set:start")
+    print("->test_get_sorted_codes_dialed_by_bangalor_set:start")
     calls_list = [["(084)44444444", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
                   ["(0843)44444444", "(034)78655", "1/9/2016  7:31", "15"],
                   ["(0310)2222222", "(034)78655", "1/9/2016  7:31", "15"],
@@ -342,24 +347,24 @@ def test_get_sorted_bangalore_codes_set():
                   ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
                   ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"],
                   ["(020)666666", "75674 53227", "1/9/2016  7:31", "15"]]
-    create_bangalore_numbers_set(calls_list)
-    print("bangalore_codes_set= " + str(bangalore_codes_set))
-    sorted_result = list(get_sorted_bangalore_codes_set())
+    create_codes_dialed_by_bangalor_set(calls_list)
+    print("codes_dialed_by_bangalor_set= " + str(codes_dialed_by_bangalor_set))
+    sorted_result = list(get_sorted_codes_dialed_by_bangalor_set())
     expected_result = ["0334670", "034", "080", "084", "140", "7567", "7745", "8301", "9036"]
     assert sorted_result == expected_result, \
         "expected={}, \n actual={}".format(expected_result, sorted_result)
-    print("->test_get_sorted_bangalore_codes_set: is finished")
+    print("->test_get_sorted_codes_dialed_by_bangalor_set: is finished")
 
 
 def test():
     print("START ALL TESTS....")
     test_get_type_and_area_code_of_number()
     test_get_fixed_line_area_code()
-    test_create_bangalore_numbers_set_1()
-    # test_create_bangalore_numbers_set_2()
+    test_create_codes_dialed_by_bangalor_set_1()
+    test_create_codes_dialed_by_bangalor_set_2()
     # test_calculate_percentage_1()
     # test_calculate_percentage_2()
-    # test_get_sorted_bangalore_codes_set()
+    # test_get_sorted_codes_dialed_by_bangalor_set()
     print("ALL TESTS FINISHED....")
 
 
