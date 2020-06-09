@@ -311,19 +311,22 @@ def test_calculate_percentage_2():
     print("---------------------------------------------")
     print("->test_calculate_percentage_2:start")
     calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
-                  ["(080)44444444", "(034)78655", "1/9/2016  7:31", "15"],     #034
-                  ["(080)44444444", "(080)1111111111", "1/9/2016  7:31", "15"],#080
+                  ["(080)44444444", "(034)78655", "1/9/2016  7:31", "15"],  #034
+                  ["(080)44444444", "(080)1111111111", "1/9/2016  7:31", "15"],  #080
                   ["(080)44444444", "1403565656", "1/9/2016  7:31", "15"],  #140
-                  ["(080)2222222", "(034)78655", "1/9/2016  7:31", "15"],   #034
+                  ["(080)2222222", "(034)78655", "1/9/2016  7:31", "15"],  #034
                   ["11111111111", "(034)78655", "1/9/2016  7:31", "15"],
-                  ["(080)44444444", "66666 6666", "1/9/2016  7:31", "15"], #wrong format
+                  ["(080)44444444", "66666 6666", "1/9/2016  7:31", "15"],  #wrong format
+                  ["(080)11111111", "(080)55555", "1/9/2016  7:31", "15"],  # 080
+                  ["(080)11111111", "94567 4567", "1/9/2016  7:31", "15"],  # 9456
+                  ["(080)11111111", "74567 4567", "1/9/2016  7:31", "15"],  # 7456
                   ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
                   ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"]]
     create_codes_dialed_by_bangalor_set(calls_list)
     print("codes_dialed_by_bangalor_set= " + str(codes_dialed_by_bangalor_set))
-    # 5 calls, 1 answer
+    # 8 calls, 2 answer
     actual_result = calculate_percentage()
-    expected_result = (1 * 100) / 5  # 3 - answers, 5 - all calls from bangalor
+    expected_result = (2 * 100) / 8
 
     assert actual_result == expected_result, \
         "Actual result= {}, expected result = {}".format(actual_result, expected_result)
@@ -362,7 +365,7 @@ def test():
     test_create_codes_dialed_by_bangalor_set_1()
     test_create_codes_dialed_by_bangalor_set_2()
     test_calculate_percentage_1()
-    # test_calculate_percentage_2()
+    test_calculate_percentage_2()
     # test_get_sorted_codes_dialed_by_bangalor_set()
     print("ALL TESTS FINISHED....")
 
