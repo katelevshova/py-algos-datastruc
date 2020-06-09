@@ -172,29 +172,45 @@ def test_get_type_and_area_code_of_number():
     tel_type, code = get_type_and_area_code_of_number("93427 40118")
     assert (tel_type == TelTypes.mobile.value)
     assert (code == "9342")
+    assert is_bangalore_area(code) == False
+
     tel_type, code = get_type_and_area_code_of_number("83427 40118")
     assert (tel_type == TelTypes.mobile.value)
     assert (code == "8342")
+    assert is_bangalore_area(code) == False
+
     tel_type, code = get_type_and_area_code_of_number("73427 40118")
     assert (tel_type == TelTypes.mobile.value)
     assert (code == "7342")
+
     tel_type, code = get_type_and_area_code_of_number("23427 40118")
     assert (tel_type == TelTypes.not_valid.value)
     assert code == "0", "expected=0, actual={}".format(code)
+
     # fixed_line
     tel_type, code = get_type_and_area_code_of_number("(04344)228249")
     assert (tel_type == TelTypes.fixed_line.value)
     assert code == "04344", "expected=04344, actual={}".format(code)
+    assert is_bangalore_area(code) == False
+
+    tel_type, code = get_type_and_area_code_of_number("(080)228249")
+    assert (tel_type == TelTypes.fixed_line.value)
+    assert code == "080", "expected=080, actual={}".format(code)
+    assert is_bangalore_area(code) == True
+
     tel_type, code = get_type_and_area_code_of_number("(140)8371942")
     assert (tel_type == TelTypes.not_valid.value)
     assert code == "0", "expected=0, actual={}".format(code)
+
     # telemarketer
     tel_type, code = get_type_and_area_code_of_number("1408371942")
     assert (tel_type == TelTypes.telemarketer.value)
     assert (code == "140")
+
     tel_type, code = get_type_and_area_code_of_number("14083 71942")
     assert (tel_type == TelTypes.not_valid.value)
     assert code == "0", "expected=0, actual={}".format(code)
+
     print("->test_get_type_and_area_code_of_number: is finished")
 
 
@@ -337,16 +353,16 @@ def test_get_sorted_bangalore_codes_set():
 def test():
     print("START ALL TESTS....")
     test_get_type_and_area_code_of_number()
-    test_get_fixed_line_area_code()
-    test_create_bangalore_numbers_set_1()
-    test_create_bangalore_numbers_set_2()
-    test_calculate_percentage_1()
-    test_calculate_percentage_2()
-    test_get_sorted_bangalore_codes_set()
+    #test_get_fixed_line_area_code()
+    #test_create_bangalore_numbers_set_1()
+    #test_create_bangalore_numbers_set_2()
+    #test_calculate_percentage_1()
+    #test_calculate_percentage_2()
+    #test_get_sorted_bangalore_codes_set()
     print("ALL TESTS FINISHED....")
 
 
 # ----------------------------------------------------------
 
-# test()
-main()
+test()
+#main()
