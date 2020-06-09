@@ -80,8 +80,8 @@ O(N+M)
 SOLUTION complexity:
     Start analysis from function main().
     Let's N be the number of elements in a calls list (equal to the amount of records in a calls file).
-        It will take O(N) time to perform a code in a function create_bangalore_numbers_set() because we need to
-        go through all elements. The rest lines in it take constant O(1) time or the time is insignificant.
+        It will take O(N) time to perform a code in a function create_codes_dialed_by_bangalor_set() because we
+        need to go through all elements. The rest lines in it take constant O(1) time or the time is insignificant.
         Total: O(N)
     Let's A be a number of elements in bangalore_codes_set.
         To perform the function print_answer_part_a() will take O(A*logA)
