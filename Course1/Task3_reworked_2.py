@@ -227,11 +227,12 @@ def test_create_bangalore_numbers_set_1():
     print("---------------------------------------------")
     print("->test_create_bangalore_numbers_set_1:start")
     calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
-                  ["(080)69245029", "(034)78655", "1/9/2016  7:31", "15"],
-                  ["(080)69245029", "90365 06212", "1/9/2016  7:31", "15"],
+                  ["(080)69245029", "(034)78655", "1/9/2016  7:31", "15"],   # 034
+                  ["(080)77777777", "(080)11111111", "1/9/2016  7:31", "15"],  # 080
+                  ["(080)69245029", "90365 06212", "1/9/2016  7:31", "15"],  # 9036
                   ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"],
                   ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"],
-                  ["(083)69245029", "1408371942", "1/9/2016  7:31", "15"]]
+                  ["(080)69245029", "1408371942", "1/9/2016  7:31", "15"]]   # 140
     create_bangalore_numbers_set(calls_list)
     print("bangalore_codes_set=" + str(bangalore_codes_set))
     assert (len(bangalore_codes_set) == 4)
@@ -240,12 +241,12 @@ def test_create_bangalore_numbers_set_1():
     assert amount_bangalor_responses == expected_result, \
         "Actual result= {}, expected result = {}".format(amount_bangalor_responses, expected_result)
 
-    expected_result = 5
+    expected_result = 4
     assert amount_all_bangalor_calls == expected_result, \
         "Actual result= {}, expected result = {}".format(amount_all_bangalor_calls, expected_result)
 
     assert (('034' in bangalore_codes_set) == True)
-    assert (('8301' in bangalore_codes_set) == True)
+    assert (('8301' not in bangalore_codes_set) == True)
     assert (('9036' in bangalore_codes_set) == True)
     assert (('140' in bangalore_codes_set) == True)
     print("->test_create_bangalore_numbers_set_1: is finished")
@@ -353,16 +354,16 @@ def test_get_sorted_bangalore_codes_set():
 def test():
     print("START ALL TESTS....")
     test_get_type_and_area_code_of_number()
-    #test_get_fixed_line_area_code()
-    #test_create_bangalore_numbers_set_1()
-    #test_create_bangalore_numbers_set_2()
-    #test_calculate_percentage_1()
-    #test_calculate_percentage_2()
-    #test_get_sorted_bangalore_codes_set()
+    test_get_fixed_line_area_code()
+    test_create_bangalore_numbers_set_1()
+    # test_create_bangalore_numbers_set_2()
+    # test_calculate_percentage_1()
+    # test_calculate_percentage_2()
+    # test_get_sorted_bangalore_codes_set()
     print("ALL TESTS FINISHED....")
 
 
 # ----------------------------------------------------------
 
 test()
-#main()
+# main()
