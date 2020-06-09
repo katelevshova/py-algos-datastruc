@@ -138,8 +138,8 @@ def calculate_percentage():
         return 0
     if amount_all_bangalor_calls < amount_bangalor_responses:
         raise Exception('amount_all_bangalor_calls must be equal or larger than amount_bangalor_responses!')
-    print("->calculate_percentage: amount_all_bangalor_calls={}, "
-          "amount_bangalor_responses={}".format(amount_all_bangalor_calls, amount_bangalor_responses))
+    # print("->calculate_percentage: amount_all_bangalor_calls={}, "
+    #     "amount_bangalor_responses={}".format(amount_all_bangalor_calls, amount_bangalor_responses))
     return (amount_bangalor_responses * 100) / amount_all_bangalor_calls
 
 
@@ -342,9 +342,9 @@ def test_get_sorted_codes_dialed_by_bangalor_set():
                   ["(0310)2222222", "(034)78655", "1/9/2016  7:31", "15"],
                   ["(0334670)44444444", "(034)78655", "1/9/2016  7:31", "15"],
                   ["(09910)44444444", "66666 6666", "1/9/2016  7:31", "15"],
-                  ["(080)44444444", "(084)44444444", "1/9/2016  7:31", "15"],       # 084
-                  ["(080)55555555", "14044444444", "1/9/2016  7:31", "15"],         # 140
-                  ["(080)55555555", "(080)44444444", "1/9/2016  7:31", "15"],       # 080
+                  ["(080)44444444", "(084)44444444", "1/9/2016  7:31", "15"],  # 084
+                  ["(080)55555555", "14044444444", "1/9/2016  7:31", "15"],  # 140
+                  ["(080)55555555", "(080)44444444", "1/9/2016  7:31", "15"],  # 080
                   ["(081)55555555", "774554 4788", "1/9/2016  7:31", "15"],
                   ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
                   ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"],
@@ -372,5 +372,5 @@ def test():
 
 # ----------------------------------------------------------
 
-test()
-# main()
+# test()
+main()
