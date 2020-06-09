@@ -79,7 +79,7 @@ def create_codes_dialed_by_bangalor_set(calls_list):
             amount_all_bangalor_calls += 1
             if is_bangalore_area(code_area_receiver):
                 amount_bangalor_responses += 1
-
+            # adding unique code area of receiver for part A
             if code_area_receiver != str(TelTypes.not_valid.value):
                 codes_dialed_by_bangalor_set.add(code_area_receiver)
 
