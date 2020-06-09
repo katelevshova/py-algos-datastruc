@@ -68,7 +68,6 @@ def create_bangalore_numbers_set(calls_list):
     for item in calls_list:
         calling_tel_number = item[0]
         tel_type_caller, code_area_caller = get_type_and_area_code_of_number(calling_tel_number)
-        print("tel_type={}, code_area_caller={}".format(tel_type_caller, code_area_caller))
 
         # if we are calling from bangalor fixed line number
         if is_bangalore_area(code_area_caller):
@@ -84,6 +83,10 @@ def create_bangalore_numbers_set(calls_list):
             if code_area_receiver != str(TelTypes.not_valid.value):
                 bangalore_codes_set.add(code_area_receiver)
 
+            # print("tel_type_caller={}, code_area_caller={} | "
+            #     "tel_type_receiver={}, code_area_receiver={}".format(tel_type_caller, code_area_caller,
+            #                                                         tel_type_receiver, code_area_receiver))
+
 
 def get_fixed_line_area_code(tel_number):
     index = tel_number.find(")")
@@ -96,6 +99,7 @@ def get_fixed_line_area_code(tel_number):
 
 def is_bangalore_area(area_code):
     return area_code == "080"
+
 
 '''
 Returns type of the telephone number and it's area code
@@ -134,7 +138,8 @@ def calculate_percentage():
         return 0
     if amount_all_bangalor_calls < amount_bangalor_responses:
         raise Exception('amount_all_bangalor_calls must be equal or larger than amount_bangalor_responses!')
-
+    print("->calculate_percentage: amount_all_bangalor_calls={}, "
+          "amount_bangalor_responses={}".format(amount_all_bangalor_calls, amount_bangalor_responses))
     return (amount_bangalor_responses * 100) / amount_all_bangalor_calls
 
 
