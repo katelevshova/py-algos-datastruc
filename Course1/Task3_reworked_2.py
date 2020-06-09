@@ -289,18 +289,17 @@ def test_calculate_percentage_1():
     print("---------------------------------------------")
     print("->test_calculate_percentage_1:start")
     calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
-                  ["(080)44444444", "(034)78655", "1/9/2016  7:31", "15"],
-                  ["(080)2222222", "(034)78655", "1/9/2016  7:31", "15"],
-                  ["11111111111", "(034)78655", "1/9/2016  7:31", "15"],
-                  ["(080)44444444", "(003)65 06212", "1/9/2016  7:31", "15"],
-                  ["(04456)333333", "(080)53227", "1/9/2016  7:31", "15"],
-                  ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"],  # not fixed line answer
-                  ["(082)666666", "1401953227", "1/9/2016  7:31", "15"]]  # not fixed line answer
+                  ["(080)69245029", "(034)78655", "1/9/2016  7:31", "15"],  # 034
+                  ["(080)77777777", "(080)11111111", "1/9/2016  7:31", "15"],  # 080
+                  ["(080)69245029", "90365 06212", "1/9/2016  7:31", "15"],  # 9036
+                  ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"],
+                  ["(04456)69245029", "83019 53227", "1/9/2016  7:31", "15"],
+                  ["(080)69245029", "1408371942", "1/9/2016  7:31", "15"]]  # 140
     create_codes_dialed_by_bangalor_set(calls_list)
     print("codes_dialed_by_bangalor_set= " + str(codes_dialed_by_bangalor_set))
-    # 6 calls, 4 answers with fixed line
+    # 4 calls, 1 answers
     actual_result = calculate_percentage()
-    expected_result = (4 * 100) / 6  # 4 - answers, 6 - all calls from bangalor
+    expected_result = (1 * 100) / 4
 
     assert actual_result == expected_result, \
         "Actual result= {}, expected result = {}".format(actual_result, expected_result)
@@ -322,9 +321,9 @@ def test_calculate_percentage_2():
                   ["(04456)666666", "83019 53227", "1/9/2016  7:31", "15"]]
     create_codes_dialed_by_bangalor_set(calls_list)
     print("codes_dialed_by_bangalor_set= " + str(codes_dialed_by_bangalor_set))
-    # 5 calls, 3 answers fixed line
+    # 5 calls, 1 answer
     actual_result = calculate_percentage()
-    expected_result = (3 * 100) / 5  # 3 - answers, 5 - all calls from bangalor
+    expected_result = (1 * 100) / 5  # 3 - answers, 5 - all calls from bangalor
 
     assert actual_result == expected_result, \
         "Actual result= {}, expected result = {}".format(actual_result, expected_result)
@@ -362,7 +361,7 @@ def test():
     test_get_fixed_line_area_code()
     test_create_codes_dialed_by_bangalor_set_1()
     test_create_codes_dialed_by_bangalor_set_2()
-    # test_calculate_percentage_1()
+    test_calculate_percentage_1()
     # test_calculate_percentage_2()
     # test_get_sorted_codes_dialed_by_bangalor_set()
     print("ALL TESTS FINISHED....")
