@@ -35,6 +35,7 @@ class TelTypes(Enum):
 
 
 possible_telemarketers_set = set()
+verification_set = set()
 
 
 def check_calls_data(calls_list):
@@ -47,7 +48,7 @@ def check_calls_data(calls_list):
         if calling_tel_type == TelTypes.not_valid.value:
             print("calling_tel_type is not in valid format!")
         # add the number as possible telemarketer
-        if calling_tel_type == TelTypes.telemarketer.value:
+        if calling_tel_type == TelTypes.telemarketer.value and calling_tel_number not in verification_set:
             possible_telemarketers_set.add(calling_tel_number)
         # check the answering tel_number
         verify_tel_number(item[1])
@@ -79,11 +80,13 @@ def verify_tel_number(tel_number):
         print("tel_number {} is not in valid format!".format(tel_number))
 
     if tel_type == TelTypes.telemarketer.value:
+        verification_set.add(tel_number)
+
         possible_telemarketers_set.discard(tel_number)
 
 
 def get_type_of_number(tel_number):
-    if (tel_number == ""):
+    if tel_number == "":
         raise Exception('tel_number should not be an empty string!')
     # print("->get_type_of_number: tel_number={}".format(tel_number))
     if tel_number[0] == "(" and tel_number[1] == "0":
@@ -102,6 +105,7 @@ def create_telemarketers_set():
 
 
 def print_sorted_telemarketers_new_line():
+    print("length of possible_telemarketers_set = {}".format(len(possible_telemarketers_set)))
     print("These numbers could be telemarketers: ")
     print(*sorted(possible_telemarketers_set), sep='\n')  # in lexicographic order with no duplicates
 
