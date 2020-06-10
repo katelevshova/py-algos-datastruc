@@ -95,7 +95,7 @@ def get_type_of_number(tel_number):
         return TelTypes.telemarketer.value
     if len(tel_number.split(" ")) == 2 and (int(tel_number[0]) in range(7, 10)):
         return TelTypes.mobile.value
-
+    print("tel_number {} is not in valid format!".format(tel_number))
     return TelTypes.not_valid.value
 
 
@@ -204,13 +204,13 @@ def test_verify_tel_number():
 def test():
     print("START ALL TESTS....")
     test_get_type_of_number()
-    test_check_calls_data()
-    test_check_check_texts_data()
-    test_verify_tel_number()
+    #test_check_calls_data()
+    #test_check_check_texts_data()
+    #test_verify_tel_number()
     print("ALL TESTS FINISHED....")
 
 
 # ----------------------------------------------------------
 
-# test()
-main()
+test()
+#main()
