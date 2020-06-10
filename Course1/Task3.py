@@ -145,9 +145,16 @@ def calculate_percentage():
         return 0
     if amount_all_bangalor_calls < amount_bangalor_responses:
         raise Exception('amount_all_bangalor_calls must be equal or larger than amount_bangalor_responses!')
-    # print("->calculate_percentage: amount_all_bangalor_calls={}, "
-    #     "amount_bangalor_responses={}".format(amount_all_bangalor_calls, amount_bangalor_responses))
-    return (amount_bangalor_responses * 100) / amount_all_bangalor_calls
+    percentage = (amount_bangalor_responses * 100) / amount_all_bangalor_calls
+    # print("->calculate_percentage: percentage={}".format(percentage))
+    return percentage
+
+
+def get_2decimal_digits(number):
+    # str(round(number, 2)) returns 25.0 if number ==25, we need 25.00
+    formatted_result = '{:0.2f}'.format(number)
+    # print("->get_2decimal_digits: number={}, formatted_result={} ".format(number, formatted_result))
+    return formatted_result
 
 
 def get_sorted_codes_dialed_by_bangalor_set():
@@ -160,7 +167,7 @@ def print_answer_part_a():
 
 
 def print_answer_part_b():
-    percentage = int(calculate_percentage())  # only 2 digits
+    percentage = get_2decimal_digits(calculate_percentage())
     print("{} percent of calls from fixed lines in Bangalore are "
           "calls to other fixed lines in Bangalore.".format(percentage))
 
@@ -365,6 +372,32 @@ def test_get_sorted_codes_dialed_by_bangalor_set():
     print("->test_get_sorted_codes_dialed_by_bangalor_set: is finished")
 
 
+def test_get_2decimal_digits():
+    print("---------------------------------------------")
+    print("->test_get_2decimal_digits:start")
+    actual_result = get_2decimal_digits(25)
+
+    expected_result = "25.00"
+    assert actual_result == expected_result, "actual_result={}, expected_result={}". \
+        format(actual_result, expected_result)
+
+    actual_result = get_2decimal_digits(25.5678)
+    expected_result = "25.57"
+    assert actual_result == expected_result, "actual_result={}, expected_result={}". \
+        format(actual_result, expected_result)
+
+    actual_result = get_2decimal_digits(0)
+    expected_result = "0.00"
+    assert actual_result == expected_result, "actual_result={}, expected_result={}". \
+        format(actual_result, expected_result)
+
+    actual_result = get_2decimal_digits(4.3333333333)
+    expected_result = "4.33"
+    assert actual_result == expected_result, "actual_result={}, expected_result={}". \
+        format(actual_result, expected_result)
+    print("->test_get_2decimal_digits: is finished")
+
+
 def test():
     print("START ALL TESTS....")
     test_get_teltype_and_codearea_of_number()
@@ -374,10 +407,11 @@ def test():
     test_calculate_percentage_1()
     test_calculate_percentage_2()
     test_get_sorted_codes_dialed_by_bangalor_set()
+    test_get_2decimal_digits()
     print("ALL TESTS FINISHED....")
 
 
 # ----------------------------------------------------------
 
-# test()
+#test()
 main()
