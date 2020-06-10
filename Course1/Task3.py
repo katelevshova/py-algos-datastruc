@@ -57,6 +57,13 @@ codes_dialed_by_bangalor_set = set()
 amount_bangalor_responses = 0
 amount_all_bangalor_calls = 0
 
+'''
+Checks all items in calls list. For each item checks if the caller is from Bangalore by checking its area code and type.
+If the caller is from Bangalor it saves the area code of the number answered the call into a
+codes_dialed_by_bangalor_set. At the same time counts the total amount of calls from Bangalor and the amount of 
+responses in Bangalor from numbers in Bangalor. 
+'''
+
 
 def create_codes_dialed_by_bangalor_set(calls_list):
     codes_dialed_by_bangalor_set.clear()
