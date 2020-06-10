@@ -40,6 +40,7 @@ verification_set = set()
 
 def check_calls_data(calls_list):
     possible_telemarketers_set.clear()
+    verification_set.clear()
 
     for item in calls_list:
         calling_tel_number = item[0]
@@ -220,7 +221,7 @@ def test():
     print("START ALL TESTS....")
     test_get_type_of_number()
     test_check_calls_data()
-    # test_check_check_texts_data()
+    test_check_check_texts_data()
     # test_verify_tel_number()
     print("ALL TESTS FINISHED....")
 
