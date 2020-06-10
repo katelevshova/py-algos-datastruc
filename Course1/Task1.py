@@ -37,11 +37,8 @@ def count_unique_telephone_number(list_from_file):
         sending_number = ''.join(filter(lambda i: i.isdigit(), item[0]))
         receiving_number = ''.join(filter(lambda i: i.isdigit(), item[1]))
         # print("Sending number = {}, receiving number = {}".format(sending_number, receiving_number))
-
-        if sending_number not in unique_tel_numbers:
-            unique_tel_numbers.add(sending_number)
-        if receiving_number not in unique_tel_numbers:
-            unique_tel_numbers.add(receiving_number)
+        unique_tel_numbers.add(sending_number)
+        unique_tel_numbers.add(receiving_number)
 
 
 count_unique_telephone_number(texts)
