@@ -102,6 +102,7 @@ def create_telemarketers_set():
 
 
 def print_sorted_telemarketers_new_line():
+    print("length of possible_telemarketers_set = {}".format(len(possible_telemarketers_set)))
     print("These numbers could be telemarketers: ")
     print(*sorted(possible_telemarketers_set), sep='\n')  # in lexicographic order with no duplicates
 
