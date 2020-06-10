@@ -53,9 +53,12 @@ class TelTypes(Enum):
     telemarketer = 3
 
 
+class Amount:
+    bangalor_responses = 0
+    all_bangalor_calls = 0
+
+
 codes_dialed_by_bangalor_set = set()
-amount_bangalor_responses = 0
-amount_all_bangalor_calls = 0
 
 '''
 Checks all items in calls list. For each item checks if the caller is from Bangalore by checking its area code and type.
@@ -67,10 +70,8 @@ responses in Bangalor from numbers in Bangalor.
 
 def create_codes_dialed_by_bangalor_set(calls_list):
     codes_dialed_by_bangalor_set.clear()
-    global amount_bangalor_responses
-    amount_bangalor_responses = 0
-    global amount_all_bangalor_calls
-    amount_all_bangalor_calls = 0
+    Amount.bangalor_responses = 0
+    Amount.all_bangalor_calls = 0
 
     for item in calls_list:
         calling_tel_number = item[0]
@@ -83,9 +84,9 @@ def create_codes_dialed_by_bangalor_set(calls_list):
             tel_type_receiver, code_area_receiver = get_teltype_and_codearea_of_number(answering_tel_num)
 
             # counting amount for partB
-            amount_all_bangalor_calls += 1
+            Amount.all_bangalor_calls += 1
             if is_bangalore_area(code_area_receiver):
-                amount_bangalor_responses += 1
+                Amount.bangalor_responses += 1
             # adding unique code area of receiver for part A
             if code_area_receiver != str(TelTypes.not_valid.value):
                 codes_dialed_by_bangalor_set.add(code_area_receiver)
@@ -141,11 +142,11 @@ def get_teltype_and_codearea_of_number(tel_number):
 
 
 def calculate_percentage():
-    if amount_all_bangalor_calls == 0:
+    if Amount.all_bangalor_calls == 0:
         return 0
-    if amount_all_bangalor_calls < amount_bangalor_responses:
-        raise Exception('amount_all_bangalor_calls must be equal or larger than amount_bangalor_responses!')
-    percentage = (amount_bangalor_responses * 100) / amount_all_bangalor_calls
+    if Amount.all_bangalor_calls < Amount.bangalor_responses:
+        raise Exception('all_bangalor_calls must be equal or larger than bangalor_responses!')
+    percentage = (Amount.bangalor_responses * 100) / Amount.all_bangalor_calls
     # print("->calculate_percentage: percentage={}".format(percentage))
     return percentage
 
@@ -252,12 +253,12 @@ def test_create_codes_dialed_by_bangalor_set_1():
     assert (len(codes_dialed_by_bangalor_set) == 4)
 
     expected_result = 1
-    assert amount_bangalor_responses == expected_result, \
-        "Actual result= {}, expected result = {}".format(amount_bangalor_responses, expected_result)
+    assert Amount.bangalor_responses == expected_result, \
+        "Actual result= {}, expected result = {}".format(Amount.bangalor_responses, expected_result)
 
     expected_result = 4
-    assert amount_all_bangalor_calls == expected_result, \
-        "Actual result= {}, expected result = {}".format(amount_all_bangalor_calls, expected_result)
+    assert Amount.all_bangalor_calls == expected_result, \
+        "Actual result= {}, expected result = {}".format(Amount.all_bangalor_calls, expected_result)
 
     assert (('034' in codes_dialed_by_bangalor_set) == True)
     assert (('8301' not in codes_dialed_by_bangalor_set) == True)
@@ -280,16 +281,16 @@ def test_create_codes_dialed_by_bangalor_set_2():
     print("codes_dialed_by_bangalor_set=" + str(codes_dialed_by_bangalor_set))
     assert (len(codes_dialed_by_bangalor_set) == 3)
 
-    print("amount_all_bangalor_calls={}, "
-          "amount_bangalor_responses={}".format(amount_all_bangalor_calls, amount_bangalor_responses))
+    print("all_bangalor_calls={}, "
+          "bangalor_responses={}".format(Amount.all_bangalor_calls, Amount.bangalor_responses))
 
     expected_result = 1
-    assert amount_bangalor_responses == expected_result, \
-        "Actual result= {}, expected result = {}".format(amount_bangalor_responses, expected_result)
+    assert Amount.bangalor_responses == expected_result, \
+        "Actual result= {}, expected result = {}".format(Amount.bangalor_responses, expected_result)
 
     expected_result = 3
-    assert amount_all_bangalor_calls == expected_result, \
-        "Actual result= {}, expected result = {}".format(amount_all_bangalor_calls, expected_result)
+    assert Amount.all_bangalor_calls == expected_result, \
+        "Actual result= {}, expected result = {}".format(Amount.all_bangalor_calls, expected_result)
 
     assert (('080' in codes_dialed_by_bangalor_set) == True)
     assert (('003' in codes_dialed_by_bangalor_set) == True)
@@ -413,5 +414,5 @@ def test():
 
 # ----------------------------------------------------------
 
-#test()
+# test()
 main()
