@@ -137,22 +137,37 @@ def test_check_calls_data():
     print("---------------------------------------------")
     print("->test_check_calls_data:start")
     test_calls_list = [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM", "165"],
-                       ["1401111111", "(034)78655", "1/9/2016  7:31", "15"],  # 1401111111 -tele
+                       ["1401111111", "(034)78655", "1/9/2016  7:31", "15"],    # add 1401111111 tele
                        ["(080)69245029", "90365 06212", "1/9/2016  7:31", "15"],
-                       ["1409999999", "90365 06212", "1/9/2016  7:31", "15"],
-                       ["1408888888", "90365 06212", "1/9/2016  7:31", "15"],  # 1408888888 - telemarketer
-                       ["90365 06212", "1409999999", "1/9/2016  7:31", "15"],  # 1409999999 - not telemarketer
-                       ["1402222222", "83019 53227", "1/9/2016  7:31", "15"],  # 1402222222 - tele
-                       ["1403333333", "1404444444", "1/9/2016  7:31", "15"],  # 1403333333 - tele, 1404444444 - not
-                       ["(04456)69245029", "1405555555", "1/9/2016  7:31", "15"]]  # 1405555555 - not telemarketer
+                       ["1409999999", "90365 06212", "1/9/2016  7:31", "15"],   # add 1409999999 tele
+                       ["1408888888", "90365 06212", "1/9/2016  7:31", "15"],   # 1408888888 - telemarketer
+                       ["90365 06212", "1409999999", "1/9/2016  7:31", "15"],   # 1409999999 - remove from telemar set
+                       ["1402222222", "83019 53227", "1/9/2016  7:31", "15"],   # 1402222222 - tele add
+                       ["1403333333", "14044444444", "1/9/2016  7:31", "15"],   # 1403333333 - tele, 1404444444 - not
+                       ["(04456)69245029", "1405555555", "1/9/2016  7:31", "15"],  # 1405555555 - not telemarketer
+                       ["9999 9999", "140000000", "1/9/2016  7:31", "15"],      # 140000000 - not tele
+                       ["140000000", "5555 55555", "1/9/2016  7:31", "15"]]     # 140000000 - still NOT tele
     check_calls_data(test_calls_list)
+
+    print("verification_set=" + str(verification_set))
+    assert len(verification_set) == 4
+    assert ("1409999999" in verification_set)
+    assert ("14044444444" in verification_set)
+    assert ("1405555555" in verification_set)
+    assert ("140000000" in verification_set)
+    assert ("1401111111" not in verification_set)
+    assert ("1402222222" not in verification_set)
+
     print("possible_telemarketers_set=" + str(possible_telemarketers_set))
     assert len(possible_telemarketers_set) == 4
     assert ("1401111111" in possible_telemarketers_set)
+    assert ("1409999999" not in possible_telemarketers_set)
     assert ("1408888888" in possible_telemarketers_set)
     assert ("1402222222" in possible_telemarketers_set)
     assert ("1403333333" in possible_telemarketers_set)
     assert ("1404444444" not in possible_telemarketers_set)
+    assert ("140000000" not in possible_telemarketers_set)
+
     print("->test_check_calls_data: is finished")
 
 
@@ -204,13 +219,13 @@ def test_verify_tel_number():
 def test():
     print("START ALL TESTS....")
     test_get_type_of_number()
-    #test_check_calls_data()
-    #test_check_check_texts_data()
-    #test_verify_tel_number()
+    test_check_calls_data()
+    # test_check_check_texts_data()
+    # test_verify_tel_number()
     print("ALL TESTS FINISHED....")
 
 
 # ----------------------------------------------------------
 
 test()
-#main()
+# main()
