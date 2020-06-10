@@ -37,6 +37,13 @@ class TelTypes(Enum):
 possible_telemarketers_set = set()
 verification_set = set()
 
+'''
+Checks all items in calls list. For each item checks the type of the number called. If the called
+number has telemarketer format and does not exists in the verification_set we add it to the possible_telemarketers_set.
+We verify the answered number and add it to verification_set if it has telemarketer format.  If answered number exists 
+in possible_telemarketers_set we discard it because the telemarketer number cannot answer the calls.  
+'''
+
 
 def check_calls_data(calls_list):
     possible_telemarketers_set.clear()
@@ -55,6 +62,17 @@ def check_calls_data(calls_list):
         verify_tel_number(item[1])
 
 
+'''
+Checks all items in texts list. For each item checks the type of the number sent message and received. 
+If it is a telemarketer format, we remove the number from possible_telemarketers_set because telemarketers only call
+but never send or receive text messages.
+ARGS:
+     texts_list (list) - list of lists.  Example:
+                    [["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM"],
+                    ["78130 00821", "90365 06212", "1/9/2016  6:46:56 AM"]]
+'''
+
+
 def check_texts_data(texts_list):
     if len(possible_telemarketers_set) == 0:
         raise Exception("->check_texts_data: you need to call check_texts_data() "
@@ -65,8 +83,8 @@ def check_texts_data(texts_list):
 
 
 '''
-Takes the telephone number and if it has telemarketer format and exists in possible_telemarketers_set 
-than deletes it otherwise does nothing
+Takes the telephone number and if it has telemarketer format adds it into verification_set
+and if it exists in possible_telemarketers_set deletes it. Otherwise does nothing
 ARGS:
     tel_number (string)
 '''
@@ -82,8 +100,21 @@ def verify_tel_number(tel_number):
 
     if tel_type == TelTypes.telemarketer.value:
         verification_set.add(tel_number)
-
         possible_telemarketers_set.discard(tel_number)
+
+
+'''
+Returns type of the telephone number
+ARGS:
+    tel_number (string)
+RETURN:
+    telephone type (int) from TelTypes enumeration: not_valid = 0, fixed_line = 1, mobile = 2, telemarketer = 3
+Example:    if "93427 40118", returned tel_type = 2
+            if "1408371942", returned tel_type = 3
+            if "(0834)343434", returned tel_type = 1
+            if "0834)343434", returned tel_type = 0
+            if "9342740118", returned tel_type = 0    
+'''
 
 
 def get_type_of_number(tel_number):
@@ -100,13 +131,18 @@ def get_type_of_number(tel_number):
     return TelTypes.not_valid.value
 
 
+'''
+Creates possible_telemarketers_set based on the data from 2 files - calls.csv and texts.csv
+'''
+
+
 def create_telemarketers_set():
     check_calls_data(calls)
     check_texts_data(texts)
 
 
 def print_sorted_telemarketers_new_line():
-    print("length of possible_telemarketers_set = {}".format(len(possible_telemarketers_set)))
+    # print("length of possible_telemarketers_set = {}".format(len(possible_telemarketers_set)))
     print("These numbers could be telemarketers: ")
     print(*sorted(possible_telemarketers_set), sep='\n')  # in lexicographic order with no duplicates
 
@@ -238,5 +274,5 @@ def test():
 
 # ----------------------------------------------------------
 
-test()
-# main()
+# test()
+main()
