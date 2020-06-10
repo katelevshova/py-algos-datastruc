@@ -214,10 +214,12 @@ def test_verify_tel_number():
     # case1 - 1408888888 has telemarketer type and exists in possible_telemarketers_set
     verify_tel_number("1408888888")
     assert ("1408888888" not in possible_telemarketers_set)  # must be deleted
+    assert ("1408888888" in verification_set)  # must be added for verification
     assert len(possible_telemarketers_set) == 3
     print("case1: possible_telemarketers_set=" + str(possible_telemarketers_set))
     # case2 - 140777777 has telemarketer type but does not exist in possible_telemarketers_set
     verify_tel_number("140777777")  # must not change possible_telemarketers_set
+    assert ("140777777" in verification_set)  # must be added for verification
     assert len(possible_telemarketers_set) == 3
     # case3 - not a telemarketer format and does not exist in possible_telemarketers_set
     verify_tel_number("84577 7777")  # must not change possible_telemarketers_set
@@ -230,7 +232,7 @@ def test():
     test_get_type_of_number()
     test_check_calls_data()
     test_check_check_texts_data()
-    # test_verify_tel_number()
+    test_verify_tel_number()
     print("ALL TESTS FINISHED....")
 
 
