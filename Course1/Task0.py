@@ -32,7 +32,7 @@ print("Last record of calls, {} calls {} at time {}, lasting {} seconds".
 '''
 
 '''
-Don't agree with a reviewer at all about a comment:
+Don't agree about a comment:
     Its best practice to avoid using redundant variables when the calls 
     list already has the values and can be referred directly.
     It makes code look more redundant and noisy
@@ -47,7 +47,8 @@ MY REASONING:
     calls[-1][1]
     Even if Python allows to do a lot of things in 1 line it does not mean that it is convenient to debug
     or read or understand.
-    It is better to mark this as a SUGGESTION but NOT as REQUIRED 
+    
+So it would be better to mark this as a SUGGESTION but NOT as REQUIRED 
 '''
 
 print("Last record of calls {} calls {} at time {}lasting {} seconds".
