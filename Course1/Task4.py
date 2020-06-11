@@ -189,25 +189,24 @@ def test_check_calls_data():
 def test_check_check_texts_data():
     print("---------------------------------------------")
     print("->test_check_check_texts_data:start")
-    test_texts_list = [["1401111111", "90365 06212", "1/9/2016  6:03:22 AM"],  # 1401111111 - not telemarketer
-                       ["(04456)69245029", "1403333333", "1/9/2016  7:31"],  # 1403333333 - not telemarketer
-                       ["78130 00821", "(034)78655", "1/9/2016  7:31"]]
+    test_texts_list = [["1401111111", "90365 06212", "1/9/2016  6:03:22 AM"],
+                       ["(04456)69245029", "(080)787878", "1/9/2016  7:31"],
+                       ["44444 4444", "0000 00000", "1/9/2016  6:46:56 AM", "165"],
+                       ["78130 00821", "66666 6666", "1/9/2016  7:31"]]
     print("possible_telemarketers_set=" + str(possible_telemarketers_set))
     check_texts_data(test_texts_list)
     print("verification_set=" + str(verification_set))
-    assert len(verification_set) == 6  # we add sending and receiving msg to verification list
+    assert len(verification_set) == 12  # we add sending and receiving msg to verification list
     assert ("1401111111" in verification_set)
-    assert ("1403333333" in verification_set)
+    assert ("0000 00000" in verification_set)
+    assert ("44444 4444" in verification_set)
 
-    # 1401111111 and 1403333333 not must be removed from possible_telemarketers_set
+    # 44444 4444 and 66666 6666 not must be removed from possible_telemarketers_set
     print("after removing numbers from TEXTS file, possible_telemarketers_set=" + str(possible_telemarketers_set))
-    assert len(possible_telemarketers_set) == 2
-    assert ("1401111111" not in possible_telemarketers_set)  # should be deleted
-    assert ("1403333333" not in possible_telemarketers_set)  # should be deleted
-    assert ("1408888888" in possible_telemarketers_set)
-    assert ("1402222222" in possible_telemarketers_set)
-    assert ("1404444444" not in possible_telemarketers_set)
-    assert ("140000000" not in possible_telemarketers_set)
+    assert len(possible_telemarketers_set) == 1
+    assert ("44444 4444" not in possible_telemarketers_set)  # should be deleted
+    assert ("66666 6666" not in possible_telemarketers_set)  # should be deleted
+    assert ("1403333333" in possible_telemarketers_set)
     print("->test_check_check_texts_data: is finished")
 
 
@@ -245,7 +244,7 @@ def test():
     print("START ALL TESTS....")
     test_get_type_of_number()
     test_check_calls_data()
-    #test_check_check_texts_data()
+    test_check_check_texts_data()
     #test_verify_tel_number()
     print("ALL TESTS FINISHED....")
 
