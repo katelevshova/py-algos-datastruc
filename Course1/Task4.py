@@ -51,10 +51,6 @@ def check_calls_data(calls_list):
 
     for item in calls_list:
         calling_tel_number = item[0]
-        calling_tel_type = get_type_of_number(calling_tel_number)
-
-        if calling_tel_type == TelTypes.not_valid.value:
-            print("calling_tel_type is not in valid format!")
         # add the number as possible telemarketer
         if calling_tel_number not in verification_set:
             possible_telemarketers_set.add(calling_tel_number)
@@ -93,11 +89,6 @@ ARGS:
 def verify_tel_number(tel_number):
     # telemarketers never send and receive texts so if the number is found and it exists
     # in the possible_telemarketers_set we need to delete it because it is not considered a telemarketer
-    tel_type = get_type_of_number(tel_number)
-
-    if tel_type == TelTypes.not_valid.value:
-        print("tel_number {} is not in valid format!".format(tel_number))
-
     verification_set.add(tel_number)
     possible_telemarketers_set.discard(tel_number)
 
