@@ -23,32 +23,25 @@ O(N+N) = O(2N), we can omit any constants.
 ANSWER: O(N)
 
 #Task2------------------------
-PROVIDED CODE complexity (reading from two files):
-    Let's N be the number of records in calls file.
-    Let's M be the number of records in texts file.
-    To read N records from file and create the list of call will take O(N)
-    To read M records from file and create the list of texts will take O(M)
-    We do this operations one by one so the total complexity is
-O(N+M)
-
 SOLUTION complexity:
-    Start analysis from function main().
-    Let's N be the number of elements in a calls list.
-        Call of the function create_telnumbers_dict_for_period() takes O(N) times because we are going through
-        all elements in the list. We can disregard the time for calling the function get_date()
-        in line#46 because it is not significant. Adding to the dictionary takes constant O(1) time.
-        Total: O(N)
-    Let's A be the number of elements in telnumbers_calltime_dict.
-        Call of the function get_telnumber_with_max_calltime() takes O(A) where
-        we go through all elements in the dictionary.
-        Total: O(A)
-    To print the result takes O(1) time.
-    Since we performed these 2 functions one by one the total solution complexity is
- O(N+A)
+We start analysis from function main().
+Let's N be the number of elements in a calls list.
+    Call of the function create_telnumbers_dict_for_period() takes O(N) times because we are going through
+    all elements in the list. We can disregard the time for calling the function get_date()
+    in line#46 because it takes insignificant time compared to N.
+    Adding to the dictionary takes constant O(1) time.
+    The call of function check_dictionary() takes O(1) since we accessing tha value by a unique key
+    and perform a simple math operation.
+    Total for create_telnumbers_dict_for_period: O(N)
+Let's A be the number of elements in telnumbers_calltime_dict.
+    Call of the function get_telnumber_with_max_calltime() takes O(A) where
+    we go through all elements in the dictionary.
+    Total for get_telnumber_with_max_calltime: O(A)
+To print the result takes O(1) time.
+Since we call create_telnumbers_dict_for_period() and get_telnumber_with_max_calltime() sequentially we can
+sum up the result O(N+A). However N>A that's why we can omit A.
+ANSWER: O(N)
 
-TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
-TOTAL complexity = O(N+M) + O(N+A) = O(2*N+M+A). We can omit the coefficients
-TOTAL = O(N+M+A)
 
 #Task3------------------------
 PROVIDED CODE complexity (reading from two files):
