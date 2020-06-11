@@ -47,7 +47,6 @@ MY REASONING:
     calls[-1][1] to avoid errors and I'm reusing variables for both print statements.
     Even if Python allows to do a lot of things in 1 line it does not mean that it is convenient to debug
     or read or understand. It is a personal decision/opinion of a developer.
-    
 So it would be better to mark this as a SUGGESTION but NOT as REQUIRED 
 '''
 
