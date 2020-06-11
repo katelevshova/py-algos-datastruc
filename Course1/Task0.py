@@ -44,9 +44,9 @@ MY REASONING:
     If I need to debug my line of code it is quite convenient to see the variables as 
     answering_number and not calls[-1][1]. 
     Also I think that code looks way better with human readable format like answering_number instead of
-    calls[-1][1]
+    calls[-1][1] to avoid errors and I'm reusing variables for both print statements.
     Even if Python allows to do a lot of things in 1 line it does not mean that it is convenient to debug
-    or read or understand.
+    or read or understand. It is a personal decision/opinion of a developer.
     
 So it would be better to mark this as a SUGGESTION but NOT as REQUIRED 
 '''
