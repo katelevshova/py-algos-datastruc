@@ -38,9 +38,9 @@ possible_telemarketers_set = set()
 verification_set = set()
 
 '''
-Checks all items in calls list. For each item checks the type of the number called. If the called
+Checks all items in calls list. For each item checks the type of the number called. If the caller
 number does not exists in the verification_set we add it to the possible_telemarketers_set.
-We verify the answered number and add it to verification_set.  If answered number exists 
+We verify the answered number and add it to verification_set. If answered number exists 
 in possible_telemarketers_set we discard it because the telemarketer number cannot answer the calls.  
 '''
 
@@ -78,8 +78,8 @@ def check_texts_data(texts_list):
 
 
 '''
-Takes the telephone number and if it has telemarketer format adds it into verification_set
-and if it exists in possible_telemarketers_set deletes it. Otherwise does nothing
+Takes the telephone number, adds it into verification_set
+and if such telephone number exists in possible_telemarketers_set deletes it.
 ARGS:
     tel_number (string)
 '''
