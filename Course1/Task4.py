@@ -39,8 +39,8 @@ verification_set = set()
 
 '''
 Checks all items in calls list. For each item checks the type of the number called. If the called
-number has telemarketer format and does not exists in the verification_set we add it to the possible_telemarketers_set.
-We verify the answered number and add it to verification_set if it has telemarketer format.  If answered number exists 
+number does not exists in the verification_set we add it to the possible_telemarketers_set.
+We verify the answered number and add it to verification_set.  If answered number exists 
 in possible_telemarketers_set we discard it because the telemarketer number cannot answer the calls.  
 '''
 
@@ -56,7 +56,7 @@ def check_calls_data(calls_list):
         if calling_tel_type == TelTypes.not_valid.value:
             print("calling_tel_type is not in valid format!")
         # add the number as possible telemarketer
-        if calling_tel_type == TelTypes.telemarketer.value and calling_tel_number not in verification_set:
+        if calling_tel_number not in verification_set:
             possible_telemarketers_set.add(calling_tel_number)
         # check the answering tel_number
         verify_tel_number(item[1])
@@ -98,9 +98,8 @@ def verify_tel_number(tel_number):
     if tel_type == TelTypes.not_valid.value:
         print("tel_number {} is not in valid format!".format(tel_number))
 
-    if tel_type == TelTypes.telemarketer.value:
-        verification_set.add(tel_number)
-        possible_telemarketers_set.discard(tel_number)
+    verification_set.add(tel_number)
+    possible_telemarketers_set.discard(tel_number)
 
 
 '''
