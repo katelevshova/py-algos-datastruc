@@ -51,5 +51,5 @@ MY REASONING:
 So it would be better to mark this as a SUGGESTION but NOT as REQUIRED 
 '''
 
-print("Last record of calls {} calls {} at time {}lasting {} seconds".
+print("Last record of calls, {} calls {} at time {}, lasting {} seconds".
       format(calls[-1][0], calls[-1][1], calls[-1][2], calls[-1][3]))
