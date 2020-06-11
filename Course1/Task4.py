@@ -93,34 +93,6 @@ def verify_tel_number(tel_number):
 
 
 '''
-Returns type of the telephone number
-ARGS:
-    tel_number (string)
-RETURN:
-    telephone type (int) from TelTypes enumeration: not_valid = 0, fixed_line = 1, mobile = 2, telemarketer = 3
-Example:    if "93427 40118", returned tel_type = 2
-            if "1408371942", returned tel_type = 3
-            if "(0834)343434", returned tel_type = 1
-            if "0834)343434", returned tel_type = 0
-            if "9342740118", returned tel_type = 0    
-'''
-
-
-def get_type_of_number(tel_number):
-    if tel_number == "":
-        raise Exception('tel_number should not be an empty string!')
-    # print("->get_type_of_number: tel_number={}".format(tel_number))
-    if tel_number[0] == "(" and tel_number[1] == "0":
-        return TelTypes.fixed_line.value
-    if tel_number[0:3] == "140" and " " not in tel_number:
-        return TelTypes.telemarketer.value
-    if len(tel_number.split(" ")) == 2 and (int(tel_number[0]) in range(7, 10)):
-        return TelTypes.mobile.value
-    print("tel_number {} is not in valid format!".format(tel_number))
-    return TelTypes.not_valid.value
-
-
-'''
 Creates possible_telemarketers_set based on the data from 2 files - calls.csv and texts.csv
 '''
 
@@ -142,23 +114,6 @@ def main():
 
 
 # TEST CASES----------------------------------------------
-def test_get_type_of_number():
-    print("---------------------------------------------")
-    print("->test_get_type_of_number:start")
-    # mobile
-    assert (get_type_of_number("93427 40118") == TelTypes.mobile.value)
-    assert (get_type_of_number("83427 40118") == TelTypes.mobile.value)
-    assert (get_type_of_number("73427 40118") == TelTypes.mobile.value)
-    assert (get_type_of_number("23427 40118") == TelTypes.not_valid.value)
-    # fixed_line
-    assert (get_type_of_number("(04344)228249") == TelTypes.fixed_line.value)
-    assert (get_type_of_number("(140)8371942") == TelTypes.not_valid.value)
-    # telemarketer
-    assert (get_type_of_number("1408371942") == TelTypes.telemarketer.value)
-    assert (get_type_of_number("14083 71942") == TelTypes.not_valid.value)
-    print("->test_get_type_of_number: is finished")
-
-
 def test_check_calls_data():
     print("---------------------------------------------")
     print("->test_check_calls_data:start")
@@ -236,7 +191,6 @@ def test_verify_tel_number():
 
 def test():
     print("START ALL TESTS....")
-    test_get_type_of_number()
     test_check_calls_data()
     test_check_check_texts_data()
     test_verify_tel_number()
