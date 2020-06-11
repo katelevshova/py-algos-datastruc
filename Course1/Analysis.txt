@@ -58,38 +58,29 @@ To perform function print_answer_part_b() will take O(1) because we are doing si
 math operations and just printing the result
 Since we performed operations one by one the we can sum up the total SOLUTION complexity:
 O(N+A*logA)
-Since A is much smaller N in most cases it would be O(N) and in a very rare situation O(A*logA)
-ANSWER: O(A*logA)
+We can simplify and in most cases it would be O(N) however in a very rare situation when almost all calls in
+a file are from Bangalor and all of those numbers are unique it will take O(A*logA) or we can say O(N*logN) because
+the letter does not matter in this case.
+ANSWER: O(N*logN)
 
 
 #Task4------------------------
-PROVIDED CODE complexity (reading from two files):
-    Let's N be the number of records in calls file.
-    Let's M be the number of records in texts file.
-    To read N records from file and create the list of call will take O(N)
-    To read M records from file and create the list of texts will take O(M)
-    We do this operations one by one so the total complexity is
-O(N+M)
-
 SOLUTION complexity:
-    Start analysis from function main().
-    create_telemarketers_set() function is consists of 2 sequential calls:
-        function check_calls_data()
-        Let's N be the number of elements in calls list (equal to number of records in the calls file).
-            It will take O(N) time to go through all elements in a list.
-            The rest operations will take insignificant amount of time or O(1).
-        O(N)
-        function check_texts_data()
-        Let's M be the number of elements in texts list (equal to number of records in the texts file).
-            The same here.
-        O(M)
-    Total O(N+M)
-    Let's A be a number of elements in possible_telemarketers_set.
-        The function print_sorted_telemarketers_new_line() will take O(A*logA)
-        because we are using built-in sorted() function before printing the result.
-    Total: O(A*logA)
-O(N+M+A*logA)
+Start analysis from function main().
+create_telemarketers_set() function is consists of 2 sequential calls:
+    function check_calls_data()
+    Let's N be the number of elements in calls list (equal to number of records in the calls file).
+        It will take O(N) time to go through all elements in a list.
+        To add a value to a set takes O(1)
+        To discard value from a set takes O(1)
+    O(N)
+    function check_texts_data() takes the same time O(N)
+    O(N+N), O(2N), we omit coefficient and get O(N)
 
-TOTAL complexity = PROVIDED CODE complexity + SOLUTION complexity
-TOTAL complexity = O(N+M) + O(N+M+A*logA) = O(2N+2M+A*logA). We can omit the coefficients
-TOTAL = O(N+M+A*logA)
+Let's A be a number of elements in possible_telemarketers_set.
+    The function print_sorted_telemarketers_new_line() will take O(A*logA)
+    because we are using built-in sorted() function before printing the result.
+O(A*logA) > O(N) so the result is O(A*logA) or we can say O(N*logN) because the letter does not matter in this case.
+Total: O(N*logN)
+
+
