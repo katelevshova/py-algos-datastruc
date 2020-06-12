@@ -41,7 +41,7 @@ def anagram_checker(str1, str2):
     clean_str_2 = str2.replace(" ", "").lower()
 
     if len(clean_str_1) == len(clean_str_2):
-       if sorted(clean_str_1) == sorted(clean_str_2):
+        if sorted(clean_str_1) == sorted(clean_str_2):
             return True
 
     return False
