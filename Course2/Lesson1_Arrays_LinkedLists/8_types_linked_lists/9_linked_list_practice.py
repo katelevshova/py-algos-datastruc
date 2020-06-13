@@ -89,6 +89,39 @@ class LinkedList:
         self.head = self.head.next
         return node.value
 
+    def insert(self, value, pos):
+        """ Insert value at pos position in the list. If pos is larger than the
+            length of the list, append to the end of the list. """
+
+        if self.head is None:
+            return
+
+        if pos == 0:
+            self.prepend(value)
+            return
+
+        index = 0
+        node = self.head
+        while node.next and index <= pos:
+            if (pos - 1) == index:
+                new_node = Node(value)
+                new_node.next = node.next
+                node.next = new_node
+                return
+            index += 1
+            node = node.next
+        else:
+            self.append(value)
+
+    def size(self):
+        """ Return the size or length of the linked list. """
+        node = self.head
+        counter = 1
+        while node.next:
+            counter += 1
+            node = node.next
+        return counter
+
 
 def test():
     test_prepend()
@@ -96,6 +129,8 @@ def test():
     test_search()
     test_remove()
     test_pop()
+    test_insert()
+    test_size()
 
 
 def test_prepend():
@@ -154,5 +189,23 @@ def test_pop():
     assert value == 2, "list contents: {}".format(linked_list.to_list())
     assert linked_list.head.value == 1, "list contents: {}".format(linked_list.to_list())
 
+
+def test_insert():
+    # Test insert
+    linked_list = LinkedList()
+    linked_list.append(1)
+    linked_list.append(4)
+    linked_list.insert(5, 0)
+    assert linked_list.to_list() == [5, 1, 4], "list contents: {}".format(linked_list.to_list())
+    linked_list.insert(2, 1)
+    assert linked_list.to_list() == [5, 2, 1, 4], "list contents: {}".format(linked_list.to_list())
+    linked_list.insert(3, 6)
+    assert linked_list.to_list() == [5, 2, 1, 4, 3], "list contents: {}".format(linked_list.to_list())
+
+def test_size():
+    linked_list = LinkedList()
+    linked_list.append(1)
+    linked_list.append(4)
+    assert linked_list.size() == 2, "list contents: {}".format(linked_list.to_list())
 
 test()
