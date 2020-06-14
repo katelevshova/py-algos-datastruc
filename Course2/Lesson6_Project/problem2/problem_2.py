@@ -35,6 +35,8 @@ os.path.join(...)
 Note: os.walk() is a handy Python method which can achieve this task very easily.
 However, for this problem you are not allowed to use os.walk().
 """
+import glob
+import pathlib
 
 
 def find_files(suffix, path):
@@ -47,10 +49,51 @@ def find_files(suffix, path):
     There are no limit to the depth of the subdirectories can be.
 
     Args:
-      suffix(str): suffix if the file name to be found
+      suffix(str): suffix is the file name to be found
       path(str): path of the file system
 
     Returns:
        a list of paths
     """
+
     return None
+
+
+def find_files_glob(suffix, path) -> list:
+    paths_list = []
+    for path in glob.glob(path + '/**/' + suffix, recursive=True):
+        print("path={}".format(path))
+        paths_list.append(path)
+    print("paths_list={}".format(paths_list))
+    return paths_list
+
+
+def find_files_pathlib(suffix, path) -> list:
+    paths_list = []
+    for path in pathlib.Path("testdir").rglob("*.c"):
+        print("path={}".format(path))
+        paths_list.append(path)
+    print("paths_list={}".format(paths_list))
+    return paths_list
+
+
+def test_find_files_glob():
+    print("->test_find_files_glob:start--------------------------------------------")
+    result_list = find_files_glob("*.c", "testdir")
+    assert len(result_list) == 4
+    print("->test_find_files_glob: is finished...")
+
+
+def test_find_files_pathlib():
+    print("->test_find_files_pathlib:start--------------------------------------------")
+    result_list = find_files_glob("*.c", "testdir")
+    assert len(result_list) == 4
+    print("->test_find_files_pathlib: is finished...")
+
+
+def test():
+    test_find_files_glob()
+    test_find_files_pathlib()
+
+
+test()
