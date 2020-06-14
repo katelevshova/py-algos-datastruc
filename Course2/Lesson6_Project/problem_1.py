@@ -16,16 +16,27 @@ All operations must take O(1) time.
 
 For the current problem, you can consider the size of cache = 5.
 """
-
+from collections import OrderedDict
 
 class LRU_Cache(object):
 
-    def __init__(self, capacity):
+    def __init__(self, size: int):
         # Initialize class variables
+        self.cache = OrderedDict()
+        self.size = size
         pass
 
-    def get(self, key):
+    '''
+    Returns the value of the key in O(1) and returns -1 if the key does not exist in the cache.
+    Also moves he key to the end to show that it was recently used.
+    '''
+    def get(self, key: int) -> int:
         # Retrieve item from provided key. Return -1 if nonexistent.
+        if key not in self.cache:
+            return -1
+        else:
+            self.cache.move_to_end(key)
+            return self.cache[key]
         pass
 
     def set(self, key, value):
