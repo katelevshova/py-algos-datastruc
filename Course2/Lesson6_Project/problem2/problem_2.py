@@ -37,9 +37,10 @@ However, for this problem you are not allowed to use os.walk().
 """
 import glob
 import pathlib
+import os
 
 
-def find_files(suffix, path):
+def find_files(suffix, path) -> list:
     """
     Find all files beneath path with file name suffix.
 
@@ -55,8 +56,35 @@ def find_files(suffix, path):
     Returns:
        a list of paths
     """
+    result_list = []
+    dir_list = os.listdir(path)
+    print("dir_list={}".format(dir_list))
 
-    return None
+    for item in dir_list:
+        joined_name = os.path.join(path, item)
+        is_file = os.path.isfile(joined_name)
+        print("item={}, is_file={}".format(item, is_file))
+
+        if is_file:
+            if item.endswith(suffix):
+                result_list.append(joined_name)
+        else:
+            print("joined_name=" + joined_name)
+            result_list += find_files(suffix, joined_name)
+            print("JOINED LIST result_list=" + str(result_list))
+
+    return result_list
+
+
+'''
+print("isEndsWithC="+str(item.endswith(".c")))
+        if item.endswith(".c"):
+            result_list.append(path+"\\"+item)
+        else:
+            print("isDir={}".format(os.path.isdir(item)))
+            if os.path.isfile(item):
+                find_files(suffix, item)
+'''
 
 
 def find_files_glob(suffix, path) -> list:
@@ -91,9 +119,18 @@ def test_find_files_pathlib():
     print("->test_find_files_pathlib: is finished...")
 
 
+def test_find_files():
+    print("->test_find_files:start--------------------------------------------")
+    result_list = find_files("*.c", "testdir")
+    print("result_list={}".format(result_list))
+
+    print("->test_find_files: is finished...")
+
+
 def test():
     test_find_files_glob()
     test_find_files_pathlib()
+    test_find_files()
 
 
 test()
