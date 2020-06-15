@@ -52,6 +52,9 @@ class LRU_Cache(object):
 
     def set(self, key, value):
         # Set the value if the key is not present in the cache. If the cache is at capacity remove the oldest item.
+        if key is None or value is None:
+            return
+
         self.cache[key] = value
         self.cache.move_to_end(key)
         if len(self.cache) > self.size:
@@ -59,6 +62,7 @@ class LRU_Cache(object):
         pass
 
 
+# TEST CASES: start----------------------------------------------
 our_cache = LRU_Cache(5)
 
 print("TEST ADD VALUES --------------------------------------------------")
@@ -107,3 +111,9 @@ assert len(our_cache.cache.items()) == 5, "Size must be equal 5, actual={}".form
 
 our_cache.get(3)  # returns -1 because the cache reached it's capacity and 3 was the least recently used entry
 assert our_cache.get(3) == -1
+
+print("TEST EDGE CASES --------------------------------------------------")
+our_cache.set(None, None)
+assert our_cache.get(None) == -1
+print("->set: our_cache.cache={}".format(our_cache.cache))
+# TEST CASES: end----------------------------------------------------------
