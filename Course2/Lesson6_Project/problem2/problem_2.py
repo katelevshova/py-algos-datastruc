@@ -56,37 +56,27 @@ def find_files(suffix, path) -> list:
     Returns:
        a list of paths
     """
-    result_list = []
+    result_list = []  # final list to be returned
     dir_list = os.listdir(path)
-    print("dir_list={}".format(dir_list))
+    # print("->find_files-----------------------------")
+    # print("path={}, suffix={}".format(path, suffix))
+    # print("dir_list={}".format(dir_list))
 
     for item in dir_list:
         joined_name = os.path.join(path, item)
         is_file = os.path.isfile(joined_name)
-        print("item={}, is_file={}".format(item, is_file))
+        # print("item={}, is_file={}".format(item, is_file))
 
         if is_file:
             if item.endswith(suffix):
                 result_list.append(joined_name)
         else:
-            print("joined_name=" + joined_name)
             result_list += find_files(suffix, joined_name)
-            print("JOINED LIST result_list=" + str(result_list))
 
     return result_list
 
 
-'''
-print("isEndsWithC="+str(item.endswith(".c")))
-        if item.endswith(".c"):
-            result_list.append(path+"\\"+item)
-        else:
-            print("isDir={}".format(os.path.isdir(item)))
-            if os.path.isfile(item):
-                find_files(suffix, item)
-'''
-
-
+# Other solution with using glob
 def find_files_glob(suffix, path) -> list:
     paths_list = []
     for path in glob.glob(path + '/**/' + suffix, recursive=True):
@@ -96,15 +86,22 @@ def find_files_glob(suffix, path) -> list:
     return paths_list
 
 
+# Other solution with using pathlib.Path
 def find_files_pathlib(suffix, path) -> list:
     paths_list = []
-    for path in pathlib.Path("testdir").rglob("*.c"):
+    for path in pathlib.Path("testdir").rglob(suffix):
         print("path={}".format(path))
         paths_list.append(path)
     print("paths_list={}".format(paths_list))
     return paths_list
 
 
+def main():
+    files_c_list = find_files(".c", "testdir")
+    print(*files_c_list, sep="\n")
+
+
+# TEST CASES: start----------------------------------------------
 def test_find_files_glob():
     print("->test_find_files_glob:start--------------------------------------------")
     result_list = find_files_glob("*.c", "testdir")
@@ -121,9 +118,24 @@ def test_find_files_pathlib():
 
 def test_find_files():
     print("->test_find_files:start--------------------------------------------")
-    result_list = find_files("*.c", "testdir")
+    # case1 - *.c
+    result_list = find_files(".c", "testdir")
+    assert len(result_list) == 4
     print("result_list={}".format(result_list))
-
+    # case2 - *.h
+    result_list = find_files(".h", "testdir")
+    assert len(result_list) == 4
+    print("result_list={}".format(result_list))
+    print("->test_find_files: is finished...")
+    # case3 - *.gitkeep
+    result_list = find_files(".gitkeep", "testdir")
+    assert len(result_list) == 2
+    print("result_list={}".format(result_list))
+    print("->test_find_files: is finished...")
+    # case3 - *.txt
+    result_list = find_files(".txt", "testdir")
+    assert len(result_list) == 0
+    print("result_list={}".format(result_list))
     print("->test_find_files: is finished...")
 
 
@@ -133,4 +145,7 @@ def test():
     test_find_files()
 
 
-test()
+# TEST CASES: end----------------------------------------------------------
+
+# test()
+main()
