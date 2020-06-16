@@ -82,7 +82,7 @@ def find_files_glob(suffix, path) -> list:
     for path in glob.glob(path + '/**/' + suffix, recursive=True):
         # print("path={}".format(path))
         paths_list.append(path)
-    print(*paths_list, sep="\n")
+    # print(*paths_list, sep="\n")
     return paths_list
 
 
@@ -92,7 +92,7 @@ def find_files_pathlib(suffix, path) -> list:
     for path in pathlib.Path("testdir").rglob(suffix):
         # print("path={}".format(path))
         paths_list.append(path)
-    print(*paths_list, sep="\n")
+    # print(*paths_list, sep="\n")
     return paths_list
 
 
@@ -102,14 +102,14 @@ def main():
 
 # TEST CASES: start----------------------------------------------
 def test_find_files_glob():
-    print("->test_find_files_glob:start--------------------------------------------")
+    # print("->test_find_files_glob:start--------------------------------------------")
     result_list = find_files_glob("*.c", "testdir")
     assert len(result_list) == 4
-    print("->test_find_files_glob: is finished...")
+    # print("->test_find_files_glob: is finished...")
 
 
 def test_find_files_pathlib():
-    print("->test_find_files_pathlib:start--------------------------------------------")
+    # print("->test_find_files_pathlib:start--------------------------------------------")
     result_list = find_files_glob("*.c", "testdir")
     assert len(result_list) == 4
     result_list = find_files_glob("*.h", "testdir")
@@ -118,42 +118,42 @@ def test_find_files_pathlib():
     assert len(result_list) == 2
     result_list = find_files_glob("*.gitkeep", "testdir")
     assert len(result_list) == 0
-    print("->test_find_files_pathlib: is finished...")
+    # print("->test_find_files_pathlib: is finished...")
 
 
 def test_find_files_c():
-    print("->test_find_files_c:start--------------------------------------------")
+    # print("->test_find_files_c:start--------------------------------------------")
     # case1 - *.c
     result_list = find_files(".c", "testdir")
     assert len(result_list) == 4
-    print(*result_list, sep="\n")
-    print("->test_find_files_c: is finished...")
+    # print(*result_list, sep="\n")
+    # print("->test_find_files_c: is finished...")
 
 
 def test_find_files_h():
-    print("->test_find_files_h:start--------------------------------------------")
+    # print("->test_find_files_h:start--------------------------------------------")
     # case2 - *.h
     result_list = find_files(".h", "testdir")
     assert len(result_list) == 4
-    print(*result_list, sep="\n")
-    print("->test_find_files_h: is finished...")
+    # print(*result_list, sep="\n")
+    # print("->test_find_files_h: is finished...")
 
 
 def test_find_files_gitkeep():
-    print("->test_find_files_gitkeep:start--------------------------------------------")
+    # print("->test_find_files_gitkeep:start--------------------------------------------")
     # case3 - *.h
     result_list = find_files(".gitkeep", "testdir")
     assert len(result_list) == 2
-    print(*result_list, sep="\n")
-    print("->test_find_files_gitkeep: is finished...")
+    # print(*result_list, sep="\n")
+    # print("->test_find_files_gitkeep: is finished...")
 
 
 def test_find_files_not_existed():
-    print("->test_find_files_not_existed:start--------------------------------------------")
+    # print("->test_find_files_not_existed:start--------------------------------------------")
     # case4 - *.txt which does not exist
     result_list = find_files(".txt", "testdir")
     assert len(result_list) == 0
-    print("->test_find_files_not_existed: is finished...")
+    # print("->test_find_files_not_existed: is finished...")
 
 
 def test():
@@ -168,4 +168,4 @@ def test():
 # TEST CASES: end----------------------------------------------------------
 
 test()
-# main()
+main()
