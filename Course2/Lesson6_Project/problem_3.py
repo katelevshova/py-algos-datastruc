@@ -65,7 +65,7 @@ class HuffmanCoding(object):
     def __init__(self, mess):
         self.message = mess
         self.heap_list = []
-        self.codes = {}
+        self.binary_codes = dict
 
     def huffman_encoding(self):
         print("->huffman_encoding:")
@@ -76,6 +76,8 @@ class HuffmanCoding(object):
         # where a node that has lower frequency should have a higher priority to be popped-out.
         # 3. Build a Huffman tree
         self.build_min_tree(frequency_dict)
+        # 4. For each node, in the Huffman tree, assign a bit 0 for left child and a 1 for right child.
+        self.assign_binary_codes()
 
     def create_frequency_dict(self, message_str) -> dict:
         print("->create_frequency_dict: message={}".format(message_str))
@@ -108,6 +110,73 @@ class HuffmanCoding(object):
             node_merged.right = node_right
 
             heapq.heappush(self.heap_list, node_merged)
+
+    def assign_binary_codes(self):
+        print("->assign_binary_codes:")
+
+        node_curr = HeapNode(self, heapq.heappop(self.heap_list))
+        code = ""
+
+        if node_curr is None:
+            return
+
+        self.binary_codes[node_curr.char] = code
+        print("self.binary_codes[node_curr.char]="+self.binary_codes[node_curr.char])
+
+        while node_curr is not None:
+            if node_curr.left is not None:
+                self.binary_codes[node_curr.left.char] = code + "0"
+                node_curr = node_curr.right
+            else:
+                # Find the inorder predecessor of current
+                pre = HeapNode(self, node_curr.left)
+                while pre.right is not None and pre.right is not node_curr:
+                    pre = pre.right
+
+                if pre.right is None:
+                    # Make current as right child of its inorder predecessor
+                    pre.right = node_curr
+                    node_curr = node_curr.left
+
+                else:
+                    # Revert the changes made in the 'if' part to restore the
+                    # original tree. i.e., fix the right child of predecessor
+                    pre.right = None
+                    self.binary_codes[node_curr.right.char] = code + "1"
+                    node_curr = node_curr.right
+
+        for key, value in self.binary_codes:
+            print(key, "->", value)
+
+    def morris_traversal(root):
+        """Generator function for iterative inorder tree traversal"""
+
+        current = root
+
+        while current is not None:
+
+            if current.left is None:
+                yield current.data
+                current = current.right
+            else:
+
+                # Find the inorder predecessor of current
+                pre = current.left
+                while pre.right is not None and pre.right is not current:
+                    pre = pre.right
+
+                if pre.right is None:
+
+                    # Make current as right child of its inorder predecessor
+                    pre.right = current
+                    current = current.left
+
+                else:
+                    # Revert the changes made in the 'if' part to restore the
+                    # original tree. i.e., fix the right child of predecessor
+                    pre.right = None
+                    yield current.data
+                    current = current.right
 
 
 def main():
