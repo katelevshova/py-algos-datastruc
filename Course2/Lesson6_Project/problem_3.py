@@ -64,19 +64,16 @@ class HeapNode(object):
         return f"Node({self.get_value()})"
 
     def __str__(self):
-        return f"Node({self.get_value()})"
+        return f"Node({self.get_value()})"  # prints Node(('D', 2)) or Node((None, 11))
 
 
 class HuffmanCoding(object):
-
-
 
     def __init__(self, mess):
         self.message = mess
         self.heap_list = []
         self.binary_codes = {}
         self.encoded_data = ""
-
 
     def huffman_encoding(self):
         print("->huffman_encoding:")
@@ -138,7 +135,7 @@ class HuffmanCoding(object):
         root = heapq.heappop(self.heap_list)
         print("\n->assign_binary_codes: root= " + str(root))
         self.add_codes_recursively(root, "")
-        print("binary_codes= "+str(self.binary_codes))
+        print("binary_codes= " + str(self.binary_codes))
 
     def add_codes_recursively(self, curr_node: HeapNode, code):
         if curr_node is None:
@@ -154,14 +151,14 @@ class HuffmanCoding(object):
         self.add_codes_recursively(curr_node.right, code + "1")
 
     def get_encoded_data(self, message):
-        encoded_result = map(lambda char:  self.binary_codes[char], message)
-        #print("->get_encoded_data: encoded_result= "+encoded_result)
-        #->get_encoded_data: encoded_result= 1111111111111100100100110101010101010000000010101010101
+        encoded_result = map(lambda char: self.binary_codes[char], message)
+        # print("->get_encoded_data: encoded_result= "+encoded_result)
+        # ->get_encoded_data: encoded_result= 1111111111111100100100110101010101010000000010101010101
         result = ''.join(encoded_result)
-        print("result= "+result)
+        print("result= " + result)
         return result
 
-# PRINT TREE: start --------------------------------------------------------------------------------------------------
+    # PRINT TREE: start --------------------------------------------------------------------------------------------------
     # A function to do inorder tree traversal
     # based on material from https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
     def print_inorder(self, root):
@@ -209,6 +206,8 @@ class HuffmanCoding(object):
 
             # Finally recur on right child
             self.print_preorder(root.right)
+
+
 # PRINT TREE: end --------------------------------------------------------------------------------------------------
 
 
@@ -217,4 +216,18 @@ def main():
     huffman_codding.huffman_encoding()
 
 
+#-----------------
+def test():
+    test_node_comparrison()
+
+def test_node_comparrison():
+    print("->test_node_comparrison: start")
+    node1 = HeapNode("A",7)
+    node2 = HeapNode("B", 7)
+    assert (node1 == node2)
+
+    print("->test_node_comparrison: is finished")
+#-----------
+
 main()
+test()
