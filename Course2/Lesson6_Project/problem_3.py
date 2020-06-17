@@ -87,7 +87,7 @@ class HuffmanCoding(object):
         self.assign_binary_codes()
 
     def create_frequency_dict(self, message_str) -> dict:
-        print("->create_frequency_dict: message={}".format(message_str))
+        print("\n->create_frequency_dict: message={}".format(message_str))
         frequency_dict = {char: message_str.count(char) for char in set(message_str)}
         print("frequency_dict is :\n {}".format(str(frequency_dict)))
         '''
@@ -101,12 +101,12 @@ class HuffmanCoding(object):
         return frequency_dict
 
     def build_min_tree(self, freq_dict: dict):
-        print("-> build_min_tree: ")
+        print("\n-> build_min_tree: ")
 
         for key in freq_dict:
             node = HeapNode(key, freq_dict[key])
             heapq.heappush(self.heap_list, node)
-        print("1. self.heap_list=" + str(self.heap_list))
+        print("heap_list=" + str(self.heap_list))
         # merge nodes
         while len(self.heap_list) > 1:
             node_left = heapq.heappop(self.heap_list)
@@ -118,7 +118,7 @@ class HuffmanCoding(object):
 
             heapq.heappush(self.heap_list, node_merged)
 
-        print("converted min tree: \n")
+        print("converted min tree:")
         # print("in order traversal (Left, Root, Right): current root= " + str(self.heap_list[0]))
         # self.print_inorder(self.heap_list[0])
         # print("---------------------------")
@@ -129,7 +129,25 @@ class HuffmanCoding(object):
         # self.print_preorder(self.heap_list[0])
         # print("---------------------------")
 
+    def assign_binary_codes(self):
+        print("\n->assign_binary_codes:")
+        root = HeapNode(self, heapq.heappop(self.heap_list))
+        self.add_codes_recursively(root, "")
+
+    def add_codes_recursively(self, curr_node: HeapNode, code):
+        if curr_node is None:
+            return
+
+        if curr_node.freq is not None:
+            self.binary_codes[curr_node.char] = code
+            return
+
+        self.add_codes_recursively(curr_node.left, code + "0")
+        self.add_codes_recursively(curr_node.right, code + "1")
+
+# PRINT TREE: start --------------------------------------------------------------------------------------------------
     # A function to do inorder tree traversal
+    # based on material from https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
     def print_inorder(self, root):
         if root:
             # First recur on left child
@@ -175,22 +193,7 @@ class HuffmanCoding(object):
 
             # Finally recur on right child
             self.print_preorder(root.right)
-
-    def assign_binary_codes(self):
-        print("\n->assign_binary_codes:")
-        root = HeapNode(self, heapq.heappop(self.heap_list))
-        self.add_codes_recursively(root, "")
-
-    def add_codes_recursively(self, curr_node: HeapNode, code):
-        if curr_node is None:
-            return
-
-        if curr_node.freq is not None:
-            self.binary_codes[curr_node.char] = code
-            return
-
-        self.add_codes_recursively(curr_node.left, code + "0")
-        self.add_codes_recursively(curr_node.right, code + "1")
+# PRINT TREE: end --------------------------------------------------------------------------------------------------
 
 
 def main():
