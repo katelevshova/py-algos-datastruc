@@ -14,7 +14,6 @@ class HeapNode(object):
     def __init__(self, char, freq: int):
         self.char = char
         self.freq = freq
-        self.heap = []
         self.left = None
         self.right = None
 
@@ -24,6 +23,12 @@ class HeapNode(object):
 
     def get_value(self) -> tuple:
         return self.char, self.freq
+
+    def get_value_char(self):
+        return self.char
+
+    def get_value_freq(self) -> int:
+        return self.freq
 
     def set_left_child(self, left):
         self.left = left
@@ -54,15 +59,8 @@ class HeapNode(object):
             return False
         return self.freq == other.freq
 
-    # define __repr_ to decide what a print statement displays for a Node object
-    def __repr__(self):
-        return f"Node({self.get_value()})"
 
-    def __str__(self):
-        return f"Node({self.get_value()})"
-
-
-class HuffmanCoding():
+class HuffmanCoding(object):
 
     def __init__(self, mess):
         self.message = mess
@@ -76,9 +74,8 @@ class HuffmanCoding():
         frequency_dict = self.create_frequency_dict(test_message)
         # 2. We would need our list to work as a priority queue,
         # where a node that has lower frequency should have a higher priority to be popped-out.
-        sorted_ordered_dict = self.convert_to_sorted_ordered_dict(frequency_dict)
         # 3. Build a Huffman tree
-        self.build_huffman_tree(sorted_ordered_dict)
+        self.build_min_tree(frequency_dict)
 
     def create_frequency_dict(self, message_str) -> dict:
         print("->create_frequency_dict: message={}".format(message_str))
@@ -94,29 +91,23 @@ class HuffmanCoding():
         '''
         return frequency_dict
 
-    def convert_to_sorted_ordered_dict(self, dictionary: dict):
-        print("-> convert_to_sorted_ordered_dict:")
-        for key, value in dictionary.items():
-            print(key, '->', value)
+    def build_min_tree(self, freq_dict: dict):
+        print("-> build_min_tree: ")
 
-        # dictionary sorted by value
-        sorted_dict = OrderedDict(sorted(dictionary.items(), key=lambda t: t[1]))
-
-        print("--------------------")
-        for key, value in sorted_dict.items():
-            print(key, '->', value)
-
-        return sorted_dict
-
-    def build_huffman_tree(self, sorted_ordered_dict: OrderedDict):
-        print("-> build_huffman_tree: ")
-        for key in sorted_ordered_dict:
-            node = HeapNode(key, sorted_ordered_dict[key])
+        for key in freq_dict:
+            node = HeapNode(key, freq_dict[key])
             heapq.heappush(self.heap_list, node)
 
+        # merge nodes
+        while len(self.heap_list) > 1:
+            node_left = heapq.heappop(self.heap_list)
+            node_right = heapq.heappop(self.heap_list)
 
+            node_merged = HeapNode(None, node_left.freq + node_right.freq)
+            node_merged.left = node_left
+            node_merged.right = node_right
 
-
+            heapq.heappush(self.heap_list, node_merged)
 
 
 def main():
