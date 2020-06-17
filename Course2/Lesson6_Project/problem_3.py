@@ -59,6 +59,13 @@ class HeapNode(object):
             return False
         return self.freq == other.freq
 
+    # define __repr_ to decide what a print statement displays for a Node object
+    def __repr__(self):
+        return f"Node({self.get_value()})"
+
+    def __str__(self):
+        return f"Node({self.get_value()})"
+
 
 class HuffmanCoding(object):
 
@@ -99,7 +106,7 @@ class HuffmanCoding(object):
         for key in freq_dict:
             node = HeapNode(key, freq_dict[key])
             heapq.heappush(self.heap_list, node)
-
+        print("1. self.heap_list=" + str(self.heap_list))
         # merge nodes
         while len(self.heap_list) > 1:
             node_left = heapq.heappop(self.heap_list)
@@ -111,8 +118,42 @@ class HuffmanCoding(object):
 
             heapq.heappush(self.heap_list, node_merged)
 
+        print("converted min tree: \n")
+        self.in_order_traversal(self.heap_list[0])
+
+    def in_order_traversal(self, root):
+        print("-> in_order_traversal (Left, Root, Right): current root="+str(root))
+        # Set current to root of binary tree
+        current = root
+        stack = []  # initialize stack
+
+        while True:
+
+            # Reach the left most Node of the current Node
+            if current is not None:
+
+                # Place pointer to a tree node on the stack
+                # before traversing the node's left subtree
+                stack.append(current)
+
+                current = current.left
+
+            # BackTrack from the empty subtree and visit the Node
+            # at the top of the stack; however, if the stack is
+            # empty you are done
+            elif stack:
+                current = stack.pop()
+                print(current.char, ":", current.freq, end="\n")  # Python 3 printing
+
+                # We have visited the node and its left
+                # subtree. Now, it's right subtree's turn
+                current = current.right
+
+            else:
+                break
+
     def assign_binary_codes(self):
-        print("->assign_binary_codes:")
+        print("\n->assign_binary_codes:")
         root = HeapNode(self, heapq.heappop(self.heap_list))
         self.add_codes_recursively(root, "")
 
