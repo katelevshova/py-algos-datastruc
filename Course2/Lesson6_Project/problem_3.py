@@ -130,16 +130,18 @@ class HuffmanCoding(object):
         # print("---------------------------")
 
     def assign_binary_codes(self):
-        print("\n->assign_binary_codes:")
-        root = HeapNode(self, heapq.heappop(self.heap_list))
+        root = heapq.heappop(self.heap_list)
+        print("\n->assign_binary_codes: root= " + str(root))
         self.add_codes_recursively(root, "")
 
     def add_codes_recursively(self, curr_node: HeapNode, code):
         if curr_node is None:
             return
 
-        if curr_node.freq is not None:
+        # we add code only for nodes with char and frequency
+        if curr_node.char is not None:
             self.binary_codes[curr_node.char] = code
+            print("{} : {} : {}".format(curr_node.char, curr_node.freq, self.binary_codes[curr_node.char]))
             return
 
         self.add_codes_recursively(curr_node.left, code + "0")
