@@ -69,14 +69,17 @@ class HeapNode(object):
 
 class HuffmanCoding(object):
 
+
+
     def __init__(self, mess):
         self.message = mess
         self.heap_list = []
         self.binary_codes = {}
+        self.encoded_data = ""
+
 
     def huffman_encoding(self):
         print("->huffman_encoding:")
-
         # 1. Determine the frequency of each character in the message
         frequency_dict = self.create_frequency_dict(test_message)
         # 2. We would need our list to work as a priority queue,
@@ -85,6 +88,8 @@ class HuffmanCoding(object):
         self.build_min_tree(frequency_dict)
         # 4. For each node, in the Huffman tree, assign a bit 0 for left child and a 1 for right child.
         self.assign_binary_codes()
+        # 5. create encoded text
+        self.encoded_data = self.get_encoded_data(test_message)
 
     def create_frequency_dict(self, message_str) -> dict:
         print("\n->create_frequency_dict: message={}".format(message_str))
@@ -133,6 +138,7 @@ class HuffmanCoding(object):
         root = heapq.heappop(self.heap_list)
         print("\n->assign_binary_codes: root= " + str(root))
         self.add_codes_recursively(root, "")
+        print("binary_codes= "+str(self.binary_codes))
 
     def add_codes_recursively(self, curr_node: HeapNode, code):
         if curr_node is None:
@@ -146,6 +152,14 @@ class HuffmanCoding(object):
 
         self.add_codes_recursively(curr_node.left, code + "0")
         self.add_codes_recursively(curr_node.right, code + "1")
+
+    def get_encoded_data(self, message):
+        encoded_result = map(lambda char:  self.binary_codes[char], message)
+        #print("->get_encoded_data: encoded_result= "+encoded_result)
+        #->get_encoded_data: encoded_result= 1111111111111100100100110101010101010000000010101010101
+        result = ''.join(encoded_result)
+        print("result= "+result)
+        return result
 
 # PRINT TREE: start --------------------------------------------------------------------------------------------------
     # A function to do inorder tree traversal
