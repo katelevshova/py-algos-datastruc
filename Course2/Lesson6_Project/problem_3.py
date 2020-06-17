@@ -119,38 +119,62 @@ class HuffmanCoding(object):
             heapq.heappush(self.heap_list, node_merged)
 
         print("converted min tree: \n")
-        self.in_order_traversal(self.heap_list[0])
+        # print("in order traversal (Left, Root, Right): current root= " + str(self.heap_list[0]))
+        # self.print_inorder(self.heap_list[0])
+        # print("---------------------------")
+        print("post order traversal (Left, Right, Root): current root= " + str(self.heap_list[0]))
+        self.print_postorder(self.heap_list[0])
+        print("---------------------------")
+        # print("pre order traversal (Root, Left, Right): current root= " + str(self.heap_list[0]))
+        # self.print_preorder(self.heap_list[0])
+        # print("---------------------------")
 
-    def in_order_traversal(self, root):
-        print("-> in_order_traversal (Left, Root, Right): current root="+str(root))
-        # Set current to root of binary tree
-        current = root
-        stack = []  # initialize stack
+    # A function to do inorder tree traversal
+    def print_inorder(self, root):
+        if root:
+            # First recur on left child
+            self.print_inorder(root.left)
 
-        while True:
-
-            # Reach the left most Node of the current Node
-            if current is not None:
-
-                # Place pointer to a tree node on the stack
-                # before traversing the node's left subtree
-                stack.append(current)
-
-                current = current.left
-
-            # BackTrack from the empty subtree and visit the Node
-            # at the top of the stack; however, if the stack is
-            # empty you are done
-            elif stack:
-                current = stack.pop()
-                print(current.char, ":", current.freq, end="\n")  # Python 3 printing
-
-                # We have visited the node and its left
-                # subtree. Now, it's right subtree's turn
-                current = current.right
-
+            # then print the data of node
+            if root:
+                print("{} : {}".format(root.char, root.freq))
             else:
-                break
+                print("None")
+
+            # now recur on right child
+            self.print_inorder(root.right)
+
+            # A function to do postorder tree traversal
+
+    def print_postorder(self, root):
+        if root:
+            # First recur on left child
+            self.print_postorder(root.left)
+
+            # the recur on right child
+            self.print_postorder(root.right)
+
+            # now print the data of node
+            if root:
+                print("{} : {}".format(root.char, root.freq))
+            else:
+                print("None")
+
+            # A function to do preorder tree traversal
+
+    def print_preorder(self, root):
+        if root:
+            # First print the data of node
+            if root:
+                print("{} : {}".format(root.char, root.freq))
+            else:
+                print("None")
+
+            # Then recur on left child
+            self.print_preorder(root.left)
+
+            # Finally recur on right child
+            self.print_preorder(root.right)
 
     def assign_binary_codes(self):
         print("\n->assign_binary_codes:")
