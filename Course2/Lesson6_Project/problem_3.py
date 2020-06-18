@@ -6,8 +6,7 @@ B. Huffman Decoding
 """
 from collections import OrderedDict
 import heapq
-
-test_message = "AAAAAAABBBCCCCCCCDDEEEEEE"
+import sys
 
 
 class HeapNode(object):
@@ -81,16 +80,15 @@ class HeapNode(object):
 
 class HuffmanCoding(object):
 
-    def __init__(self, mess):
-        self.message = mess
+    def __init__(self):
         self.heap_list = []
         self.binary_codes = {}
         self.encoded_data = ""
 
-    def huffman_encoding(self):
+    def huffman_encoding(self, message):
         print("->huffman_encoding:")
         # 1. Determine the frequency of each character in the message
-        frequency_dict = self.create_frequency_dict(test_message)
+        frequency_dict = self.create_frequency_dict(message)
         # 2. We would need our list to work as a priority queue,
         # where a node that has lower frequency should have a higher priority to be popped-out.
         # 3. Build a Huffman tree
@@ -98,7 +96,7 @@ class HuffmanCoding(object):
         # 4. For each node, in the Huffman tree, assign a bit 0 for left child and a 1 for right child.
         self.assign_binary_codes()
         # 5. create encoded text
-        self.encoded_data = self.get_encoded_data(test_message)
+        self.encoded_data = self.get_encoded_data(message)
 
     def create_frequency_dict(self, message_str) -> dict:
         print("\n->create_frequency_dict: message={}".format(message_str))
@@ -224,8 +222,13 @@ class HuffmanCoding(object):
 
 
 def main():
-    huffman_codding = HuffmanCoding(test_message)
-    huffman_codding.huffman_encoding()
+    a_great_sentence = "The bird is the word"
+
+    print("The size of the data is: {}\n".format(sys.getsizeof(a_great_sentence)))
+    print("The content of the data is: {}\n".format(a_great_sentence))
+
+    huffman_codding = HuffmanCoding()
+    huffman_codding.huffman_encoding(a_great_sentence)
 
 
 # TEST CASES: start----------------------------------------------
@@ -294,7 +297,7 @@ def test_get_encoded_data():
     print(HuffmanCoding.binary_codes)
     actual_code = HuffmanCoding.get_encoded_data(HuffmanCoding, message1)
     expected_code = "1223334444"
-    assert actual_code == expected_code, "actual_code={}, expected_code={}".format(actual_code,expected_code)
+    assert actual_code == expected_code, "actual_code={}, expected_code={}".format(actual_code, expected_code)
     print("->get_encoded_data: is finished")
 
 
