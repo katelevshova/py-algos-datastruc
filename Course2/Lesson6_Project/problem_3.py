@@ -48,6 +48,7 @@ class HeapNode(object):
     def has_right_child(self):
         return self.right is not None
 
+    '''
     # defining comparators less_than and equals
     def __lt__(self, other):
         return self.freq < other.freq
@@ -58,6 +59,27 @@ class HeapNode(object):
         if not isinstance(other, HeapNode):
             return False
         return self.freq == other.freq
+        
+        p1.__le__(p2)
+        
+        
+    '''
+
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if not isinstance(other, HeapNode):
+            return False
+        return self.freq == other.freq and self.char == other.char
+
+    def __lt__(self, other):
+        if self.freq == other.freq:
+            a = (self.char, other.char)
+            sorted_a = sorted(a)
+            print("sorted_a=" + str(sorted_a))
+            return self.char is sorted_a[0]
+        else:
+            return self.freq < other.freq
 
     # define __repr_ to decide what a print statement displays for a Node object
     def __repr__(self):
@@ -216,18 +238,37 @@ def main():
     huffman_codding.huffman_encoding()
 
 
-#-----------------
+# TEST CASES: start----------------------------------------------
 def test():
     test_node_comparrison()
 
+
 def test_node_comparrison():
     print("->test_node_comparrison: start")
-    node1 = HeapNode("A",7)
+    node1 = HeapNode("A", 7)
+    node2 = HeapNode("B", 8)
+    assert (node1 < node2)
+
+    node1 = HeapNode("A", 7)
     node2 = HeapNode("B", 7)
-    assert (node1 == node2)
+    assert (node1 < node2)
+
+    node1 = HeapNode("B", 7)
+    node2 = HeapNode("A", 7)
+    assert (node1 > node2)
+
+    node1 = HeapNode("A", 4)
+    node2 = HeapNode("a", 7)
+    assert (node1 < node2)
+
+    node1 = HeapNode("A", 4)
+    node2 = HeapNode("a", 4)
+    assert (node1 < node2)
 
     print("->test_node_comparrison: is finished")
-#-----------
 
-main()
+
+# TEST CASES: end----------------------------------------------------------
+
 test()
+main()
