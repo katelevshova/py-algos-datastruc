@@ -84,6 +84,7 @@ class HuffmanCoding(object):
         self.heap_list = []
         self.binary_codes = {}
         self.encoded_data = ""
+        self.decoded_data = ""
 
     def huffman_encoding(self, message):
         print("->huffman_encoding:")
@@ -169,6 +170,11 @@ class HuffmanCoding(object):
         print("result= " + result)
         return result
 
+    def huffman_decoding(self, encoded_message):
+        print("-> huffman_decoding:")
+
+        return self.decoded_data
+
     # PRINT TREE: start --------------------------------------------------------------------------------------------------
     # A function to do inorder tree traversal
     # based on material from https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
@@ -234,12 +240,15 @@ def main():
     print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
     print("The content of the encoded data is: {}\n".format(encoded_data))
 
+    # decoded_data = huffman_codding.huffman_decoding(encoded_data)
+
 
 # TEST CASES: start----------------------------------------------
 def test():
     test_node_comparrison()
     test_get_encoded_data()
     test_huffman_encoding()
+    test_huffman_decoding()
 
 
 def test_node_comparrison():
@@ -317,7 +326,19 @@ def test_huffman_encoding():
     print("->test_huffman_encoding: is finished")
 
 
+def test_huffman_decoding():
+    print("->test_huffman_decoding: start")
+    test_message = "AAAAAAABBBCCCCCCCDDEEEEEE"
+    huffman_codding = HuffmanCoding()
+    encoded_data = huffman_codding.huffman_encoding(test_message)
+    actual_result  = huffman_codding.huffman_decoding(encoded_data)
+
+    assert actual_result == test_message,  "actual_result={}, test_message={}".format(actual_result, test_message)
+
+    print("->test_huffman_decoding: is finished")
+
+
 # TEST CASES: end----------------------------------------------------------
 
-# test()
-main()
+test()
+# main()
