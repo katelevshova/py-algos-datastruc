@@ -56,7 +56,12 @@ class HeapNode(object):
         return self.freq == other.freq and self.char == other.char
 
     def __lt__(self, other):
+        # print("self.char={}, other.char={}".format(self.char, other.char))
         if self.freq == other.freq:
+            if self.char is None:
+                return True
+            if other.char is None:
+                return False
             a = (self.char, other.char)
             sorted_a = sorted(a)
             # print("sorted_a=" + str(sorted_a))
@@ -253,6 +258,30 @@ def test_node_comparrison():
     node1 = HeapNode("a", 2)
     node2 = HeapNode("D", 2)
     assert (node1 > node2)
+
+    node1 = HeapNode(None, 5)
+    node2 = HeapNode("E", 6)
+    assert (node1 < node2)
+
+    node1 = HeapNode(None, 6)
+    node2 = HeapNode("E", 6)
+    assert (node1 < node2)
+
+    node1 = HeapNode("W", 3)
+    node2 = HeapNode(None, 6)
+    assert (node1 < node2)
+
+    node1 = HeapNode("A", 6)
+    node2 = HeapNode(None, 6)
+    assert (node1 > node2)
+
+    node1 = HeapNode(None, 10)
+    node2 = HeapNode(None, 26)
+    assert (node1 < node2)
+
+    node1 = HeapNode(None, 10)
+    node2 = HeapNode(None, 10)
+    assert (node1 == node2)
 
     print("->test_node_comparrison: is finished")
 
