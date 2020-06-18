@@ -231,6 +231,7 @@ def main():
 # TEST CASES: start----------------------------------------------
 def test():
     test_node_comparrison()
+    test_get_encoded_data()
 
 
 def test_node_comparrison():
@@ -284,6 +285,17 @@ def test_node_comparrison():
     assert (node1 == node2)
 
     print("->test_node_comparrison: is finished")
+
+
+def test_get_encoded_data():
+    print("->get_encoded_data: start")
+    message1 = "ABCD"
+    HuffmanCoding.binary_codes = {'A': '1', 'B': '22', 'C': '333', 'D': '4444', 'a': '5'}
+    print(HuffmanCoding.binary_codes)
+    actual_code = HuffmanCoding.get_encoded_data(HuffmanCoding, message1)
+    expected_code = "1223334444"
+    assert actual_code == expected_code, "actual_code={}, expected_code={}".format(actual_code,expected_code)
+    print("->get_encoded_data: is finished")
 
 
 # TEST CASES: end----------------------------------------------------------
