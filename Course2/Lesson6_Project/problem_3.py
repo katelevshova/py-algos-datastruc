@@ -97,6 +97,7 @@ class HuffmanCoding(object):
         self.assign_binary_codes()
         # 5. create encoded text
         self.encoded_data = self.get_encoded_data(message)
+        return self.encoded_data
 
     def create_frequency_dict(self, message_str) -> dict:
         print("\n->create_frequency_dict: message={}".format(message_str))
@@ -228,13 +229,14 @@ def main():
     print("The content of the data is: {}\n".format(a_great_sentence))
 
     huffman_codding = HuffmanCoding()
-    huffman_codding.huffman_encoding(a_great_sentence)
+    encoded_result = huffman_codding.huffman_encoding(a_great_sentence)
 
 
 # TEST CASES: start----------------------------------------------
 def test():
     test_node_comparrison()
     test_get_encoded_data()
+    test_huffman_encoding()
 
 
 def test_node_comparrison():
@@ -301,7 +303,18 @@ def test_get_encoded_data():
     print("->get_encoded_data: is finished")
 
 
+def test_huffman_encoding():
+    print("->test_huffman_encoding: start")
+    test_message = "AAAAAAABBBCCCCCCCDDEEEEEE"
+    huffman_codding = HuffmanCoding()
+    actual_result = huffman_codding.huffman_encoding(test_message)
+    expected_result = "1010101010101000100100111111111111111000000010101010101"
+    assert actual_result == expected_result, "actual_result={}, " \
+                                             "expected_result={}".format(actual_result, expected_result)
+    print("->test_huffman_encoding: is finished")
+
+
 # TEST CASES: end----------------------------------------------------------
 
 test()
-main()
+# main()
