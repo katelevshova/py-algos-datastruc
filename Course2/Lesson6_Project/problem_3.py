@@ -229,7 +229,10 @@ def main():
     print("The content of the data is: {}\n".format(a_great_sentence))
 
     huffman_codding = HuffmanCoding()
-    encoded_result = huffman_codding.huffman_encoding(a_great_sentence)
+    encoded_data = huffman_codding.huffman_encoding(a_great_sentence)
+
+    print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
+    print("The content of the encoded data is: {}\n".format(encoded_data))
 
 
 # TEST CASES: start----------------------------------------------
@@ -316,5 +319,5 @@ def test_huffman_encoding():
 
 # TEST CASES: end----------------------------------------------------------
 
-test()
-# main()
+# test()
+main()
