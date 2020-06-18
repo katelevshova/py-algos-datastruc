@@ -240,7 +240,10 @@ def main():
     print("The size of the encoded data is: {}\n".format(sys.getsizeof(int(encoded_data, base=2))))
     print("The content of the encoded data is: {}\n".format(encoded_data))
 
-    # decoded_data = huffman_codding.huffman_decoding(encoded_data)
+    decoded_data = huffman_codding.huffman_decoding(encoded_data)
+
+    print("The size of the decoded data is: {}\n".format(sys.getsizeof(decoded_data)))
+    print("The content of the encoded data is: {}\n".format(decoded_data))
 
 
 # TEST CASES: start----------------------------------------------
