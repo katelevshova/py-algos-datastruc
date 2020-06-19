@@ -88,7 +88,7 @@ class HuffmanCoding(object):
         self.decoded_data = ""
 
     def huffman_encoding(self, message):
-        print("->huffman_encoding:")
+        # print("->huffman_encoding:")
         if message == "":
             return ""
         # 1. Determine the frequency of each character in the message
@@ -104,9 +104,9 @@ class HuffmanCoding(object):
         return self.encoded_data
 
     def create_frequency_dict(self, message_str) -> dict:
-        print("\n->create_frequency_dict: message={}".format(message_str))
+        # print("\n->create_frequency_dict: message={}".format(message_str))
         frequency_dict = {char: message_str.count(char) for char in set(message_str)}
-        print("frequency_dict is :\n {}".format(str(frequency_dict)))
+        # print("frequency_dict is :\n {}".format(str(frequency_dict)))
         '''
         (Unique) Character 	Frequency
         A 	7
@@ -118,12 +118,12 @@ class HuffmanCoding(object):
         return frequency_dict
 
     def build_min_tree(self, freq_dict: dict):
-        print("\n-> build_min_tree: ")
+        # print("\n-> build_min_tree: ")
 
         for key in freq_dict:
             node = HeapNode(key, freq_dict[key])
             heapq.heappush(self.heap_list, node)
-        print("heap_list=" + str(self.heap_list))
+        # print("heap_list=" + str(self.heap_list))
         # merge nodes
         while len(self.heap_list) > 1:
             node_left = heapq.heappop(self.heap_list)
@@ -135,22 +135,22 @@ class HuffmanCoding(object):
 
             heapq.heappush(self.heap_list, node_merged)
 
-        print("converted min tree:")
+        # print("converted min tree:")
         # print("in order traversal (Left, Root, Right): current root= " + str(self.heap_list[0]))
         # self.print_inorder(self.heap_list[0])
         # print("---------------------------")
-        print("post order traversal (Left, Right, Root): current root= " + str(self.heap_list[0]))
-        self.print_postorder(self.heap_list[0])
-        print("---------------------------")
+        # print("post order traversal (Left, Right, Root): current root= " + str(self.heap_list[0]))
+        # self.print_postorder(self.heap_list[0])
+        # print("---------------------------")
         # print("pre order traversal (Root, Left, Right): current root= " + str(self.heap_list[0]))
         # self.print_preorder(self.heap_list[0])
         # print("---------------------------")
 
     def assign_binary_codes(self):
         root = heapq.heappop(self.heap_list)
-        print("\n->assign_binary_codes: root= " + str(root))
+        # print("\n->assign_binary_codes: root= " + str(root))
         self.add_codes_recursively(root, "")
-        print("binary_codes= " + str(self.binary_codes))
+        # print("binary_codes= " + str(self.binary_codes))
 
     def add_codes_recursively(self, curr_node: HeapNode, code):
         if curr_node is None:
@@ -159,7 +159,7 @@ class HuffmanCoding(object):
         # we add code only for nodes with char and frequency
         if curr_node.char is not None:
             self.binary_codes[curr_node.char] = code
-            print("{} : {} : {}".format(curr_node.char, curr_node.freq, self.binary_codes[curr_node.char]))
+            # print("{} : {} : {}".format(curr_node.char, curr_node.freq, self.binary_codes[curr_node.char]))
             self.chars_dict[code] = curr_node.char
             return
 
@@ -171,17 +171,17 @@ class HuffmanCoding(object):
         # print("->get_encoded_data: encoded_result= "+encoded_result)
         # ->get_encoded_data: encoded_result= 1111111111111100100100110101010101010000000010101010101
         result = ''.join(encoded_result)
-        print("result= " + result)
+        # print("result= " + result)
         return result
 
     def huffman_decoding(self, encoded_message):
-        print("-> huffman_decoding:")
+        # print("-> huffman_decoding:")
         code = ""
 
         for bit in encoded_message:
             code += bit
             if code in self.chars_dict:
-                print("code={}, char={}".format(code, self.chars_dict[code]))
+                # ("code={}, char={}".format(code, self.chars_dict[code]))
                 self.decoded_data += self.chars_dict[code]
                 code = ""
         return self.decoded_data
@@ -319,14 +319,14 @@ def test_node_comparrison():
 
 
 def test_get_encoded_data():
-    print("->get_encoded_data: start")
+    print("->test_get_encoded_data: start")
     message1 = "ABCD"
     HuffmanCoding.binary_codes = {'A': '1', 'B': '22', 'C': '333', 'D': '4444', 'a': '5'}
     print(HuffmanCoding.binary_codes)
     actual_code = HuffmanCoding.get_encoded_data(HuffmanCoding, message1)
     expected_code = "1223334444"
     assert actual_code == expected_code, "actual_code={}, expected_code={}".format(actual_code, expected_code)
-    print("->get_encoded_data: is finished")
+    print("->test_get_encoded_data: is finished")
 
 
 def test_huffman_encoding():
@@ -369,5 +369,5 @@ def test_huffman_decoding():
 
 # TEST CASES: end----------------------------------------------------------
 
-test()
-# main()
+# test()
+main()
