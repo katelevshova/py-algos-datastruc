@@ -83,11 +83,14 @@ class HuffmanCoding(object):
     def __init__(self):
         self.heap_list = []
         self.binary_codes = {}
+        self.chars_dict = {}
         self.encoded_data = ""
         self.decoded_data = ""
 
     def huffman_encoding(self, message):
         print("->huffman_encoding:")
+        if message == "":
+            return ""
         # 1. Determine the frequency of each character in the message
         frequency_dict = self.create_frequency_dict(message)
         # 2. We would need our list to work as a priority queue,
@@ -157,6 +160,7 @@ class HuffmanCoding(object):
         if curr_node.char is not None:
             self.binary_codes[curr_node.char] = code
             print("{} : {} : {}".format(curr_node.char, curr_node.freq, self.binary_codes[curr_node.char]))
+            self.chars_dict[code] = curr_node.char
             return
 
         self.add_codes_recursively(curr_node.left, code + "0")
@@ -172,7 +176,14 @@ class HuffmanCoding(object):
 
     def huffman_decoding(self, encoded_message):
         print("-> huffman_decoding:")
+        code = ""
 
+        for bit in encoded_message:
+            code += bit
+            if code in self.chars_dict:
+                print("code={}, char={}".format(code, self.chars_dict[code]))
+                self.decoded_data += self.chars_dict[code]
+                code = ""
         return self.decoded_data
 
     # PRINT TREE: start --------------------------------------------------------------------------------------------------
@@ -331,12 +342,27 @@ def test_huffman_encoding():
 
 def test_huffman_decoding():
     print("->test_huffman_decoding: start")
+
+    # case1 - just uppercase chars
     test_message = "AAAAAAABBBCCCCCCCDDEEEEEE"
     huffman_codding = HuffmanCoding()
     encoded_data = huffman_codding.huffman_encoding(test_message)
-    actual_result  = huffman_codding.huffman_decoding(encoded_data)
+    actual_result = huffman_codding.huffman_decoding(encoded_data)
+    assert actual_result == test_message, "case1: actual_result={}, test_message={}".format(actual_result, test_message)
 
-    assert actual_result == test_message,  "actual_result={}, test_message={}".format(actual_result, test_message)
+    # case2 - upper, lower, spaces, punctuation marks, numbers
+    test_message = "AbBaaDgfjlDDd , : fdj;l 2345"
+    huffman_codding = HuffmanCoding()
+    encoded_data = huffman_codding.huffman_encoding(test_message)
+    actual_result = huffman_codding.huffman_decoding(encoded_data)
+    assert actual_result == test_message, "case2: actual_result={}, test_message={}".format(actual_result, test_message)
+
+    # case3: empty encoded_data
+    test_message = ""
+    huffman_codding = HuffmanCoding()
+    encoded_data = huffman_codding.huffman_encoding(test_message)
+    actual_result = huffman_codding.huffman_decoding(encoded_data)
+    assert actual_result == test_message, "actual_result must be empty string, actual_result={}".format(actual_result)
 
     print("->test_huffman_decoding: is finished")
 
