@@ -57,21 +57,22 @@ def find_files(suffix, path) -> list:
        a list of paths
     """
     result_list = []  # final list to be returned
-    dir_list = os.listdir(path)
-    # print("->find_files-----------------------------")
-    # print("path={}, suffix={}".format(path, suffix))
-    # print("dir_list={}".format(dir_list))
+    if os.path.exists(path):
+        dir_list = os.listdir(path)
+        # print("->find_files-----------------------------")
+        # print("path={}, suffix={}".format(path, suffix))
+        # print("dir_list={}".format(dir_list))
 
-    for item in dir_list:
-        joined_name = os.path.join(path, item)
-        is_file = os.path.isfile(joined_name)
-        # print("item={}, is_file={}".format(item, is_file))
+        for item in dir_list:
+            joined_name = os.path.join(path, item)
+            is_file = os.path.isfile(joined_name)
+            # print("item={}, is_file={}".format(item, is_file))
 
-        if is_file:
-            if item.endswith(suffix):
-                result_list.append(joined_name)
-        else:
-            result_list += find_files(suffix, joined_name)
+            if is_file:
+                if item.endswith(suffix):
+                    result_list.append(joined_name)
+            else:
+                result_list += find_files(suffix, joined_name)
 
     return result_list
 
@@ -150,8 +151,11 @@ def test_find_files_gitkeep():
 
 def test_find_files_not_existed():
     # print("->test_find_files_not_existed:start--------------------------------------------")
-    # case4 - *.txt which does not exist
+    # case1 - *.txt  does not exist
     result_list = find_files(".txt", "testdir")
+    assert len(result_list) == 0
+    # case2 - directory does not exist
+    result_list = find_files(".c", "notexisteddir")
     assert len(result_list) == 0
     # print("->test_find_files_not_existed: is finished...")
 
