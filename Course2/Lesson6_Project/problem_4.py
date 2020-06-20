@@ -8,17 +8,17 @@ Write a function that provides an efficient look up of whether the user is in a 
 """
 
 
-class Node(object):
+class TreeNode(object):
     def __init__(self, _group_name, _parent_group):
         self.value = _group_name
         self.parent = _parent_group
         self.childs_list = []
 
     def __repr__(self):
-        return "<Node {}>".format(self.value)
+        return "<TreeNode {}>".format(self.value)
 
     def __str__(self):
-        return "<Node {}>".format(self.value)
+        return "<TreeNode {}>".format(self.value)
 
 
 class Group(object):
