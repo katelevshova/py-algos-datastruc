@@ -8,19 +8,6 @@ Write a function that provides an efficient look up of whether the user is in a 
 """
 
 
-class TreeNode(object):
-    def __init__(self, _group_name, _parent_group):
-        self.value = _group_name
-        self.parent = _parent_group
-        self.childs_list = []
-
-    def __repr__(self):
-        return "<TreeNode {}>".format(self.value)
-
-    def __str__(self):
-        return "<TreeNode {}>".format(self.value)
-
-
 class Group(object):
     def __init__(self, _name):
         self.name = _name
@@ -41,28 +28,6 @@ class Group(object):
 
     def get_name(self):
         return self.name
-
-
-def print_inorder(self, root):
-    print("in order traversal (Left, Root, Right): current root= " + str(self.heap_list[0]))
-    if root:
-        # First recur on left child
-        self.print_inorder(root.left)
-
-        # then print the data of node
-        if root:
-            print("{} : {}".format(root.char, root.freq))
-        else:
-            print("None")
-
-        # now recur on right child
-        self.print_inorder(root.right)
-
-        # A function to do postorder tree traversal
-
-
-def create_forest():
-    print("->create_forest:")
 
 
 def is_user_in_group(user_name, group):
@@ -88,8 +53,9 @@ def is_user_in_group(user_name, group):
     return False
 
 
-def test_create_forest():
-    print("->test_create_forest")
+def test_is_user_in_group_1():
+    print("->test_is_user_in_group: start")
+
     parent = Group("parent")
     child = Group("child")
     sub_child = Group("subchild")
@@ -100,9 +66,6 @@ def test_create_forest():
     child.add_group(sub_child)
     parent.add_group(child)
 
-
-def test_is_user_in_group():
-    print("->test_is_user_in_group: start")
     '''
     # case1
     result = is_user_in_group("sub_child_user", sub_child)
@@ -115,8 +78,7 @@ def test_is_user_in_group():
 
 
 def test():
-    test_create_forest()
-    test_is_user_in_group()
+    test_is_user_in_group_1()
 
 
 test()
