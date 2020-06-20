@@ -35,21 +35,16 @@ def is_user_in_group(user_name, group):
     Return True if user is in the group, False otherwise.
 
     Args:
-      user(str): user name/id
+      user_name(str): user name/id
       group(class:Group): group to check user membership against
     """
-    '''
-    users_list = group.get_users()
-    print("->is_user_in_group: user_name={}".format(user_name))
 
-    if user_name in users_list:
+    if user_name in group.get_users():
+        print("user_name={} is in group={}".format(user_name, group.name))
         return True
 
-    groups_list = group.get_groups()
-    for group in groups_list:
-        if group.get_users()
-    '''
-
+    for group in group.get_groups():
+        return is_user_in_group(user_name, group)
     return False
 
 
@@ -66,14 +61,22 @@ def test_is_user_in_group_1():
     child.add_group(sub_child)
     parent.add_group(child)
 
-    '''
     # case1
+    print("case1-----------------------------------------")
     result = is_user_in_group("sub_child_user", sub_child)
     assert result, "case1: result={}, expected={}".format(result, True)
     # case2
+    print("case2-----------------------------------------")
     result = is_user_in_group("sub_child_user", parent)
     assert result, "case2: result={}, expected={}".format(result, True)
-    '''
+    # case3
+    print("case3-----------------------------------------")
+    result = is_user_in_group("NotExisted", parent)
+    assert result == False, "case3: result={}, expected={}".format(result, False)
+    print("case4-----------------------------------------")
+    result = is_user_in_group("sub_child_user", Group("some_other_group"))
+    assert result == False, "case4: result={}, expected={}".format(result, False)
+
     print("->test_is_user_in_group: is finished...")
 
 
