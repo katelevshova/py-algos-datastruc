@@ -40,7 +40,7 @@ def is_user_in_group(user_name, group):
     """
 
     if user_name in group.get_users():
-        print("user_name={} is in group={}".format(user_name, group.name))
+        # print("user_name={} is in group={}".format(user_name, group.name))
         return True
 
     for group in group.get_groups():
@@ -49,7 +49,7 @@ def is_user_in_group(user_name, group):
 
 
 def test_is_user_in_group_1():
-    print("->test_is_user_in_group_1: start")
+    # print("->test_is_user_in_group_1: start")
 
     parent = Group("parent")
     child = Group("child")
@@ -62,26 +62,26 @@ def test_is_user_in_group_1():
     parent.add_group(child)
 
     # case1
-    print("case1-----------------------------------------")
+    # print("case1-----------------------------------------")
     result = is_user_in_group("sub_child_user", sub_child)
     assert result, "case1: result={}, expected={}".format(result, True)
     # case2
-    print("case2-----------------------------------------")
+    # print("case2-----------------------------------------")
     result = is_user_in_group("sub_child_user", parent)
     assert result, "case2: result={}, expected={}".format(result, True)
     # case3
-    print("case3-----------------------------------------")
+    # print("case3-----------------------------------------")
     result = is_user_in_group("NotExisted", parent)
     assert result == False, "case3: result={}, expected={}".format(result, False)
-    print("case4-----------------------------------------")
+    # print("case4-----------------------------------------")
     result = is_user_in_group("sub_child_user", Group("some_other_group"))
     assert result == False, "case4: result={}, expected={}".format(result, False)
 
-    print("->test_is_user_in_group_1: is finished...")
+    # print("->test_is_user_in_group_1: is finished...")
 
 
 def test_is_user_in_group_2():
-    print("->test_is_user_in_group_2: start")
+    # print("->test_is_user_in_group_2: start")
 
     parent = Group("parent")
     parent.add_user("user1")
@@ -111,22 +111,22 @@ def test_is_user_in_group_2():
     parent.add_group(group5)
 
     # case1
-    print("case1-----------------------------------------")
+    # print("case1-----------------------------------------")
     result = is_user_in_group("user7", group5)
     assert result, "case1: result={}, expected={}".format(result, True)
     # case2
-    print("case2-----------------------------------------")
+    # print("case2-----------------------------------------")
     result = is_user_in_group("user7", parent)
     assert result, "case2: result={}, expected={}".format(result, True)
     # case3
-    print("case3-----------------------------------------")
+    # print("case3-----------------------------------------")
     result = is_user_in_group("user8", group2)
     assert result == False, "case3: result={}, expected={}".format(result, False)
-    print("case4-----------------------------------------")
+    # print("case4-----------------------------------------")
     result = is_user_in_group(None, parent)
     assert result == False, "case4: result={}, expected={}".format(result, False)
 
-    print("->test_is_user_in_group_2: is finished...")
+    # print("->test_is_user_in_group_2: is finished...")
 
 
 def test():
