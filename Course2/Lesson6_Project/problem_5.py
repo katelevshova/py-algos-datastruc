@@ -44,19 +44,18 @@ class Block:
 
     def __repr__(self):
         return "Block: \n" + \
-                "index= " + str(self.index)+"\n" \
-               "timestamp= " + str(self.timestamp) + "\n" \
-               "data= " + str(self.data) + "\n" \
-               "previous_hash= " + str(self.previous_hash) + "\n" \
-               "hash= " + str(self.hash)
+               "index= " + str(self.index) + "\n" \
+                                             "timestamp= " + str(self.timestamp) + "\n" \
+                                                                                   "data= " + str(self.data) + "\n" \
+                                                                                                               "previous_hash= " + str(
+            self.previous_hash) + "\n" \
+                                  "hash= " + str(self.hash)
 
 
-class Blockchain:
-    difficulty = 2  # The number of leading zero bits
+class BlockChain:
 
     def __init__(self):
         self.chain = []
-        self.unconfirmed_transactions = []  # store the data of each transaction
         self.create_genesis_block()
 
     def create_genesis_block(self):
@@ -70,87 +69,37 @@ class Blockchain:
     def get_last_block(self):
         return self.chain[-1]
 
-    '''
-    The average work required to create a block increases exponentially with the number 
-    of leading zero bits, and therefore, by increasing the difficulty with each new block,
-    we can sufficiently prevent users from modifying previous blocks, 
-    since it is practically impossible to redo the following blocks and catch up to others.
-    '''
-
-    def proof_of_work(self, block: Block):
-        computed_hash = block.calc_hash()
-        print("->proof_of_work:")
-        print("block.nonce= " + str(block.nonce))
-        print("computed_hash= " + str(computed_hash))
-        print('Decimal value of hash: ' + str(int(computed_hash, 16)) + '\n')
-
-        '''
-        while not computed_hash.startswith('0' * Blockchain.difficulty):  # '00' if difficulty=2
-            block.nonce += 1
-            print("in while: block.nonce= " + str(block.nonce))
-            computed_hash = block.calc_hash()
-        '''
-        return computed_hash
-
-    def add_block(self, block: Block, proof):
-        prev_hash = self.get_last_block().hash
-        if prev_hash != block.previous_hash:
+    def add_block(self, block: Block) -> bool:
+        if self.get_last_block().hash != block.previous_hash or block.data == "":
             return False
-        if not self.is_valid_proof(block, proof):
+        if block.index <= self.get_last_block().index:
+            # raise Exception("New block index must be greater than previous")
+            print("New block index must be greater than previous!")
             return False
-        block.hash = proof
         self.chain.append(block)
         return True
-
-    def is_valid_proof(self, block, block_hash):
-        return block_hash.startswith('0' * Blockchain.difficulty) and block_hash == block.calc_hash()
-
-    def add_new_transaction(self, transaction):
-        self.unconfirmed_transactions.append(transaction)
-
-    def mine(self):
-        if not self.unconfirmed_transactions:
-            return False
-
-        last_block = self.get_last_block()
-        print("->mine: last_block.index={}".format(last_block.index))
-
-        new_block = Block(last_block.index + 1, self.unconfirmed_transactions, time.time(), last_block.hash)
-        print("new_block.index={}".format(new_block.index))
-
-        proof = self.proof_of_work(new_block)
-        print("proof=" + str(proof))
-
-        self.add_block(new_block, proof)
-        self.unconfirmed_transactions = []
-        return new_block.index
 
 
 def test_create_genesis_block():
     print("->test_create_genesis_block: start")
-    blockchain = Blockchain()
+    blockchain = BlockChain()  # create_genesis_block() is called in the constructor
     assert len(blockchain.chain) == 1
     assert blockchain.get_last_block().index == 0
     assert blockchain.get_last_block().data == "Genesis Block"
     assert blockchain.get_last_block().previous_hash == "0"
-    print(blockchain.get_last_block())
-
+    # print(blockchain.get_last_block())
     print("->test_create_genesis_block: end")
 
 
-def test_mine():
-    print("->test_mine: start")
-    blockchain = Blockchain()
-    blockchain.add_new_transaction("1_This is new transaction data")
-    blockchain.add_new_transaction("2_This is new transaction data")
-    blockchain.mine()
-
-    print("->test_mine: end")
+def test_create_block_chain_1():
+    print("->test_create_block_chain_1: start")
+    blockchain = BlockChain()
+    print("->test_create_block_chain_1: end")
 
 
 def test():
     test_create_genesis_block()
-    #test_mine()
+    test_create_block_chain_1()
 
 
 test()
