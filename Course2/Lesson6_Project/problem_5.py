@@ -20,7 +20,6 @@ with a few constraints such as:
     There are specific rules for appending data to it.
     Its architecture is distributed.
 """
-# USED sources: https://www.activestate.com/blog/how-to-build-a-blockchain-in-python/
 
 import hashlib
 import time
@@ -29,18 +28,37 @@ import time
 class Block:
 
     def __init__(self, _index, _timestamp, _data, _previous_hash, _nonce=0):
-        self.index = _index
-        self.timestamp = _timestamp
-        self.data = _data
-        self.previous_hash = _previous_hash  # to ensure immutability of the entire blockchain
-        self.hash = self.calc_hash()
-        self.nonce = _nonce  # value that starts with a certain number of zero bits when hashed
+        self.__index = _index
+        self.__timestamp = _timestamp
+        self.__data = _data
+        self.__previous_hash = _previous_hash  # to ensure immutability of the entire blockchain
+        self.__hash = self.calc_hash()
 
     def calc_hash(self):
         sha = hashlib.sha256()
         hash_str = str(self.index) + str(self.timestamp) + self.data
         sha.update(hash_str.encode('utf-8'))
         return sha.hexdigest()
+
+    @property
+    def index(self):
+        return self.__index
+
+    @property
+    def timestamp(self):
+        return self.__timestamp
+
+    @property
+    def data(self):
+        return self.__data
+
+    @property
+    def previous_hash(self):
+        return self.__previous_hash
+
+    @property
+    def hash(self):
+        return self.__hash
 
     def __repr__(self):
         return "Block: \n" + "index= " + str(self.index) + \
@@ -64,18 +82,19 @@ class BlockChain:
         genesis_block = Block(0, time.time(), "Genesis Block", "0")
         self.chain.append(genesis_block)
 
-    def get_last_block(self):
+    @property
+    def last_block(self):
         return self.chain[-1]
 
     def add_block(self, block: Block) -> bool:
-        if block.hash == self.get_last_block().hash:
+        if block.hash == self.last_block.hash:
             print("->add_block: New block must have a unique code!")
             return False
-        if self.get_last_block().hash != block.previous_hash \
+        if self.last_block.hash != block.previous_hash \
                 or block.data == "" or block.data is None:
             print("->add_block: Not valid data!")
             return False
-        if block.index <= self.get_last_block().index:
+        if block.index <= self.last_block.index:
             # raise Exception("New block index must be greater than previous")
             print("->add_block: New block index must be greater than previous!")
             return False
@@ -94,10 +113,10 @@ def test_create_genesis_block():
     print("->test_create_genesis_block: start")
     blockchain = BlockChain()  # create_genesis_block() is called in the constructor
     assert len(blockchain.chain) == 1
-    assert blockchain.get_last_block().index == 0
-    assert blockchain.get_last_block().data == "Genesis Block"
-    assert blockchain.get_last_block().previous_hash == "0"
-    # print(blockchain.get_last_block())
+    assert blockchain.last_block.index == 0
+    assert blockchain.last_block.data == "Genesis Block"
+    assert blockchain.last_block.previous_hash == "0"
+    # print(blockchain.last_block)
     print("->test_create_genesis_block: end")
 
 
@@ -114,34 +133,34 @@ def test_create_block_chain_1():
 
     # Case1 - all valid data
     print("case1:")
-    block1 = Block(1, time.time(), "Block Data1", blockchain.get_last_block().hash)
+    block1 = Block(1, time.time(), "Block Data1", blockchain.last_block.hash)
     add_result = blockchain.add_block(block1)
     assert add_result
-    assert blockchain.get_last_block().index == 1
+    assert blockchain.last_block.index == 1
     assert len(blockchain.chain) == 2
 
     # Case2 - index is lesser than the last block index
     print("case2:")
-    block_wrong_index = Block(0, time.time(), "Block Data0", blockchain.get_last_block().hash)
+    block_wrong_index = Block(0, time.time(), "Block Data0", blockchain.last_block.hash)
     add_result = blockchain.add_block(block_wrong_index)
     assert add_result == False
-    assert blockchain.get_last_block().index == 1
+    assert blockchain.last_block.index == 1
     assert len(blockchain.chain) == 2
 
     # Case3 - data is empty
     print("case3:")
-    block_empty_data = Block(3, time.time(), "", blockchain.get_last_block().hash)
+    block_empty_data = Block(3, time.time(), "", blockchain.last_block.hash)
     add_result = blockchain.add_block(block_empty_data)
     assert add_result == False
-    assert blockchain.get_last_block().index == 1
+    assert blockchain.last_block.index == 1
     assert len(blockchain.chain) == 2
 
     # Case4 - data is None
     print("case4:")
-    block_none_data = Block(3, time.time(), "", blockchain.get_last_block().hash)
+    block_none_data = Block(3, time.time(), "", blockchain.last_block.hash)
     add_result = blockchain.add_block(block_none_data)
     assert add_result == False
-    assert blockchain.get_last_block().index == 1
+    assert blockchain.last_block.index == 1
     assert len(blockchain.chain) == 2
 
     # Case5 - not valid previous hash
@@ -149,7 +168,7 @@ def test_create_block_chain_1():
     block_not_valid_prev_hash = Block(2, time.time(), "Block Data 2", "not valid prev hash")
     add_result = blockchain.add_block(block_not_valid_prev_hash)
     assert add_result == False
-    assert blockchain.get_last_block().index == 1
+    assert blockchain.last_block.index == 1
     assert len(blockchain.chain) == 2
 
     blockchain.print_chain()
@@ -162,15 +181,14 @@ def test_create_block_chain_2():
     blockchain = BlockChain()
 
     for i in range(1, 16):
-        blockchain.add_block(Block(i, time.time(), "Block Data" + str(i), blockchain.get_last_block().hash))
+        blockchain.add_block(Block(i, time.time(), "Block Data" + str(i), blockchain.last_block.hash))
 
     blockchain.print_chain()
     assert len(blockchain.chain) == 16  # 15 in range plus genesis
     block5 = blockchain.chain[5]
-    # print(block5)
-    block5.index = 89
+    # block5.index = 89 # Can not set the attribute
     assert block5.index == 5
-
+    # blockchain.last_block = Block(2, time.time(), "Block Data 2", "not valid prev hash") # Can not set the attribute
     print("->test_create_block_chain_2: end")
 
 
