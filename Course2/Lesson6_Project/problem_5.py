@@ -21,8 +21,8 @@ with a few constraints such as:
     Its architecture is distributed.
 """
 
+import datetime
 import hashlib
-import time
 
 
 class Block:
@@ -61,11 +61,11 @@ class Block:
         return self.__hash
 
     def __repr__(self):
-        return "Block: \n" + "index= " + str(self.index) + \
-               "\n" + "timestamp= " + str(self.timestamp) \
-               + "\n" + "data= " + str(self.data) + \
-               "\n" + "previous_hash= " + str(self.previous_hash) \
-               + "\n" "hash= " + str(self.hash)
+        return "Block: \nindex= " + str(self.index) + \
+               "\ntimestamp= " + str(self.timestamp) + \
+               "\ndata= " + str(self.data) + \
+               "\nprevious_hash= " + str(self.previous_hash) + \
+               "\nhash= " + str(self.hash)
 
 
 class BlockChain:
@@ -79,7 +79,7 @@ class BlockChain:
         Is used to initialize the blockchain.
         Creates an initial block with an index of 0 and a previous hash of 0.
         """
-        genesis_block = Block(0, time.time(), "Genesis Block", "0")
+        genesis_block = Block(0, datetime.datetime.now(datetime.timezone.utc), "Genesis Block", "0")
         self.chain.append(genesis_block)
 
     @property
@@ -108,6 +108,15 @@ class BlockChain:
             print(item)
 
 
+def main():
+    blockchain = BlockChain()
+    for i in range(1, 10):
+        blockchain.add_block(
+            Block(i, datetime.datetime.now(datetime.timezone.utc), "Block Data" + str(i), blockchain.last_block.hash))
+    blockchain.print_chain()
+
+
+# TEST CASES: start----------------------------------------------
 def test_create_genesis_block():
     print("=============================================================================")
     print("->test_create_genesis_block: start")
@@ -116,14 +125,8 @@ def test_create_genesis_block():
     assert blockchain.last_block.index == 0
     assert blockchain.last_block.data == "Genesis Block"
     assert blockchain.last_block.previous_hash == "0"
-    # print(blockchain.last_block)
+    print(blockchain.last_block)
     print("->test_create_genesis_block: end")
-
-
-def test_timestamp_format():
-    print("=============================================================================")
-    print("->test_timestamp_format: start")
-    print("->test_timestamp_format: end")
 
 
 def test_create_block_chain_1():
@@ -133,7 +136,7 @@ def test_create_block_chain_1():
 
     # Case1 - all valid data
     print("case1:")
-    block1 = Block(1, time.time(), "Block Data1", blockchain.last_block.hash)
+    block1 = Block(1, datetime.datetime.now(datetime.timezone.utc), "Block Data1", blockchain.last_block.hash)
     add_result = blockchain.add_block(block1)
     assert add_result
     assert blockchain.last_block.index == 1
@@ -141,7 +144,8 @@ def test_create_block_chain_1():
 
     # Case2 - index is lesser than the last block index
     print("case2:")
-    block_wrong_index = Block(0, time.time(), "Block Data0", blockchain.last_block.hash)
+    block_wrong_index = Block(0, datetime.datetime.now(datetime.timezone.utc), "Block Data0",
+                              blockchain.last_block.hash)
     add_result = blockchain.add_block(block_wrong_index)
     assert add_result == False
     assert blockchain.last_block.index == 1
@@ -149,7 +153,7 @@ def test_create_block_chain_1():
 
     # Case3 - data is empty
     print("case3:")
-    block_empty_data = Block(3, time.time(), "", blockchain.last_block.hash)
+    block_empty_data = Block(3, datetime.datetime.now(datetime.timezone.utc), "", blockchain.last_block.hash)
     add_result = blockchain.add_block(block_empty_data)
     assert add_result == False
     assert blockchain.last_block.index == 1
@@ -157,7 +161,7 @@ def test_create_block_chain_1():
 
     # Case4 - data is None
     print("case4:")
-    block_none_data = Block(3, time.time(), "", blockchain.last_block.hash)
+    block_none_data = Block(3, datetime.datetime.now(datetime.timezone.utc), "", blockchain.last_block.hash)
     add_result = blockchain.add_block(block_none_data)
     assert add_result == False
     assert blockchain.last_block.index == 1
@@ -165,7 +169,8 @@ def test_create_block_chain_1():
 
     # Case5 - not valid previous hash
     print("case5:")
-    block_not_valid_prev_hash = Block(2, time.time(), "Block Data 2", "not valid prev hash")
+    block_not_valid_prev_hash = Block(2, datetime.datetime.now(datetime.timezone.utc), "Block Data 2",
+                                      "not valid prev hash")
     add_result = blockchain.add_block(block_not_valid_prev_hash)
     assert add_result == False
     assert blockchain.last_block.index == 1
@@ -181,22 +186,26 @@ def test_create_block_chain_2():
     blockchain = BlockChain()
 
     for i in range(1, 16):
-        blockchain.add_block(Block(i, time.time(), "Block Data" + str(i), blockchain.last_block.hash))
+        blockchain.add_block(
+            Block(i, datetime.datetime.now(datetime.timezone.utc), "Block Data" + str(i), blockchain.last_block.hash))
 
     blockchain.print_chain()
     assert len(blockchain.chain) == 16  # 15 in range plus genesis
     block5 = blockchain.chain[5]
     # block5.index = 89 # Can not set the attribute
     assert block5.index == 5
-    # blockchain.last_block = Block(2, time.time(), "Block Data 2", "not valid prev hash") # Can not set the attribute
+    # blockchain.last_block = Block(2, datetime.datetime.now(datetime.timezone.utc),
+    # "Block Data 2", "not valid prev hash") # Can not set the attribute
     print("->test_create_block_chain_2: end")
 
 
 def test():
     test_create_genesis_block()
-    test_timestamp_format()
     test_create_block_chain_1()
     test_create_block_chain_2()
 
 
-test()
+# TEST CASES: end----------------------------------------------
+
+# test()
+main()
