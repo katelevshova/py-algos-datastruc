@@ -19,8 +19,8 @@ with a few constraints such as:
     Blocks can’t be modified once added; in other words, it is append only.
     There are specific rules for appending data to it.
     Its architecture is distributed.
-
 """
+# USED sources: https://www.activestate.com/blog/how-to-build-a-blockchain-in-python/
 
 import hashlib
 import time
@@ -34,23 +34,23 @@ class Block:
         self.data = _data
         self.previous_hash = _previous_hash  # to ensure immutability of the entire blockchain
         self.hash = self.calc_hash()
+        print("Block hash=" + self.hash)
         self.nonce = _nonce  # value that starts with a certain number of zero bits when hashed
 
     def calc_hash(self):
-        sha = hashlib.sha256()
-
-        hash_str = "We are going to encode this string of data!".encode('utf-8')
-
-        sha.update(hash_str)
-
-        return sha.hexdigest()
+        #sha = hashlib.sha256()
+        #hash_str = "We are going to encode this string of data!".encode('utf-8')
+        hash_str = "We are going to encode this string of data!"
+        # sha.update(hash_str)
+        # return sha.hexdigest()
+        return hashlib.sha256(hash_str.encode('utf-8')).hexdigest()
 
 
 class Blockchain:
     difficulty = 2  # The number of leading zero bits
 
     def __init__(self):
-        self.chain = list
+        self.chain = []
         self.unconfirmed_transactions = []  # store the data of each transaction
         self.create_genesis_block()
 
@@ -65,10 +65,19 @@ class Blockchain:
     def get_last_block(self):
         return self.chain[-1]
 
+    '''
+    The average work required to create a block increases exponentially with the number 
+    of leading zero bits, and therefore, by increasing the difficulty with each new block,
+    we can sufficiently prevent users from modifying previous blocks, 
+    since it is practically impossible to redo the following blocks and catch up to others.
+    '''
+
     def proof_of_work(self, block: Block):
+        print("->proof_of_work: block.nonce= " + str(block.nonce))
         computed_hash = block.calc_hash()
-        while not computed_hash.startswith('0' * Blockchain.difficulty):
+        while not computed_hash.startswith('0' * Blockchain.difficulty):  # '00' if difficulty=2
             block.nonce += 1
+            print("in while: block.nonce= " + str(block.nonce))
             computed_hash = block.calc_hash()
         return computed_hash
 
@@ -93,11 +102,43 @@ class Blockchain:
             return False
 
         last_block = self.get_last_block()
+        print("->mine: last_block.index={}".format(last_block.index))
+
         new_block = Block(last_block.index + 1, self.unconfirmed_transactions, time.time(), last_block.hash)
+        print("new_block.index={}".format(new_block.index))
 
         proof = self.proof_of_work(new_block)
+        print("proof=" + str(proof))
+
         self.add_block(new_block, proof)
         self.unconfirmed_transactions = []
         return new_block.index
 
 
+def test_create_genesis_block():
+    print("->test_create_genesis_block: start")
+    blockchain = Blockchain()
+    assert len(blockchain.chain) == 1
+    assert blockchain.get_last_block().index == 0
+    assert blockchain.get_last_block().data == "Some information"
+    assert blockchain.get_last_block().previous_hash == "0"
+    # assert blockchain.is_valid_proof(blockchain.get_last_block(), blockchain.get_last_block().hash)
+    print("->test_create_genesis_block: end")
+
+
+def test_mine():
+    print("->test_mine: start")
+    blockchain = Blockchain()
+    blockchain.add_new_transaction("1_This is new transaction data")
+    blockchain.add_new_transaction("2_This is new transaction data")
+    # blockchain.mine()
+
+    print("->test_mine: end")
+
+
+def test():
+    test_create_genesis_block()
+    test_mine()
+
+
+test()
