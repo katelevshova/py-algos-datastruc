@@ -32,9 +32,9 @@ class Block:
         self.index = _index
         self.timestamp = _timestamp
         self.data = _data
-        self.previous_hash = _previous_hash
+        self.previous_hash = _previous_hash  # to ensure immutability of the entire blockchain
         self.hash = self.calc_hash()
-        self.nonce = _nonce
+        self.nonce = _nonce  # value that starts with a certain number of zero bits when hashed
 
     def calc_hash(self):
         sha = hashlib.sha256()
@@ -47,7 +47,7 @@ class Block:
 
 
 class Blockchain:
-    difficulty = 2
+    difficulty = 2  # The number of leading zero bits
 
     def __init__(self):
         self.chain = list
@@ -101,5 +101,3 @@ class Blockchain:
         return new_block.index
 
 
-def create_blockchain():
-    print("->create_blockchain:")
