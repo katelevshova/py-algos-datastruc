@@ -34,16 +34,21 @@ class Block:
         self.data = _data
         self.previous_hash = _previous_hash  # to ensure immutability of the entire blockchain
         self.hash = self.calc_hash()
-        print("Block hash=" + self.hash)
         self.nonce = _nonce  # value that starts with a certain number of zero bits when hashed
 
     def calc_hash(self):
-        #sha = hashlib.sha256()
-        #hash_str = "We are going to encode this string of data!".encode('utf-8')
-        hash_str = "We are going to encode this string of data!"
-        # sha.update(hash_str)
-        # return sha.hexdigest()
-        return hashlib.sha256(hash_str.encode('utf-8')).hexdigest()
+        sha = hashlib.sha256()
+        hash_str = "We are going to encode this string of data!".encode('utf-8')
+        sha.update(hash_str)
+        return sha.hexdigest()
+
+    def __repr__(self):
+        return "Block: \n" + \
+                "index= " + str(self.index)+"\n" \
+               "timestamp= " + str(self.timestamp) + "\n" \
+               "data= " + str(self.data) + "\n" \
+               "previous_hash= " + str(self.previous_hash) + "\n" \
+               "hash= " + str(self.hash)
 
 
 class Blockchain:
@@ -59,7 +64,7 @@ class Blockchain:
         Is used to initialize the blockchain.
         Creates an initial block with an index of 0 and a previous hash of 0.
         """
-        genesis_block = Block(0, time.time(), "Some information", "0")
+        genesis_block = Block(0, time.time(), "Genesis Block", "0")
         self.chain.append(genesis_block)
 
     def get_last_block(self):
@@ -73,12 +78,18 @@ class Blockchain:
     '''
 
     def proof_of_work(self, block: Block):
-        print("->proof_of_work: block.nonce= " + str(block.nonce))
         computed_hash = block.calc_hash()
+        print("->proof_of_work:")
+        print("block.nonce= " + str(block.nonce))
+        print("computed_hash= " + str(computed_hash))
+        print('Decimal value of hash: ' + str(int(computed_hash, 16)) + '\n')
+
+        '''
         while not computed_hash.startswith('0' * Blockchain.difficulty):  # '00' if difficulty=2
             block.nonce += 1
             print("in while: block.nonce= " + str(block.nonce))
             computed_hash = block.calc_hash()
+        '''
         return computed_hash
 
     def add_block(self, block: Block, proof):
@@ -120,9 +131,10 @@ def test_create_genesis_block():
     blockchain = Blockchain()
     assert len(blockchain.chain) == 1
     assert blockchain.get_last_block().index == 0
-    assert blockchain.get_last_block().data == "Some information"
+    assert blockchain.get_last_block().data == "Genesis Block"
     assert blockchain.get_last_block().previous_hash == "0"
-    # assert blockchain.is_valid_proof(blockchain.get_last_block(), blockchain.get_last_block().hash)
+    print(blockchain.get_last_block())
+
     print("->test_create_genesis_block: end")
 
 
@@ -131,14 +143,14 @@ def test_mine():
     blockchain = Blockchain()
     blockchain.add_new_transaction("1_This is new transaction data")
     blockchain.add_new_transaction("2_This is new transaction data")
-    # blockchain.mine()
+    blockchain.mine()
 
     print("->test_mine: end")
 
 
 def test():
     test_create_genesis_block()
-    test_mine()
+    #test_mine()
 
 
 test()
