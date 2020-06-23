@@ -118,7 +118,7 @@ class BlockChain:
         return True
 
     def is_valid_proof(self, block, block_proof_hash):
-        print("->is_valid_proof: ")
+        # print("->is_valid_proof: ")
         # print("block.hash= "+block.hash)
         # print("block_proof_hash= " + block_proof_hash)
         updated_current_block_hash = block.calc_hash()  # taking into account new nonce
@@ -248,5 +248,16 @@ def test():
 
 
 # TEST CASES: end----------------------------------------------
+# test()
 
-test()
+def main():
+    blockchain = BlockChain()
+
+    for i in range(0, 3): # prints genesis and
+        blockchain.mine()
+    print("RESULT CHAIN:")
+    blockchain.print_chain()
+    print("\nRecently mind block index is: {}".format(blockchain.last_block.index))
+
+
+main()
