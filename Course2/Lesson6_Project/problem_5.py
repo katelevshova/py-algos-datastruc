@@ -37,7 +37,7 @@ class Block:
 
     def calc_hash(self):
         sha = hashlib.sha256()
-        hash_str = str(self.index) + str(self.timestamp) + self.data
+        hash_str = str(self.index) + str(self.timestamp) + self.data + str(self.nonce)
         sha.update(hash_str.encode('utf-8'))
         return sha.hexdigest()
 
@@ -57,20 +57,13 @@ class Block:
     def previous_hash(self):
         return self.__previous_hash
 
-    @property
-    def hash(self):
-        return self.__hash
-
-    @hash.setter
-    def hash(self, _hash):
-        self.__hash = _hash
-
     def __repr__(self):
         return "Block: \nindex= " + str(self.index) + \
                "\ntimestamp= " + str(self.timestamp) + \
                "\ndata= " + str(self.data) + \
                "\nprevious_hash= " + str(self.previous_hash) + \
-               "\nhash= " + str(self.hash)
+               "\nhash= " + str(self.hash) + \
+               "\nnonce= " + str(self.nonce)
 
 
 class BlockChain:
@@ -97,11 +90,12 @@ class BlockChain:
         while not computed_hash.startswith('0' * BlockChain.difficulty):
             block.nonce += 1
             computed_hash = block.calc_hash()
+            print("computed_hash=" + computed_hash)
         return computed_hash
 
-    def add_block(self, block: Block, proof) -> bool:
+    def add_block(self, block: Block, proof_hash) -> bool:
         if block.hash == self.last_block.hash:
-            print("->add_block: New block must have a unique code!")
+            print("->add_block: New block must have a unique hash!")
             return False
         if self.last_block.hash != block.previous_hash \
                 or block.data == "" or block.data is None:
@@ -111,23 +105,28 @@ class BlockChain:
             # raise Exception("New block index must be greater than previous")
             print("->add_block: New block index must be greater than previous!")
             return False
-        if not self.is_valid_proof(block, proof):
+        if not self.is_valid_proof(block, proof_hash):
             return False
-        block.hash = proof
+        block.hash = proof_hash
         self.chain.append(block)
         return True
 
-    def is_valid_proof(self, block, block_hash):
-        return (block_hash.startswith('0' * BlockChain.difficulty) and
-                block_hash == block.calc_hash())
+    def is_valid_proof(self, block, block_proof_hash):
+        # print("->is_valid_proof: ")
+        # print("block.hash= "+block.hash)
+        # print("block_proof_hash= " + block_proof_hash)
+        updated_current_block_hash = block.calc_hash()  # taking into account new nonce
+        # print("updated_current_block_hash= " + block.calc_hash())
+        return (block_proof_hash.startswith('0' * BlockChain.difficulty) and
+                block_proof_hash == updated_current_block_hash)
 
     def mine(self) -> int:
-        block = Block(self.last_block.index+1,
+        block = Block(self.last_block.index + 1,
                       datetime.datetime.now(datetime.timezone.utc),
                       "New block data",
                       self.last_block.hash)
-        proof = self.proof_of_work(block)
-        self.add_block(block, proof)
+        proof_hash = self.proof_of_work(block)
+        self.add_block(block, proof_hash)
         return block.index
 
     def print_chain(self):
@@ -147,6 +146,36 @@ def test_create_genesis_block():
     assert blockchain.last_block.previous_hash == "0"
     print(blockchain.last_block)
     print("->test_create_genesis_block: end")
+
+
+def test_is_valid_proof():
+    print("=============================================================================")
+    print("->test_is_valid_proof: start")
+
+    blockchain = BlockChain()  # create_genesis_block() is called in the constructor
+    block = Block(blockchain.last_block.index + 1,
+                  datetime.datetime.now(datetime.timezone.utc),
+                  "New block data",
+                  blockchain.last_block.hash)
+
+    # case 1 - valid proof
+    print("case1:")
+    proof_of_work_hash = blockchain.proof_of_work(block)
+    is_valid_proof = blockchain.is_valid_proof(block, proof_of_work_hash)
+    print(block)
+    assert is_valid_proof == True
+
+    # case 2 - not valid proof, does not start with 0
+    print("case2:")
+    is_valid_proof = blockchain.is_valid_proof(block, "ee3c4b6e062d4ff8bd18b72d7b0f27539c89880")
+    assert is_valid_proof == False
+
+    # case 3 - starts with 0 but this hash does not belong to a current block
+    print("case3:")
+    is_valid_proof = blockchain.is_valid_proof(block, "0000887607bb4f88aa4969b712bcd164681")
+    assert is_valid_proof == False
+
+    print("->test_is_valid_proof: end")
 
 
 def test_create_block_chain_1():
@@ -202,7 +231,10 @@ def test_create_block_chain_1():
 
 def test():
     test_create_genesis_block()
-   # test_create_block_chain_1()
+    test_is_valid_proof()
+
+
+# test_create_block_chain_1()
 
 
 # TEST CASES: end----------------------------------------------
