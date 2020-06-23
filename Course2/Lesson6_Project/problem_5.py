@@ -32,7 +32,8 @@ class Block:
         self.__timestamp = _timestamp
         self.__data = _data
         self.__previous_hash = _previous_hash  # to ensure immutability of the entire blockchain
-        self.__hash = self.calc_hash()
+        self.nonce = _nonce
+        self.hash = self.calc_hash()
 
     def calc_hash(self):
         sha = hashlib.sha256()
@@ -60,6 +61,10 @@ class Block:
     def hash(self):
         return self.__hash
 
+    @hash.setter
+    def hash(self, _hash):
+        self.__hash = _hash
+
     def __repr__(self):
         return "Block: \nindex= " + str(self.index) + \
                "\ntimestamp= " + str(self.timestamp) + \
@@ -69,6 +74,7 @@ class Block:
 
 
 class BlockChain:
+    difficulty = 2
 
     def __init__(self):
         self.chain = []
@@ -86,7 +92,14 @@ class BlockChain:
     def last_block(self):
         return self.chain[-1]
 
-    def add_block(self, block: Block) -> bool:
+    def proof_of_work(self, block):
+        computed_hash = block.calc_hash()
+        while not computed_hash.startswith('0' * BlockChain.difficulty):
+            block.nonce += 1
+            computed_hash = block.calc_hash()
+        return computed_hash
+
+    def add_block(self, block: Block, proof) -> bool:
         if block.hash == self.last_block.hash:
             print("->add_block: New block must have a unique code!")
             return False
@@ -98,22 +111,29 @@ class BlockChain:
             # raise Exception("New block index must be greater than previous")
             print("->add_block: New block index must be greater than previous!")
             return False
-
+        if not self.is_valid_proof(block, proof):
+            return False
+        block.hash = proof
         self.chain.append(block)
         return True
+
+    def is_valid_proof(self, block, block_hash):
+        return (block_hash.startswith('0' * BlockChain.difficulty) and
+                block_hash == block.calc_hash())
+
+    def mine(self) -> int:
+        block = Block(self.last_block.index+1,
+                      datetime.datetime.now(datetime.timezone.utc),
+                      "New block data",
+                      self.last_block.hash)
+        proof = self.proof_of_work(block)
+        self.add_block(block, proof)
+        return block.index
 
     def print_chain(self):
         for item in self.chain:
             print("----------------------------")
             print(item)
-
-
-def main():
-    blockchain = BlockChain()
-    for i in range(1, 10):
-        blockchain.add_block(
-            Block(i, datetime.datetime.now(datetime.timezone.utc), "Block Data" + str(i), blockchain.last_block.hash))
-    blockchain.print_chain()
 
 
 # TEST CASES: start----------------------------------------------
@@ -180,32 +200,11 @@ def test_create_block_chain_1():
     print("->test_create_block_chain_1: end")
 
 
-def test_create_block_chain_2():
-    print("=============================================================================")
-    print("->test_create_block_chain_2: start")
-    blockchain = BlockChain()
-
-    for i in range(1, 16):
-        blockchain.add_block(
-            Block(i, datetime.datetime.now(datetime.timezone.utc), "Block Data" + str(i), blockchain.last_block.hash))
-
-    blockchain.print_chain()
-    assert len(blockchain.chain) == 16  # 15 in range plus genesis
-    block5 = blockchain.chain[5]
-    # block5.index = 89 # Can not set the attribute
-    assert block5.index == 5
-    # blockchain.last_block = Block(2, datetime.datetime.now(datetime.timezone.utc),
-    # "Block Data 2", "not valid prev hash") # Can not set the attribute
-    print("->test_create_block_chain_2: end")
-
-
 def test():
     test_create_genesis_block()
-    test_create_block_chain_1()
-    test_create_block_chain_2()
+   # test_create_block_chain_1()
 
 
 # TEST CASES: end----------------------------------------------
 
-# test()
-main()
+test()
