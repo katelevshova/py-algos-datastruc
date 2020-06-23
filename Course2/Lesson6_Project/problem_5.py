@@ -28,6 +28,15 @@ import hashlib
 class Block:
 
     def __init__(self, _index, _timestamp, _data, _previous_hash, _nonce=0):
+        if _index is None:
+            raise Exception("index must not be None!")
+        if _timestamp is None:
+            raise Exception("timestamp must not be None!")
+        if _data is None:
+            raise Exception("data must not be None!")
+        if _previous_hash is None:
+            raise Exception("previous_hash must not be None!")
+
         self.__index = _index
         self.__timestamp = _timestamp
         self.__data = _data
@@ -90,13 +99,10 @@ class BlockChain:
         while not computed_hash.startswith('0' * BlockChain.difficulty):
             block.nonce += 1
             computed_hash = block.calc_hash()
-            print("computed_hash=" + computed_hash)
+            # print("computed_hash=" + computed_hash)
         return computed_hash
 
     def add_block(self, block: Block, proof_hash) -> bool:
-        if block.hash == self.last_block.hash:
-            print("->add_block: New block must have a unique hash!")
-            return False
         if self.last_block.hash != block.previous_hash \
                 or block.data == "" or block.data is None:
             print("->add_block: Not valid data!")
@@ -112,7 +118,7 @@ class BlockChain:
         return True
 
     def is_valid_proof(self, block, block_proof_hash):
-        # print("->is_valid_proof: ")
+        print("->is_valid_proof: ")
         # print("block.hash= "+block.hash)
         # print("block_proof_hash= " + block_proof_hash)
         updated_current_block_hash = block.calc_hash()  # taking into account new nonce
@@ -178,63 +184,67 @@ def test_is_valid_proof():
     print("->test_is_valid_proof: end")
 
 
-def test_create_block_chain_1():
+def test_mine():
     print("=============================================================================")
-    print("->test_create_block_chain_1: start")
+    print("->test_mine: start")
     blockchain = BlockChain()
 
     # Case1 - all valid data
     print("case1:")
-    block1 = Block(1, datetime.datetime.now(datetime.timezone.utc), "Block Data1", blockchain.last_block.hash)
-    add_result = blockchain.add_block(block1)
+
+    block1 = Block(blockchain.last_block.index + 1,
+                   datetime.datetime.now(datetime.timezone.utc),
+                   "'->test_mine: case1: New block data'",
+                   blockchain.last_block.hash)
+    proof_hash = blockchain.proof_of_work(block1)
+    add_result = blockchain.add_block(block1, proof_hash)
     assert add_result
     assert blockchain.last_block.index == 1
     assert len(blockchain.chain) == 2
 
     # Case2 - index is lesser than the last block index
     print("case2:")
-    block_wrong_index = Block(0, datetime.datetime.now(datetime.timezone.utc), "Block Data0",
+    block_wrong_index = Block(0, datetime.datetime.now(datetime.timezone.utc),
+                              "'->test_mine: case2: we must not add it'",
                               blockchain.last_block.hash)
-    add_result = blockchain.add_block(block_wrong_index)
+    proof_hash = blockchain.proof_of_work(block_wrong_index)
+    add_result = blockchain.add_block(block_wrong_index, proof_hash)
     assert add_result == False
     assert blockchain.last_block.index == 1
     assert len(blockchain.chain) == 2
 
     # Case3 - data is empty
     print("case3:")
-    block_empty_data = Block(3, datetime.datetime.now(datetime.timezone.utc), "", blockchain.last_block.hash)
-    add_result = blockchain.add_block(block_empty_data)
+    block_empty_data = Block(blockchain.last_block.index + 1,
+                             datetime.datetime.now(datetime.timezone.utc),
+                             "",
+                             blockchain.last_block.hash)
+    proof_hash = blockchain.proof_of_work(block_empty_data)
+    add_result = blockchain.add_block(block_empty_data, proof_hash)
     assert add_result == False
     assert blockchain.last_block.index == 1
     assert len(blockchain.chain) == 2
 
-    # Case4 - data is None
+    # Case4 - not valid previous hash
     print("case4:")
-    block_none_data = Block(3, datetime.datetime.now(datetime.timezone.utc), "", blockchain.last_block.hash)
-    add_result = blockchain.add_block(block_none_data)
-    assert add_result == False
-    assert blockchain.last_block.index == 1
-    assert len(blockchain.chain) == 2
-
-    # Case5 - not valid previous hash
-    print("case5:")
-    block_not_valid_prev_hash = Block(2, datetime.datetime.now(datetime.timezone.utc), "Block Data 2",
+    block_not_valid_prev_hash = Block(blockchain.last_block.index + 1,
+                                      datetime.datetime.now(datetime.timezone.utc),
+                                      "Block Data 2",
                                       "not valid prev hash")
-    add_result = blockchain.add_block(block_not_valid_prev_hash)
+    add_result = blockchain.add_block(block_not_valid_prev_hash, "")
     assert add_result == False
     assert blockchain.last_block.index == 1
     assert len(blockchain.chain) == 2
 
+    print("\nRESULT CHAIN:")
     blockchain.print_chain()
-    print("->test_create_block_chain_1: end")
+    print("->test_mine: end")
 
 
 def test():
     test_create_genesis_block()
     test_is_valid_proof()
-
-
-# test_create_block_chain_1()
+    test_mine()
 
 
 # TEST CASES: end----------------------------------------------
