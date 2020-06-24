@@ -140,6 +140,21 @@ def main():
     print(list_operations.union(linked_list_1, linked_list_2))
     print(list_operations.intersection(linked_list_1, linked_list_2))
 
+    linked_list_3 = LinkedList()
+    linked_list_4 = LinkedList()
+
+    element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 23]
+    element_2 = [1, 7, 8, 9, 11, 21, 1]
+
+    for i in element_1:
+        linked_list_3.append(i)
+
+    for i in element_2:
+        linked_list_4.append(i)
+
+    print(list_operations.union(linked_list_3, linked_list_4))
+    print(list_operations.intersection(linked_list_3, linked_list_4))
+
 
 # TEST CASES: start----------------------------------------------
 def test_convert_set_to_linked_list():
