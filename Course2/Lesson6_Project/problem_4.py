@@ -40,7 +40,7 @@ def is_user_in_group(user_name, group):
     """
 
     if user_name in group.get_users():
-        # print("user_name={} is in group={}".format(user_name, group.name))
+        print("user_name={} is in group={}".format(user_name, group.name))
         return True
 
     for group in group.get_groups():
