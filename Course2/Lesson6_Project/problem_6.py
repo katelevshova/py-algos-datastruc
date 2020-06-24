@@ -69,10 +69,8 @@ class ListOperations:
         # print("linked_list_2= " + str(linked_list_2))
 
         union_set = set()
-
         node1 = linked_list_1.head
         node2 = linked_list_2.head
-
         # print("node1= " + str(node1) + ", value=" + str(node1.value))
         # print("node2= " + str(node2) + ", value=" + str(node2.value))
 
@@ -114,6 +112,22 @@ class ListOperations:
 
 
 # TEST CASES: start----------------------------------------------
+def test_convert_set_to_linked_list():
+    print("->test_convert_set_to_linked_list: start")
+
+    listOperations = ListOperations()
+    test_set = set({1, 7, 5, 4})
+    result_linked_list = listOperations.convert_set_to_linked_list(test_set)
+    # print("result_linked_list= "+str(result_linked_list))
+
+    node = result_linked_list.head
+
+    while node is not None:
+        assert node.value in test_set
+        node = node.next
+    print("->test_convert_set_to_linked_list: end")
+
+
 def test_union_1():
     print("->test_union_1: start")
 
@@ -135,27 +149,30 @@ def test_union_1():
     assert linked_list_2.size() == len(element_2)
 
     # all uniqie from ll2, all unique from ll1, both unique
-    expected_union = listOperations.convert_set_to_linked_list(
+    expected_union_linked_list = listOperations.convert_set_to_linked_list(
         set(element_1).union(set(element_2)))  # [32, 65, 2, 35, 3, 4, 6, 1, 9, 11, 21]
-    result_union = listOperations.union(linked_list_1, linked_list_2)
-    print("expected_union= " + str(expected_union))
-    print("result_union= " + str(result_union))
+    result_union_linked_list = listOperations.union(linked_list_1, linked_list_2)
+    print("expected_union_linked_list= " + str(expected_union_linked_list))
+    print("result_union_linked_list= " + str(result_union_linked_list))
 
-    assert expected_union.size() == result_union.size()
-    node = expected_union.head
+    assert expected_union_linked_list.size() == result_union_linked_list.size()
+    node = expected_union_linked_list.head
     while node != None:
-        assert listOperations.search(node.value, result_union)
+        assert listOperations.search(node.value, result_union_linked_list)
         node = node.next
 
     print("->test_union_1: end")
+
 
 def test_union_2():
     print("->test_union_2: start")
     print("->test_union_2: end")
 
+
 # TEST CASES: end----------------------------------------------
 
 def test():
+    test_convert_set_to_linked_list()
     test_union_1()
 
 
