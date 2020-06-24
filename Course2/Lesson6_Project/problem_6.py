@@ -216,6 +216,42 @@ def test_union_2():
 
     print("->test_union_2: end")
 
+def test_union_3():
+    print("->test_union_3: start")
+
+    # contain None values
+    element_1 = [6, 32, 4, 9, 6, None, None, 21]
+    element_2 = [3, 2, None, 35, 6, 65, 6, 4, 3, None]
+
+    linked_list_1 = LinkedList()
+    linked_list_2 = LinkedList()
+
+    for i in element_1:
+        linked_list_1.append(i)
+
+    for i in element_2:
+        linked_list_2.append(i)
+
+    listOperations = ListOperations()
+
+    assert linked_list_1.size() == len(element_1)
+    assert linked_list_2.size() == len(element_2)
+
+    # all uniqie from ll2, all unique from ll1, both unique
+    expected_union_linked_list = listOperations.convert_set_to_linked_list(
+        set(element_1).union(set(element_2)))  # [32, 65, 2, 35, 3, 4, 6, 1, 9, 11, 21]
+    result_union_linked_list = listOperations.union(linked_list_1, linked_list_2)
+    print("expected_union_linked_list= " + str(expected_union_linked_list))
+    print("result_union_linked_list= " + str(result_union_linked_list))
+
+    assert expected_union_linked_list.size() == result_union_linked_list.size()
+    node = expected_union_linked_list.head
+    while node != None:
+        assert listOperations.search(node.value, result_union_linked_list)
+        node = node.next
+
+    print("->test_union_3: end")
+
 
 # TEST CASES: end----------------------------------------------
 
@@ -224,6 +260,7 @@ def test():
     test_search()
     test_union_1()
     test_union_2()
+    test_union_3()
 
 
 test()
