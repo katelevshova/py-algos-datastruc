@@ -105,7 +105,7 @@ class ListOperations:
 
         return False  # value not found
 
-    def intersection(self, linked_list_1, linked_list_2) -> LinkedList:
+    def intersection_slower(self, linked_list_1, linked_list_2) -> LinkedList:
         # print("->intersection:")
         # print("linked_list_1= " + str(linked_list_1))
         # print("linked_list_2= " + str(linked_list_2))
@@ -118,6 +118,30 @@ class ListOperations:
                 if self.search(node1.value, linked_list_2):
                     intersection_set.add(node1.value)
             node1 = node1.next
+
+        return self.convert_set_to_linked_list(intersection_set)
+
+    # better time complexity but worse space complexity
+    def intersection(self, linked_list_1, linked_list_2) -> LinkedList:
+        # print("->intersection:")
+        # print("linked_list_1= " + str(linked_list_1))
+        # print("linked_list_2= " + str(linked_list_2))
+
+        converted_set_1 = set()
+        node1 = linked_list_1.head
+
+        # convert LinkedList to set
+        while node1 is not None:
+            converted_set_1.add(node1.value)
+            node1 = node1.next
+        # print("converted_set_1= " + str(converted_set_1))
+
+        node2 = linked_list_2.head
+        intersection_set = set()
+        while node2 is not None:
+            if node2.value in converted_set_1:
+                intersection_set.add(node2.value)
+            node2 = node2.next
 
         return self.convert_set_to_linked_list(intersection_set)
 
