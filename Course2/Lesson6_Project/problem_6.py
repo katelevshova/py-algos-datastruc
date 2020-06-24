@@ -71,8 +71,6 @@ class ListOperations:
         union_set = set()
         node1 = linked_list_1.head
         node2 = linked_list_2.head
-        # print("node1= " + str(node1) + ", value=" + str(node1.value))
-        # print("node2= " + str(node2) + ", value=" + str(node2.value))
 
         while node1 != None or node2 != None:
             if node1 != None:
@@ -101,16 +99,16 @@ class ListOperations:
         # loop till current not equal to None
         while current != None:
             if current.value == x:
-                return True  # data found
+                return True  # value found
 
             current = current.next
 
-        return False  # Data Not found
+        return False  # value not found
 
     def intersection(self, linked_list_1, linked_list_2) -> LinkedList:
-        print("->intersection:")
-        print("linked_list_1= " + str(linked_list_1))
-        print("linked_list_2= " + str(linked_list_2))
+        # print("->intersection:")
+        # print("linked_list_1= " + str(linked_list_1))
+        # print("linked_list_2= " + str(linked_list_2))
 
         intersection_set = set()
         node1 = linked_list_1.head
@@ -122,6 +120,25 @@ class ListOperations:
             node1 = node1.next
 
         return self.convert_set_to_linked_list(intersection_set)
+
+
+def main():
+    linked_list_1 = LinkedList()
+    linked_list_2 = LinkedList()
+
+    element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 21]
+    element_2 = [6, 32, 4, 9, 6, 1, 11, 21, 1]
+
+    for i in element_1:
+        linked_list_1.append(i)
+
+    for i in element_2:
+        linked_list_2.append(i)
+
+    list_operations = ListOperations()
+
+    print(list_operations.union(linked_list_1, linked_list_2))
+    print(list_operations.intersection(linked_list_1, linked_list_2))
 
 
 # TEST CASES: start----------------------------------------------
@@ -329,7 +346,7 @@ def test_intersection_2():
     assert linked_list_2.size() == len(element_2)
 
     list_operations = ListOperations()
-    expected_intersection_linked_list = LinkedList() # expected empty
+    expected_intersection_linked_list = LinkedList()  # expected empty
     result_intersection_linked_list = list_operations.intersection(linked_list_1, linked_list_2)
     print("expected_intersection_linked_list= " + str(expected_intersection_linked_list))
     print("result_intersection_linked_list= " + str(result_intersection_linked_list))
@@ -352,4 +369,5 @@ def test():
     test_intersection_2()
 
 
-test()
+# test()
+main()
