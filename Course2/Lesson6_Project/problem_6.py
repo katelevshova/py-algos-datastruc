@@ -113,6 +113,7 @@ class ListOperations:
 
 # TEST CASES: start----------------------------------------------
 def test_convert_set_to_linked_list():
+    print("=============================================================================")
     print("->test_convert_set_to_linked_list: start")
 
     listOperations = ListOperations()
@@ -129,6 +130,7 @@ def test_convert_set_to_linked_list():
 
 
 def test_search():
+    print("=============================================================================")
     print("->test_search: start")
     listOperations = ListOperations()
     element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 21]
@@ -144,6 +146,7 @@ def test_search():
 
 
 def test_union_1():
+    print("=============================================================================")
     print("->test_union_1: start")
 
     # case element_1 is longer than element_2
@@ -181,6 +184,7 @@ def test_union_1():
 
 
 def test_union_2():
+    print("=============================================================================")
     print("->test_union_2: start")
 
     # case element_2 is longer than element_1
@@ -217,6 +221,7 @@ def test_union_2():
     print("->test_union_2: end")
 
 def test_union_3():
+    print("=============================================================================")
     print("->test_union_3: start")
 
     # contain None values
