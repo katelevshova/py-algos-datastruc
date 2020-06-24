@@ -128,6 +128,21 @@ def test_convert_set_to_linked_list():
     print("->test_convert_set_to_linked_list: end")
 
 
+def test_search():
+    print("->test_search: start")
+    listOperations = ListOperations()
+    element_1 = [3, 2, 4, 35, 6, 65, 6, 4, 3, 21]
+    linked_list_1 = LinkedList()
+    for i in element_1:
+        linked_list_1.append(i)
+
+    assert listOperations.search(4, linked_list_1)
+    assert listOperations.search(6, linked_list_1)
+    assert listOperations.search(999, linked_list_1) == False
+    assert listOperations.search(None, linked_list_1) == False
+    print("->test_search: end")
+
+
 def test_union_1():
     print("->test_union_1: start")
 
@@ -173,6 +188,7 @@ def test_union_2():
 
 def test():
     test_convert_set_to_linked_list()
+    test_search()
     test_union_1()
 
 
