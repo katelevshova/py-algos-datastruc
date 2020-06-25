@@ -12,6 +12,17 @@ removes the 1st element - the least recently used.
 All operations have O(1) time complexity in OrderedDict.
 
 #Problem2------------------------
+find_files() uses os.listdir :
+    Here we go through all items in the  dir_list - O(N).
+    And recursively call find_files() which takes O(N).
+    Operation append to the list takes O(1).
+    The total time complexity is O(N*N)
+
+We can also use glob.glob with recursive=True and however using the “**” pattern in large directory trees
+may consume an inordinate amount of time.
+Using of rglob() is like calling Path.glob() with “**/” added in front of the given relative pattern.
+pathlib.Path is one of the bottlenecks that’s slowing the loop down- 
+
 
 #Problem3------------------------
 
