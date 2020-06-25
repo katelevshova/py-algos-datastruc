@@ -1,0 +1,22 @@
+########################################################################################
+Analysis. Project "Show Me the Data Structures"
+########################################################################################
+
+#Problem1------------------------
+
+In Python there is an OrderedDict which is a dict subclass that remembers the order entries were added.
+The order in LRU starts from the least used element to recently used.
+By using move_to_end() when get() and set() are called, I'm moving the key of the element to the end
+and this makes the element 'recently used'. When the LRU size is full I'm using popitem(last=False) which
+removes the 1st element - the least recently used.
+All operations have O(1) time complexity in OrderedDict.
+
+#Problem2------------------------
+
+#Problem3------------------------
+
+#Problem4------------------------
+
+#Problem5------------------------
+
+#Problem6------------------------
