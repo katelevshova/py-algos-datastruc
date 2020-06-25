@@ -180,8 +180,8 @@ class HuffmanCoding(object):
 
         for bit in encoded_message:
             code += bit
-            if code in self.chars_dict:
-                # ("code={}, char={}".format(code, self.chars_dict[code]))
+            if self.chars_dict.get(code):
+                # print("code={}, char={}".format(code, self.chars_dict[code]))
                 self.decoded_data += self.chars_dict[code]
                 code = ""
         return self.decoded_data
