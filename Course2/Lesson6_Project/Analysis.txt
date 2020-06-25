@@ -50,6 +50,12 @@ Total time complexity for main() function is O(N)
 ------------------------------------------------------------------------------------------------------------------------
 #Problem4
 
+We need to go through all elements in the forest. It has a depth N.
+Each level has different amount of children - M groups and A users.
+First we check user_name in the list of all users - takes O(A)
+Than we check group in the all groups list - O(M) and recursively call is_user_in_group.
+Each level will have as many calls as the number of groups - O(M^N).
+O(A)+O(M)*O(M^N) = O(M^2*N)
 
 
 #Problem5------------------------
