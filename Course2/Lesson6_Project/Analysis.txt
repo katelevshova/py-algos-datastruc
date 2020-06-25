@@ -1,8 +1,9 @@
-########################################################################################
+########################################################################################################################
 Analysis. Project "Show Me the Data Structures"
-########################################################################################
+########################################################################################################################
 
-#Problem1------------------------
+------------------------------------------------------------------------------------------------------------------------
+#Problem1
 
 In Python there is an OrderedDict which is a dict subclass that remembers the order entries were added.
 The order in LRU starts from the least used element to recently used.
@@ -11,7 +12,10 @@ and this makes the element 'recently used'. When the LRU size is full I'm using 
 removes the 1st element - the least recently used.
 All operations have O(1) time complexity in OrderedDict.
 
-#Problem2------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+#Problem2
+
 find_files() uses os.listdir :
     Here we go through all items in the  dir_list - O(N).
     And recursively call find_files() which takes O(N).
@@ -21,12 +25,32 @@ find_files() uses os.listdir :
 We can also use glob.glob with recursive=True and however using the “**” pattern in large directory trees
 may consume an inordinate amount of time.
 Using of rglob() is like calling Path.glob() with “**/” added in front of the given relative pattern.
-pathlib.Path is one of the bottlenecks that’s slowing the loop down- 
+pathlib.Path is one of the bottlenecks that’s slowing the loop down-
 
 
-#Problem3------------------------
+------------------------------------------------------------------------------------------------------------------------
+#Problem3
 
-#Problem4------------------------
+Analysing of the call of huffman_encoding():
+     We create frequency dictionary which takes O(N) time where N is the amount of characters in the message.
+     We build a tree from the frequency dictionary which takes O(N) times where N is the number of items in dict.
+        to create heap_list using heappush takes O(logN)
+        to merge the nodes using heappop and heappush also takes O(logN)
+        we omit the coefficients so the result is O(logN). Since O(N) > O(logN) the total is O(N)
+     To assign the binary codes takes O(N) where we first use heappop with O(logN) and
+     than recursively do the same for each node O(N). Since O(N) > O(logN) the total is O(N).
+     To get encoded data takes O(N) because we need to map each char to its code in the binary codes dict.
+Total is O(N)
+Analysing of the call of huffman_decoding():
+     Takes O(N) time where N is the number of characters(bits) in the encoded message. Operations where we get the
+     item from dictionary and getting the value takes O(1) time.
+Total time complexity for main() function is O(N)
+
+
+------------------------------------------------------------------------------------------------------------------------
+#Problem4
+
+
 
 #Problem5------------------------
 
