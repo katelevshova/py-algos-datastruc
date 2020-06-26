@@ -11,6 +11,7 @@ By using move_to_end() when get() and set() are called, I'm moving the key of th
 and this makes the element 'recently used'. When the LRU size is full I'm using popitem(last=False) which
 removes the 1st element - the least recently used.
 All operations have O(1) time complexity in OrderedDict.
+Space complexity - O(N) because dictionary has N keys and N values.
 
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -21,6 +22,7 @@ find_files() uses os.listdir :
     And recursively call find_files() which takes O(N).
     Operation append to the list takes O(1).
     The total time complexity is O(N*N)
+    Space complexity is O(N) because we store the list of all directories.
 
 We can also use glob.glob with recursive=True and however using the “**” pattern in large directory trees
 may consume an inordinate amount of time.
@@ -40,7 +42,8 @@ Analysing of the call of huffman_encoding():
      To assign the binary codes takes O(N) where we first use heappop with O(logN) and
      than recursively do the same for each node O(N). Since O(N) > O(logN) the total is O(N).
      To get encoded data takes O(N) because we need to map each char to its code in the binary codes dict.
-Total is O(N)
+Total time is O(N)
+Space complexity is O(N)
 Analysing of the call of huffman_decoding():
      Takes O(N) time where N is the number of characters(bits) in the encoded message. Operations where we get the
      item from dictionary and getting the value takes O(1) time.
@@ -56,7 +59,7 @@ First we check user_name in the list of all users - takes O(A)
 Than we check group in the all groups list - O(M) and recursively call is_user_in_group.
 Each level will have as many calls as the number of groups - O(M^N).
 O(A)+O(M)*O(M^N) = O(M^N+1)
-
+Space complexity is O(M) since only one level exists ar a single time.
 
 ------------------------------------------------------------------------------------------------------------------------
 #Problem5
@@ -72,20 +75,25 @@ We also need to make sure that the the chain supports only append operation (no 
 Once we get a valid proof that satisfies the difficulty criteria we can add such block to the chain.
 The process is commonly known as mining.
 Time complexity of mining one block takes O(N) where N - the length of the hash string
+Space complexity is O(N)
 
 
 ------------------------------------------------------------------------------------------------------------------------
 #Problem6
 
 To perform union() of 2 linked lists will take O(N) where N is the number of items in a longest linked list.
-We are iterating through the nodes of 2 lists simultaneously and add nodes to the set. After that we convert the
-set to a linked list which also takes O(N). O(N)+O(N) = O(2N)
-Since we can omit any coefficients the total time complexity is O(N).
+    We are iterating through the nodes of 2 lists simultaneously and add nodes to the set. After that we convert the
+    set to a linked list which also takes O(N). O(N)+O(N) = O(2N)
+    Since we can omit any coefficients the total time complexity is O(N).
+    As for the space we allocate additional space for te union_set and than additional space for a converted result
+    however in total it still would be O(N).
 
-For intersection I implemented 2 versions - intersection() and intersection_slower()
-intersection_slower() takes longer time to perform because while iterating through nodes of one linked list we
-perform a search operation of the node value in the second linked list. The search operation takes O(N) and doing
-it in a 'while' for all nodes in first linked list will multiply the total result of complexity - O(N^2)
-In intersection() I improved the complexity by converting the linked list to a set which takes O(N), then
-iterating by nodes in second linked list and adding items to a set takes O(N), converting the resulted set to a linked
-list takes O(N). O(N+N+N) = O(3N). So the total complexity is O(N).
+For intersection I implemented 2 versions - intersection() and intersection_slower().
+    intersection_slower() takes longer time to perform because while iterating through nodes of one linked list we
+    perform a search operation of the node value in the second linked list. The search operation takes O(N) and doing
+    it in a 'while' for all nodes in first linked list will multiply the total result of complexity - O(N^2)
+    Space is O(N)
+    In intersection() I improved the complexity by converting the linked list to a set which takes O(N), then
+    iterating by nodes in second linked list and adding items to a set takes O(N), converting the resulted set to a
+    linked list takes O(N). O(N+N+N) = O(3N). So the total complexity is O(N).
+    In this approach we allocate 2 additional sets and 1 result linked list. In total it still would be O(N)
