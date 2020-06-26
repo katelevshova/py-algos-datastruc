@@ -60,4 +60,16 @@ O(A)+O(M)*O(M^N) = O(M^2*N)
 
 #Problem5------------------------
 
+Usually when we write a code it suppose to ran as fast as possible. Blockchain implementation is an exception because
+the purpose is to make addition of the block to the chain very hard by increasing the time of performing this operation.
+For this we need to write a method proof_of_work() which recalculates the hash for the block in a long loop based on
+the difficulty and the nonce. The difficulty is the number of leading zero bits in a hash. The nonce is a value which we
+use to slightly modify a result of computed hash.
+The proof_of_work stops recalculation of the hash when the resulted hash begins with the number of zeros provided in the
+difficulty.
+We also need to make sure that the the chain supports only append operation (no update allowed) and keeps the order.
+Once we get a valid proof that satisfies the difficulty criteria we can add such block to the chain.
+The process is commonly known as mining.
+
+
 #Problem6------------------------
