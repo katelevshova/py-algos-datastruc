@@ -110,12 +110,23 @@ def test_rotated_array_search_5():
     print("->test_rotated_array_search_5: end")
 
 
+def test_rotated_array_search_6():
+    print("----------------------------------------")
+    print("->test_rotated_array_search_6: start")
+    result_actual = rotated_array_search([7, 7, 7, 8, 9, 7], 9)
+    result_expected = 4
+    assert result_actual == result_expected, "result_expected = {}, result_actual = {}".format(result_expected,
+                                                                                               result_actual)
+    print("->test_rotated_array_search_6: end")
+
+
 def test():
     test_rotated_array_search_1()
     test_rotated_array_search_2()
     test_rotated_array_search_3()
     test_rotated_array_search_4()
     test_rotated_array_search_5()
+    test_rotated_array_search_6()
 
 
 test()
