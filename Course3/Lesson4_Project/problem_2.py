@@ -93,14 +93,20 @@ def test_rotated_array_search_3():
 def test_rotated_array_search_4():
     print("----------------------------------------")
     print("->test_rotated_array_search_4: start")
-    rotated_array_search([6, 7, 8, 1, 2, 3, 4], 1)
+    result_actual = rotated_array_search([6, 7, 8, 1, 2, 3, 4], 1)
+    result_expected = 3
+    assert result_actual == result_expected, "result_expected = {}, result_actual = {}".format(result_expected,
+                                                                                               result_actual)
     print("->test_rotated_array_search_4: end")
 
 
 def test_rotated_array_search_5():
     print("----------------------------------------")
     print("->test_rotated_array_search_5: start")
-    rotated_array_search([6, 7, 8, 1, 2, 3, 4], 10)
+    result_actual = rotated_array_search([6, 7, 8, 1, 2, 3, 4], 10)
+    result_expected = -1
+    assert result_actual == result_expected, "result_expected = {}, result_actual = {}".format(result_expected,
+                                                                                               result_actual)
     print("->test_rotated_array_search_5: end")
 
 
@@ -108,8 +114,8 @@ def test():
     test_rotated_array_search_1()
     test_rotated_array_search_2()
     test_rotated_array_search_3()
-    # test_rotated_array_search_4()
-    # test_rotated_array_search_5()
+    test_rotated_array_search_4()
+    test_rotated_array_search_5()
 
 
 test()
