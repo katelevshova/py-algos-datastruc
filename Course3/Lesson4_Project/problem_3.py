@@ -12,6 +12,32 @@ In scenarios such as these when there are more than one possible answers, return
 """
 
 
+class QuickSort:
+    def swap_numbers(self, input_list, lower_index: int, higher_index: int):
+        if input_list[lower_index] != input_list[higher_index]:
+            tmp: int = input_list[lower_index]
+            input_list[lower_index] = input_list[higher_index]
+            input_list[higher_index] = tmp
+        print("->swap_numbers: "+str(input_list))
+
+    def partition(self, input_list, low_index: int, high_index: int):
+        index_lower = low_index - 1  # index of the smaller element
+        pivot_element = input_list[high_index]
+
+        for index in range(low_index, high_index):
+            if input_list[index] <= pivot_element:
+                index_lower += 1
+                self.swap_numbers(input_list, index_lower, index)
+        self.swap_numbers(input_list, index_lower+1, high_index)
+        return index_lower+1
+
+    def perform(self, input_list, low_index: int, high_index: int):
+        if low_index < high_index:
+            pivot_index = self.partition(input_list, low_index, high_index)
+            self.perform(input_list, low_index, pivot_index - 1)
+            self.perform(input_list, pivot_index + 1, high_index)
+
+
 def rearrange_digits(input_list):
     """
     Rearrange Array Elements so as to form two number such that their sum is maximum.
@@ -28,7 +54,10 @@ def rearrange_digits(input_list):
 
 
 def sort_list(input_list) -> list:
-    return
+    print("->sort_list: input_list= "+str(input_list))
+    quick_sort: QuickSort = QuickSort()
+    quick_sort.perform(input_list, 0, len(input_list)-1)
+    return input_list
 
 
 def test():
