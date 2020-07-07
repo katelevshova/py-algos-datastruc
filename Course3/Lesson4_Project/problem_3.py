@@ -25,7 +25,7 @@ class QuickSort:
         pivot_element = input_list[high_index]
 
         if pivot_element is None:
-            raise ValueError ("Pivot element is None")
+            raise ValueError("Pivot element is None")
 
         for index in range(low_index, high_index):
             if input_list[index] is None:
@@ -34,8 +34,8 @@ class QuickSort:
             if input_list[index] <= pivot_element:
                 index_lower += 1
                 self.swap_numbers(input_list, index_lower, index)
-        self.swap_numbers(input_list, index_lower+1, high_index)
-        return index_lower+1
+        self.swap_numbers(input_list, index_lower + 1, high_index)
+        return index_lower + 1
 
     def perform(self, input_list, low_index: int, high_index: int):
         if low_index < high_index:
@@ -44,7 +44,7 @@ class QuickSort:
             self.perform(input_list, pivot_index + 1, high_index)
 
 
-def rearrange_digits(input_list):
+def rearrange_digits(input_list) -> list:
     """
     Rearrange Array Elements so as to form two number such that their sum is maximum.
 
@@ -55,14 +55,27 @@ def rearrange_digits(input_list):
     """
 
     # sort the list
+    sorted_list = sort_list(input_list)
+    print("->rearrange_digits:")
+    first_number_str = ""
+    second_number_str = ""
 
-    print("->rearrange_digits: input_list= ")
+    for i in range(len(sorted_list) - 1, -1, -1):
+        if i % 2 == 0:  # even position
+            first_number_str += str(sorted_list[i])
+        else:
+            second_number_str += str(sorted_list[i])
+    print("first_number_str= " + first_number_str + ", second_number_str= " + second_number_str)
+    if first_number_str > second_number_str:
+        return [int(first_number_str), int(second_number_str)]
+    else:
+        return [int(second_number_str), int(first_number_str)]
 
 
 def sort_list(input_list) -> list:
-    print("->sort_list: input_list= "+str(input_list))
+    print("->sort_list: input_list= " + str(input_list))
     quick_sort: QuickSort = QuickSort()
-    quick_sort.perform(input_list, 0, len(input_list)-1)
+    quick_sort.perform(input_list, 0, len(input_list) - 1)
     print("->sort_list: result= " + str(input_list))
     return input_list
 
@@ -71,6 +84,9 @@ def test():
     test_sort_list_1()
     test_sort_list_2()
     # test_sort_list_3()
+    test_rearrange_digits_1()
+    test_rearrange_digits_2()
+    test_rearrange_digits_3()
 
 
 def test_rearrange_digits_1():
@@ -86,7 +102,7 @@ def test_rearrange_digits_2():
     print("---------------------------------")
     print("->test_rearrange_digits_2: start")
     actual_result = rearrange_digits([1, 2, 3, 4, 5])
-    expected_result = [542, 31]
+    expected_result = [531, 42]
     assert expected_result == actual_result, "expected is {}, actual is {}".format(expected_result, actual_result)
     print("->test_rearrange_digits_2: end")
 
@@ -94,8 +110,8 @@ def test_rearrange_digits_2():
 def test_rearrange_digits_3():
     print("---------------------------------")
     print("->test_rearrange_digits_3: start")
-    actual_result = rearrange_digits([1, 2, 3, 4, 5])
-    expected_result = [531, 42]
+    actual_result = rearrange_digits([4, 9, 2, 5, 9, 8])  # 2,4,5,8,9,9
+    expected_result = [984, 952]
     assert expected_result == actual_result, "expected is {}, actual is {}".format(expected_result, actual_result)
     print("->test_rearrange_digits_3: end")
 
