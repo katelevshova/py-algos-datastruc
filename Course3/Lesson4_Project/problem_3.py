@@ -84,9 +84,11 @@ def test():
     test_sort_list_1()
     test_sort_list_2()
     # test_sort_list_3()
+    test_sort_list_4()
     test_rearrange_digits_1()
     test_rearrange_digits_2()
     test_rearrange_digits_3()
+
 
 
 def test_rearrange_digits_1():
@@ -139,6 +141,15 @@ def test_sort_list_3():
     print("->test_sort_list_3: start")
     sort_list([4, 6, None, 2, 5, 9, None, 8])
     print("->test_sort_list_3: end")
+
+
+def test_sort_list_4():
+    print("---------------------------------")
+    print("->test_sort_list_4: start")
+    actual_result = sort_list([4, 6, 0, 2, 5, 9, 1, 3])
+    expected_result = [0, 1, 2, 3, 4, 5, 6, 9]
+    assert expected_result == actual_result, "expected is {}, actual is {}".format(expected_result, actual_result)
+    print("->test_sort_list_4: end")
 
 
 test()
