@@ -21,6 +21,15 @@ def sort_012(input_list) -> list:
 
     low_index = mid_index = 0
     high_index = len(input_list) - 1
+    '''
+    NOTE:
+    low_index - is a counter of zeroes in the input_list which counts from the beginning of the list, 
+                the zeroes will be in range input_list[0:low_index] or starting from 0 and ending at low_index-1
+    mid_index - is a counter of ones in input_list which counts from the beginning of the list,  
+                the ones will be in range input_list[low_index:mid_index] or starting from low_index to mid_index-1
+    Since we don't know the range between ones and 2s we count high_index from the end of the input_list.
+    high_index - is a counter for 2s in the input_list from the end, we continue until high_index meets the mid_index
+    '''
 
     while mid_index <= high_index:
         if input_list[mid_index] == 0:
