@@ -14,10 +14,8 @@ In scenarios such as these when there are more than one possible answers, return
 
 class QuickSort:
     def swap_numbers(self, input_list, lower_index: int, higher_index: int):
-        if input_list[lower_index] != input_list[higher_index]:
-            tmp: int = input_list[lower_index]
-            input_list[lower_index] = input_list[higher_index]
-            input_list[higher_index] = tmp
+        if input_list[lower_index] != input_list[higher_index]:  # optimization: swap only if different
+            input_list[lower_index], input_list[higher_index] = input_list[higher_index], input_list[lower_index]
         # print("->swap_numbers: "+str(input_list))
 
     def partition(self, input_list, low_index: int, high_index: int):
