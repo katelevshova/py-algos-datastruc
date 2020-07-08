@@ -25,7 +25,7 @@ def sort_012(input_list) -> list:
     while mid_index <= high_index:
         if input_list[mid_index] == 0:
             # swap low and middle
-            input_list[low_index], input_list[mid_index] = input_list[mid_index], input_list[low_index]
+            swap_numbers(input_list, low_index, mid_index)
             # increment low and middle indexes
             low_index += 1
             mid_index += 1
@@ -34,13 +34,19 @@ def sort_012(input_list) -> list:
             mid_index += 1
         elif input_list[mid_index] == 2:
             # swap middle and high
-            input_list[mid_index], input_list[high_index] = input_list[high_index], input_list[mid_index]
+            swap_numbers(input_list, mid_index, high_index)
             # decrement high
             high_index -= 1
         else:
             return []
 
     return input_list
+
+
+def swap_numbers(input_list, lower_index: int, higher_index: int):
+    if input_list[lower_index] != input_list[higher_index]:  # optimization: swap only if different
+        input_list[lower_index], input_list[higher_index] = input_list[higher_index], input_list[lower_index]
+    # print("->swap_numbers: "+str(input_list))
 
 
 def test():
