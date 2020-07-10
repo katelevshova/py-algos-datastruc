@@ -7,22 +7,21 @@ TASK5:
 # Represents a single node in the Trie
 class TrieNode:
     def __init__(self):
-        # print("Create new TrieNode")
         self.char_nodes_dict = {}
         self.last = False
 
     def __str__(self):
         result = ""
         for key, value in self.char_nodes_dict.items():
-            result += str(key) + " : " + str(value)
-        # for child in self.char_nodes_dict:
-        #    result += child + "->"
+            result += "{" + str(key) + ":{" + str(value) + "}}"
         return result
 
     def insert(self, char):
         if not self.char_nodes_dict.get(char):
             print("1. [TrieNode]-> insert: char= " + char)
             self.char_nodes_dict[char] = TrieNode()
+
+    #def find(self, char):
 
 
 # The Trie itself containing the root node and insert/find functions
@@ -47,6 +46,23 @@ class Trie:
             print("3. child node= " + str(node))
         node.last = True
 
+    # Find the Trie node that represents this prefix
+    def find(self, prefix):
+        print("[TrieNode]->find: prefix= " + str(prefix))
+        node = self.root
+        found = True
+
+        for char in list(prefix):
+            # print("char="+char)
+            if not node.char_nodes_dict.get(char):
+                found = False
+                break
+
+            node = node.char_nodes_dict[char]
+            # print("node= "+str(node))
+
+        return node, found
+
 
 MyTrie = Trie()
 wordList = [
@@ -56,3 +72,8 @@ wordList = [
 ]
 for word in wordList:
     MyTrie.insert(word)
+
+prefixNode, isFound = MyTrie.find('ant')
+print("prefixNode= " + str(prefixNode))
+print("isFound= " + str(isFound))
+
