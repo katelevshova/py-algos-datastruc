@@ -21,7 +21,34 @@ class TrieNode:
             print("1. [TrieNode]-> insert: char= " + char)
             self.char_nodes_dict[char] = TrieNode()
 
-    #def find(self, char):
+    '''
+    Recursive function that collects the suffix for 
+    all complete words below this point.
+    For example, if our Trie contains the words ["fun", "function", "factory"] and
+    we ask for suffixes from the f node, we would expect 
+    to receive ["un", "unction", "actory"] back from node.suffixes().
+    '''
+
+    def suffixes(self) -> list:
+        print("[TrieNode]->suffixes: ")
+        result_list = []
+        tmp_suffix = ""
+
+        for char_key, value_node in self.char_nodes_dict.items():
+            self.suffixes_rec(result_list, value_node, tmp_suffix + char_key)
+
+        return result_list
+
+    def suffixes_rec(self, result_list, node, tmp_suffix):
+
+        if node.last:
+            result_list.append(tmp_suffix)
+
+        for char_key, value_node in node.char_nodes_dict.items():
+            tmp_suffix += char_key
+            self.suffixes_rec(result_list, value_node, tmp_suffix)
+
+
 
 
 # The Trie itself containing the root node and insert/find functions
@@ -29,14 +56,14 @@ class Trie:
     def __init__(self):
         # Initialize this Trie (add a root node)
         self.root = TrieNode()
-        self.words_set = set()
+        #self.words_set = set()
 
     def insert(self, word):
         # Add a word to the Trie
         print("-----------------------------")
         print("[Trie]->insert: word= " + word)
         node = self.root
-        self.words_set.add(word)
+        #self.words_set.add(word)
 
         for char_key in list(word):
             print("char_key= " + char_key)
@@ -73,7 +100,11 @@ wordList = [
 for word in wordList:
     MyTrie.insert(word)
 
-prefixNode, isFound = MyTrie.find('ant')
+prefix = 'ant'
+prefixNode, isFound = MyTrie.find(prefix)
 print("prefixNode= " + str(prefixNode))
 print("isFound= " + str(isFound))
 
+if isFound:
+    suffixes = prefixNode.suffixes()
+    print("suffixes= " + str(suffixes))
