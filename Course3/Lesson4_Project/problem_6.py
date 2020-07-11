@@ -23,20 +23,29 @@ def get_min_max(input_list: list) -> tuple:
     if len(input_list) < 2:
         raise ValueError("input_list must be initialized with at least 2 elements!")
 
-    min: int = input_list[0]
-    max: int = input_list[1]
+    min_value: int = input_list[0]
+    max_value: int = input_list[1]
 
     for i in range(2, len(input_list)):
         current_value = input_list[i]
         print("i="+str(i)+", current_value="+str(current_value))
 
-
+    return min_value, max_value
 
     pass
 
 
-# Example Test Case of Ten Integers
-l = [i for i in range(0, 10)]  # a list containing 0 - 9
-random.shuffle(l)
+def test_get_min_max_1():
+    print("-----------------------------------")
+    print("->test_get_min_max_1:start ")
+    actual_result = get_min_max([8, 2, 9, 1, 3, 6, 4, 0, 5, 7])
+    expected_result = (0, 9)
+    assert actual_result == expected_result, "expected is {}, actual is {}".format(expected_result, actual_result)
+    print("->test_get_min_max_1:end ")
 
-print("Pass" if ((0, 9) == get_min_max(l)) else "Fail")
+
+def test():
+    test_get_min_max_1()
+
+
+test()
