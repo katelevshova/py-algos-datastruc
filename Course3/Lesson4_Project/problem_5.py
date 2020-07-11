@@ -67,14 +67,12 @@ class Trie:
     def __init__(self):
         # Initialize this Trie (add a root node)
         self.root = TrieNode()
-        # self.words_set = set()
 
     def insert(self, word):
         # Add a word to the Trie
         # print("-----------------------------")
         # print("[Trie]->insert: word= " + word)
         node = self.root
-        # self.words_set.add(word)
 
         for char_key in list(word):
             # print("char_key= " + char_key)
