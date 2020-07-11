@@ -23,14 +23,27 @@ def get_min_max(input_list: list) -> tuple:
     if len(input_list) < 2:
         raise ValueError("input_list must be initialized with at least 2 elements!")
 
-    min_value: int = input_list[0]
-    max_value: int = input_list[1]
+    if input_list[0] < input_list[1]:
+        min_value = input_list[0]
+        max_value = input_list[1]
+    else:
+        min_value = input_list[1]
+        max_value = input_list[0]
+
+    # print("init: min_value="+str(min_value)+", max_value= "+str(max_value))
 
     for i in range(2, len(input_list)):
         current_value = input_list[i]
-        print("i="+str(i)+", current_value="+str(current_value))
+        # print("i="+str(i)+", current_value="+str(current_value))
+        if current_value < min_value:
+            min_value = current_value
+        if current_value > max_value:
+            max_value = current_value
+        # print("min_value=" + str(min_value) + ", max_value= " + str(max_value))
 
-    return min_value, max_value
+    result = min_value, max_value
+    print("result= " + str(result))
+    return result
 
     pass
 
