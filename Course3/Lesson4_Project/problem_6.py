@@ -11,20 +11,27 @@ Sorting usually requires O(n log n) time. Can you come up with a O(n) algorithm 
 import random
 
 
-def get_min_max(ints):
+def get_min_max(input_list: list) -> tuple:
     """
     Return a tuple(min, max) out of list of unsorted integers.
 
     Args:
-       ints(list): list of integers containing one or more integers
+       input_list(list): list of integers containing one or more integers
     """
-    print("->get_min_max: ints= " + str(ints))
+    print("->get_min_max: input_list= " + str(input_list))
 
-    low_index = 0
-    mid_index = 0
-    high_index = len(ints) - 1
+    if len(input_list) < 2:
+        raise ValueError("input_list must be initialized with at least 2 elements!")
 
-    # while mid_index <= high_index:
+    min: int = input_list[0]
+    max: int = input_list[1]
+
+    for i in range(2, len(input_list)):
+        current_value = input_list[i]
+        print("i="+str(i)+", current_value="+str(current_value))
+
+
+
     pass
 
 
