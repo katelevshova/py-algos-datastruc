@@ -98,12 +98,22 @@ def test_get_min_max_5():
     print("->test_get_min_max_5:end ")
 
 
+def test_get_min_max_6():
+    print("-----------------------------------")
+    print("->test_get_min_max_6:start ")
+    actual_result = get_min_max([9, 8, 7, 6, 5, 4, 3, 2, 1, 0])
+    expected_result = (0, 9)
+    assert actual_result == expected_result, "expected is {}, actual is {}".format(expected_result, actual_result)
+    print("->test_get_min_max_6:end ")
+
+
 def test():
     test_get_min_max_1()
     test_get_min_max_2()
     test_get_min_max_3()
     test_get_min_max_4()
     test_get_min_max_5()
+    test_get_min_max_6()
 
 
 test()
