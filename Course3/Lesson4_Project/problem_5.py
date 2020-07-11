@@ -18,7 +18,7 @@ class TrieNode:
 
     def insert(self, char):
         if not self.char_nodes_dict.get(char):
-            print("1. [TrieNode]-> insert: char= " + char)
+            # print("1. [TrieNode]-> insert: char= " + char)
             self.char_nodes_dict[char] = TrieNode()
 
     '''
@@ -60,17 +60,17 @@ class Trie:
 
     def insert(self, word):
         # Add a word to the Trie
-        print("-----------------------------")
-        print("[Trie]->insert: word= " + word)
+        # print("-----------------------------")
+        # print("[Trie]->insert: word= " + word)
         node = self.root
         #self.words_set.add(word)
 
         for char_key in list(word):
-            print("char_key= " + char_key)
+            # print("char_key= " + char_key)
             node.insert(char_key)
-            print("2. root node= " + str(node))
+            # print("2. root node= " + str(node))
             node = node.char_nodes_dict[char_key]
-            print("3. child node= " + str(node))
+            # print("3. child node= " + str(node))
         node.last = True
 
     # Find the Trie node that represents this prefix
