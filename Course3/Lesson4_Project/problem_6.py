@@ -8,7 +8,6 @@ The code should run in O(n) time. Do not use Python's inbuilt functions to find 
 Bonus Challenge: Is it possible to find the max and min in a single traversal?
 Sorting usually requires O(n log n) time. Can you come up with a O(n) algorithm (i.e., linear time)?
 """
-import random
 
 
 def get_min_max(input_list: list) -> tuple:
@@ -21,7 +20,13 @@ def get_min_max(input_list: list) -> tuple:
     print("->get_min_max: input_list= " + str(input_list))
 
     if len(input_list) < 2:
-        raise ValueError("input_list must be initialized with at least 2 elements!")
+        # raise ValueError("input_list must be initialized with at least 2 elements!")
+        print("input_list must be initialized with at least 2 elements!")
+        return None, None
+
+    if input_list[0] is None or input_list[1] is None:
+        print("input_list must not contain None values!")
+        return None, None
 
     if input_list[0] < input_list[1]:
         min_value = input_list[0]
@@ -34,6 +39,11 @@ def get_min_max(input_list: list) -> tuple:
 
     for i in range(2, len(input_list)):
         current_value = input_list[i]
+
+        if current_value is None:
+            print("input_list must not contain None values!")
+            return None, None
+
         # print("i="+str(i)+", current_value="+str(current_value))
         if current_value < min_value:
             min_value = current_value
@@ -57,8 +67,43 @@ def test_get_min_max_1():
     print("->test_get_min_max_1:end ")
 
 
+def test_get_min_max_2():
+    print("-----------------------------------")
+    print("->test_get_min_max_2:start ")
+    assert get_min_max([2]) == (None, None)
+    assert get_min_max([]) == (None, None)
+    print("->test_get_min_max_2:end ")
+
+
+def test_get_min_max_3():
+    print("-----------------------------------")
+    print("->test_get_min_max_3:start ")
+    assert get_min_max([78, 1]) == (1, 78)
+    print("->test_get_min_max_3:end ")
+
+
+def test_get_min_max_4():
+    print("-----------------------------------")
+    print("->test_get_min_max_4:start ")
+    actual_result = get_min_max([8, 2, 9, None, 3, 6, 4, 0, 5, 7])
+    expected_result = (None, None)
+    assert actual_result == expected_result, "expected is {}, actual is {}".format(expected_result, actual_result)
+    print("->test_get_min_max_4:end ")
+
+
+def test_get_min_max_5():
+    print("-----------------------------------")
+    print("->test_get_min_max_5:start ")
+    assert get_min_max([None, 1]) == (None, None)
+    print("->test_get_min_max_5:end ")
+
+
 def test():
     test_get_min_max_1()
+    test_get_min_max_2()
+    test_get_min_max_3()
+    test_get_min_max_4()
+    test_get_min_max_5()
 
 
 test()
