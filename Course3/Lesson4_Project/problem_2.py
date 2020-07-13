@@ -11,7 +11,7 @@ Input: nums = [4,5,6,7,0,1,2], target = 0, Output: 4
 """
 
 
-def rotated_array_search(input_list, target):
+def rotated_array_search(input_list, target) -> int:
     """
     Find the index by searching in a rotated sorted array
 
