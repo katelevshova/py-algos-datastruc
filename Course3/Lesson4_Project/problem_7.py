@@ -79,7 +79,7 @@ class Router:
         self.add_handler(path_str, handler_str)
 
     def dir_name_checker(self, path_str):
-        if path_str == "" or path_str == "/" or path_str == "Root":
+        if path_str == "" or path_str == "/" or path_str == "Root" or path_str == "Root/":
             return "Root/"
         elif path_str[0] == "/":
             return "Root" + path_str
@@ -197,9 +197,9 @@ def test_insert_to_root_2():
 
 
 def test():
-    # test_root_1()
-    # test_root_2()
-    test_insert_to_root_1()
+    test_root_1()
+    #test_root_2()
+    #test_insert_to_root_1()
     # test_insert_to_root_2()
 
 
