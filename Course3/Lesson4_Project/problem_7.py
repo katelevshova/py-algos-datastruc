@@ -89,9 +89,13 @@ class Router:
     # Create a new RouteTrie for holding our routes
     # You could also add a handler for 404 page not found responses as well!
     def add_handler(self, path_str='', handler_str=''):
-        print("->add_handler: path_str= " + path_str + ", handler_str= " + str(handler_str))
-        checked_path = self.dir_name_checker(path_str)
-        self.route_trie.insert(self.split_path(checked_path), handler_str)
+        print("->add_handler: path_str= " + str(path_str) + ", handler_str= " + str(handler_str))
+
+        if path_str is not None:
+            checked_path = self.dir_name_checker(path_str)
+            self.route_trie.insert(self.split_path(checked_path), handler_str)
+        else:
+            print("path_str must be initialized! currently it's value is None")
 
     # Add a handler for a path
     # You will need to split the path and pass the pass parts
@@ -132,12 +136,17 @@ def test_root_1():
     print("------------------------------------")
     print("->test_root_1: START")
     router = Router("Root", "root handler")
+    # case1
+    print("\ncase1:")
     assert router.lookup("Root") == "root handler"
     assert router.lookup("Root/") == "root handler"
     assert router.lookup("/") == "root handler"
     assert router.lookup("") == "root handler"
+
+    # case2
+    print("\ncase2:")
     # "/Root" must create path "Root/Root" because first "/" is considered also Root
-    # assert router.lookup("/Root") == "not found handler"
+    assert router.lookup("/Root") == "not found handler"
     print("->test_root_1: END")
 
 
@@ -199,6 +208,11 @@ def test_insert_to_root_2():
     print("\ncase3:")
     router.add_handler("/home/about/test_empty_handler", "")
     assert router.lookup("/home/about/test_empty_handler") == "not found handler"
+
+    # case4
+    print("\ncase4:")
+    router.add_handler(None, None)
+    assert router.lookup("/None") == "not found handler"
 
     print("->test_insert_to_root_2: END")
 
