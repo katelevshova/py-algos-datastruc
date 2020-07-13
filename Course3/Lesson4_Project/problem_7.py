@@ -43,27 +43,26 @@ class RouteTrie:
         node = self.root
 
         for dir_name in dir_list:
-            print("->insert: dir_name= " + dir_name)
+            print("     ->insert: dir_name= " + dir_name)
             node.insert(dir_name)
-            print("root node= " + str(node))
+            print("     root node= " + str(node))
             node = node.dir_nodes_dict[dir_name]
         if handler_str is not '':
             node.handler = handler_str
-        print("handler= " + str(node.handler))
+        print("     handler= " + str(node.handler) + "\n")
 
     def find(self, dir_list):
         print("->find: dir_list=" + str(dir_list))
         node = self.root
 
         for dir_name in dir_list:
-            print("dir_name=" + str(dir_name))
+            # print("dir_name=" + str(dir_name))
 
             if not node.dir_nodes_dict.get(dir_name):
                 print("not found!")
                 return "not found handler"
             node = node.dir_nodes_dict[dir_name]
-            print("node=" + str(node))
-        print("return result....")
+            # print("node=" + str(node))
         return self.get_handler_value(node.handler)
 
     def get_handler_value(self, handler_str):
@@ -95,7 +94,7 @@ class Router:
             checked_path = self.dir_name_checker(path_str)
             self.route_trie.insert(self.split_path(checked_path), handler_str)
         else:
-            print("path_str must be initialized! currently it's value is None")
+            print("     path_str must be initialized! currently it's value is None.")
 
     # Add a handler for a path
     # You will need to split the path and pass the pass parts
@@ -107,28 +106,18 @@ class Router:
         # return the "not found" handler if you added one
         # bonus points if a path works with and without a trailing slash
         # e.g. /about and /about/ both return the /about handler
-
         print("->lookup: path_str= " + str(path_str))
-
         checked_path = self.dir_name_checker(path_str)
         split_path_list = self.split_path(checked_path)
-
-        '''
-        if len(split_path_list) > 0:
-            dir_name = split_path_list[-1]
-        else:
-            dir_name = split_path_list[0]
-        '''
         print("root= " + str(self.route_trie.root))
 
-        # result_handler = self.route_trie.find(dir_name)
         result_handler = self.route_trie.find(split_path_list)
-        print("->lookup: result_handler= " + str(result_handler))
+        print("->lookup: result_handler= " + str(result_handler) +"\n")
         return result_handler
 
     def split_path(self, path_str) -> list:
         split_path_list = [y for y in path_str.split("/") if y]
-        print("->split_path: path_str= " + str(path_str) + ", split_path_list=" + str(split_path_list))
+        # print("->split_path: path_str= " + str(path_str) + ", split_path_list=" + str(split_path_list))
         return split_path_list
 
 
