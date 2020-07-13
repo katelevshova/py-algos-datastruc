@@ -51,22 +51,29 @@ class RouteTrie:
             node.handler = handler_str
         print("handler= " + str(node.handler))
 
-    def find(self, dir_list: list):
-        print("->find: dir_name="+str(dir_list))
+    def find(self, dir_name):
+        print("->find: dir_name=" + str(dir_name))
         node = self.root
 
-        for dir_name in dir_list:
-            if not node.dir_nodes_dict.get(dir_name):
-                print("not found!")
-                break
+        if dir_name not in node.dir_nodes_dict:
+            self.get_handler_value(node.handler)
+        else:
             node = node.dir_nodes_dict[dir_name]
-            print("Found node="+str(node))
-            print("handler= "+str(node.handler))
+            return self.get_handler_value(node.handler)
 
-        if node.handler is None or node.handler is "":
+    def get_handler_value(self, handler_str):
+        if handler_str is None or handler_str is "":
             return "not found handler"
         else:
-            return node.handler
+            return handler_str
+
+    def find_node_rec(self, dir_name, node):
+
+        if not node.dir_nodes_dict.get(dir_name):
+            print("not found!")
+
+        for dir_name_key, value_node in node.dir_nodes_dict.items():
+            self.find_node_rec(dir_name, value_node)
 
 
 class Router:
@@ -101,16 +108,15 @@ class Router:
         checked_path = self.dir_name_checker(path_str)
         split_path_list = self.split_path(checked_path)
 
-        '''
         if len(split_path_list) > 0:
             dir_name = split_path_list[-1]
         else:
             dir_name = split_path_list[0]
 
-        print("root= "+str(self.route_trie.root))'''
+        print("root= " + str(self.route_trie.root))
 
-        result_handler = self.route_trie.find(split_path_list)
-        print("->lookup: result_handler= " + result_handler)
+        result_handler = self.route_trie.find(dir_name)
+        print("->lookup: result_handler= " + str(result_handler))
         return result_handler
 
     def split_path(self, path_str) -> list:
