@@ -53,13 +53,16 @@ class RouteTrie:
 
     def find(self, dir_name):
         if self.root.dir_nodes_dict.get(dir_name):
-            return self.root.dir_nodes_dict[dir_name].handler
+            if self.root.dir_nodes_dict[dir_name].handler is None:
+                return "not found handler"
+            else:
+                return self.root.dir_nodes_dict[dir_name].handler
         else:
             return "not found handler"
 
 
 class Router:
-    def __init__(self, path_str, handler_str=''):
+    def __init__(self, path_str='', handler_str=''):
         self.route_trie = RouteTrie()
         checked_path = self.dir_name_checker(path_str)
         self.route_trie.insert(self.split_path(checked_path), handler_str)
@@ -74,7 +77,8 @@ class Router:
     # You could also add a handler for 404 page not found responses as well!
     def add_handler(self, path_str, handler_str):
         print("->add_handler: path_str= "+path_str+", handler_str= "+handler_str)
-        self.route_trie.insert(self.split_path(path_str), handler_str)
+        checked_path = self.dir_name_checker(path_str)
+        self.route_trie.insert(self.split_path(checked_path), handler_str)
 
     # Add a handler for a path
     # You will need to split the path and pass the pass parts
@@ -100,7 +104,7 @@ class Router:
 
     def split_path(self, path_str) -> list:
         split_path_list = [y for y in path_str.split("/") if y]
-        print("split_path_list=" + str(split_path_list))
+        # print("split_path_list=" + str(split_path_list))
         return split_path_list
 
 
@@ -119,22 +123,22 @@ def test_root_1():
 def test_root_2():
     print("------------------------------------")
     print("->test_root_2: start")
-    router = Router("Root/", "root handler")
-    assert router.lookup("Root/") == "root handler"
+    router = Router("/")
+    assert router.lookup("/") == "not found handler"
+    router.add_handler("", "root handler")
+    assert router.lookup("") == "root handler"
     print("->test_root_2: end")
 
 
 def test_root_3():
     print("------------------------------------")
     print("->test_root_3: start")
-    router = Router("/", "root handler")
-    assert router.lookup("/") == "root handler"
     print("->test_root_3: end")
 
 
 def test():
     test_root_1()
-    #test_root_2()
+    test_root_2()
     #test_root_3()
 
 
