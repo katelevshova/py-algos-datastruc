@@ -4,3 +4,13 @@ Analysis. Project "Problems vs. Algorithms"
 
 ------------------------------------------------------------------------------------------------------------------------
 #Problem1
+
+    In the function sqrt_slower() loop starts when x=2 and ends when x*x=N.
+    Or, in other words, it stops when x = square root of N.
+    The runtime is significantly slower than implementation of sqrt() function by Newton's method
+    which takes O(logN) as it was expected in the task. Here we divide N by 2 until we reach square root of N
+    skipping several steps.
+
+------------------------------------------------------------------------------------------------------------------------
+#Problem2
+
