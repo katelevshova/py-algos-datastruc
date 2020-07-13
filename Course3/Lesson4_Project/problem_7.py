@@ -131,7 +131,7 @@ class Router:
 
 def test_root_1():
     print("------------------------------------")
-    print("->test_root_1: start")
+    print("->test_root_1: START")
     router = Router("Root", "root handler")
     assert router.lookup("Root") == "root handler"
     assert router.lookup("Root/") == "root handler"
@@ -139,22 +139,22 @@ def test_root_1():
     assert router.lookup("") == "root handler"
     # "/Root" must create path "Root/Root" because first "/" is considered also Root
     # assert router.lookup("/Root") == "not found handler"
-    print("->test_root_1: end")
+    print("->test_root_1: END")
 
 
 def test_root_2():
     print("------------------------------------")
-    print("->test_root_2: start")
+    print("->test_root_2: START")
     router = Router("/")
     assert router.lookup("/") == "not found handler"
     router.add_handler("", "root handler")
     assert router.lookup("") == "root handler"
-    print("->test_root_2: end")
+    print("->test_root_2: END")
 
 
 def test_root_3():
     print("------------------------------------")
-    print("->test_root_3: start")
+    print("->test_root_3: START")
     router = Router()
     router.add_handler("/home/about", "about handler")
     # case1
@@ -174,12 +174,12 @@ def test_root_3():
     assert router.lookup("/home/about/") == "about handler"
     assert router.lookup("/home /about /") == "not found handler"
     assert router.lookup("/home/about/me") == "not found handler"
-    print("->test_root_3: end")
+    print("->test_root_3: END")
 
 
 def test_root_4():
     print("------------------------------------")
-    print("->test_root_4: start")
+    print("->test_root_4: START")
     router = Router()
     router.add_handler("/home/about", "about handler")
     assert router.lookup("/home/username/group/about") == "not found handler"
@@ -190,12 +190,12 @@ def test_root_4():
     router.add_handler("/home/about/test_empty_handler", "")
     assert router.lookup("/home/about/test_empty_handler") == "1"
 
-    print("->test_root_4: end")
+    print("->test_root_4: END")
 
 
 def test():
     test_root_1()
-    #test_root_2()
+    test_root_2()
     #test_root_3()
     # test_root_4()
 
