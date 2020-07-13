@@ -8,7 +8,7 @@ The expected time complexity is O(log(n))
 """
 
 
-def sqrt(number):
+def sqrt(number) -> int:
     """
     Calculate the floored square root of a number
 
@@ -49,49 +49,49 @@ def test_sqrt():
     print("result= "+str(actual_result))
     assert (expected_result == actual_result), "{}expected is {}, actual is {}".format("case1: ", expected_result,
                                                                                        actual_result)
-    print("case2----------------------------------------------------------------------------------")
+    print("\ncase2----------------------------------------------------------------------------------")
     # case2
     expected_result = 0
     actual_result = sqrt(0)
     print("result= " + str(actual_result))
     assert (expected_result == actual_result), "{}expected is {}, actual is {}".format("case2: ", expected_result,
                                                                                        actual_result)
-    print("case3----------------------------------------------------------------------------------")
+    print("\ncase3----------------------------------------------------------------------------------")
     # case3
     expected_result = 4
     actual_result = sqrt(16)
     print("result= " + str(actual_result))
     assert (expected_result == actual_result), "{}expected is {}, actual is {}".format("case3: ", expected_result,
                                                                                        actual_result)
-    print("case4----------------------------------------------------------------------------------")
+    print("\ncase4----------------------------------------------------------------------------------")
     # case4
     expected_result = 1
     actual_result = sqrt(1)
     print("result= " + str(actual_result))
     assert (expected_result == actual_result), "{}expected is {}, actual is {}".format("case4: ", expected_result,
                                                                                        actual_result)
-    print("case5----------------------------------------------------------------------------------")
+    print("\ncase5----------------------------------------------------------------------------------")
     # case5
     expected_result = 5
     actual_result = sqrt(27)
     print("result= " + str(actual_result))
     assert (expected_result == actual_result), "{}expected is {}, actual is {}".format("case5: ", expected_result,
                                                                                        actual_result)
-    print("case6----------------------------------------------------------------------------------")
+    print("\ncase6----------------------------------------------------------------------------------")
     # case6
     expected_result = 5
     actual_result = sqrt(34)
     print("result= " + str(actual_result))
     assert (expected_result == actual_result), "{}expected is {}, actual is {}".format("case6: ", expected_result,
                                                                                        actual_result)
-    print("case7----------------------------------------------------------------------------------")
+    print("\ncase7----------------------------------------------------------------------------------")
     # case7
     expected_result = "Error"
     actual_result = sqrt(None)
     print("result= " + str(actual_result))
     assert (expected_result == actual_result), "{}expected is {}, actual is {}".format("case7: ", expected_result,
                                                                                        actual_result)
-    print("case8----------------------------------------------------------------------------------")
+    print("\ncase8----------------------------------------------------------------------------------")
     # case8
     expected_result = "Error"
     actual_result = sqrt(-16)
