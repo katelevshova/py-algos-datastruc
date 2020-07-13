@@ -55,8 +55,6 @@ def get_min_max(input_list: list) -> tuple:
     print("result= " + str(result))
     return result
 
-    pass
-
 
 def test_get_min_max_1():
     print("-----------------------------------")
