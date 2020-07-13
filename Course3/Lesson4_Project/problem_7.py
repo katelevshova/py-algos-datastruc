@@ -92,6 +92,7 @@ class Router:
         Converts path to a proper format using "Root/" prefix.
         Example_1: "", "/", "Root", "Root/" are converted to "Root/"
         Example_2: "/Home" converts to "Root/Home"
+        Example_3: "Home" converts to "Root/Home"
         :param path_str:
         :return: str - converted string value
         """
@@ -154,9 +155,17 @@ def test_root_2():
     print("\n------------------------------------")
     print("->test_root_2: START")
     router = Router("/")
+    # case1
+    print("\ncase1:")
     assert router.lookup("/") == "not found handler"
     router.add_handler("", "root handler")
     assert router.lookup("") == "root handler"
+
+    # case2
+    print("\ncase2:")
+    router.add_handler("Home", "root handler")
+    assert router.lookup("Home") == "root handler"
+
     print("->test_root_2: END")
 
 
