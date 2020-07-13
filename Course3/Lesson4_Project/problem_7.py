@@ -39,14 +39,17 @@ class RouteTrie:
         # Initialize the trie with an root node and a handler, this is the root path or home page node
         self.root = RouteTrieNode()
 
-    def insert(self, dir_list):
+    def insert(self, dir_list, handler_str=''):
         node = self.root
 
         for dir_name in dir_list:
-            print("dir_name= " + dir_name)
+            print("->insert: dir_name= " + dir_name)
             node.insert(dir_name)
-            print("2. root node= " + str(node))
+            print("root node= " + str(node))
             node = node.dir_nodes_dict[dir_name]
+        if handler_str is not '':
+            node.handler = handler_str
+        print("handler= "+str(node.handler))
 
     def find(self, dir_name):
         if self.root.dir_nodes_dict.get(dir_name):
@@ -56,14 +59,22 @@ class RouteTrie:
 
 
 class Router:
-    def __init__(self, path, handler):
+    def __init__(self, path_str, handler_str=''):
         self.route_trie = RouteTrie()
+        checked_path = self.dir_name_checker(path_str)
+        self.route_trie.insert(self.split_path(checked_path), handler_str)
+
+    def dir_name_checker(self, path_str):
+        if path_str == "" or path_str == "/":
+            return "Root"
+        else:
+            return path_str
 
     # Create a new RouteTrie for holding our routes
     # You could also add a handler for 404 page not found responses as well!
     def add_handler(self, path_str, handler_str):
         print("->add_handler: path_str= "+path_str+", handler_str= "+handler_str)
-        self.route_trie.insert(self.split_path(path_str))
+        self.route_trie.insert(self.split_path(path_str), handler_str)
 
     # Add a handler for a path
     # You will need to split the path and pass the pass parts
@@ -75,8 +86,15 @@ class Router:
         # return the "not found" handler if you added one
         # bonus points if a path works with and without a trailing slash
         # e.g. /about and /about/ both return the /about handler
-        result_handler = self.route_trie.find(self.split_path(path_str)[-1])
-        print("result_handler= "+result_handler)
+        checked_path = self.dir_name_checker(path_str)
+        split_path_list = self.split_path(checked_path)
+        if len(split_path_list) > 0:
+            dir_name = split_path_list[-1]
+        else:
+            dir_name = split_path_list[0]
+
+        result_handler = self.route_trie.find(dir_name)
+        print("->lookup: result_handler= "+result_handler)
         return result_handler
 
 
@@ -86,17 +104,38 @@ class Router:
         return split_path_list
 
 
-def test_1():
+def test_root_1():
     print("------------------------------------")
-    print("->test_1: start")
-    router = Router()
-    assert router.lookup("/") == "not found handler"
+    print("->test_root_1: start")
+    router = Router("Root", "root handler")
+    assert router.lookup("Root") == "root handler"
+    assert router.lookup("Root/") == "root handler"
+    assert router.lookup("/Root") == "root handler"
+    assert router.lookup("/") == "root handler"
+    assert router.lookup("") == "root handler"
+    print("->test_root_1: end")
 
-    print("->test_1: end")
+
+def test_root_2():
+    print("------------------------------------")
+    print("->test_root_2: start")
+    router = Router("Root/", "root handler")
+    assert router.lookup("Root/") == "root handler"
+    print("->test_root_2: end")
+
+
+def test_root_3():
+    print("------------------------------------")
+    print("->test_root_3: start")
+    router = Router("/", "root handler")
+    assert router.lookup("/") == "root handler"
+    print("->test_root_3: end")
 
 
 def test():
-    test_1()
+    test_root_1()
+    #test_root_2()
+    #test_root_3()
 
 
 test()
