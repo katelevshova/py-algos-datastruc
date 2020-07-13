@@ -14,3 +14,7 @@ Analysis. Project "Problems vs. Algorithms"
 ------------------------------------------------------------------------------------------------------------------------
 #Problem2
 
+    We are using a binary search to implement this task which takes O(logN) time.
+    We divide the array on 2 parts recursively to determine which side is normally ordered,
+    then use the normally ordered half to figure out which side to search to find the target.
+
