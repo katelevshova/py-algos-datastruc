@@ -88,7 +88,6 @@ def test():
     test_rearrange_digits_3()
 
 
-
 def test_rearrange_digits_1():
     print("---------------------------------")
     print("->test_rearrange_digits_1: start")
