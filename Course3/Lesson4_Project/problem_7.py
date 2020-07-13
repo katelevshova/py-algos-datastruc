@@ -56,7 +56,7 @@ class RouteTrie:
         node = self.root
 
         if dir_name not in node.dir_nodes_dict:
-            self.get_handler_value(node.handler)
+            return self.get_handler_value(node.handler)
         else:
             node = node.dir_nodes_dict[dir_name]
             return self.get_handler_value(node.handler)
@@ -152,9 +152,9 @@ def test_root_2():
     print("->test_root_2: END")
 
 
-def test_root_3():
+def test_insert_to_root_1():
     print("------------------------------------")
-    print("->test_root_3: START")
+    print("->test_insert_to_root_1: START")
     router = Router()
     router.add_handler("/home/about", "about handler")
     # case1
@@ -163,23 +163,27 @@ def test_root_3():
     expected_result = "not found handler"
     assert actual_result == expected_result, "{}, actual= '{}', expected= {}".format("case1", actual_result,
                                                                                      expected_result)
+
     # case2
     print("case2:")
     actual_result = router.lookup("/home/about")
     expected_result = "about handler"
     assert actual_result == expected_result, "{}, actual= '{}', expected= {}".format("case2", actual_result,
                                                                                      expected_result)
+    '''
     # case3
     print("case3:")
     assert router.lookup("/home/about/") == "about handler"
     assert router.lookup("/home /about /") == "not found handler"
     assert router.lookup("/home/about/me") == "not found handler"
-    print("->test_root_3: END")
+   
+    '''
+    print("->test_insert_to_root_1: END")
 
 
-def test_root_4():
+def test_insert_to_root_2():
     print("------------------------------------")
-    print("->test_root_4: START")
+    print("->test_insert_to_root_2: START")
     router = Router()
     router.add_handler("/home/about", "about handler")
     assert router.lookup("/home/username/group/about") == "not found handler"
@@ -190,14 +194,14 @@ def test_root_4():
     router.add_handler("/home/about/test_empty_handler", "")
     assert router.lookup("/home/about/test_empty_handler") == "1"
 
-    print("->test_root_4: END")
+    print("->test_insert_to_root_2: END")
 
 
 def test():
-    test_root_1()
-    test_root_2()
-    #test_root_3()
-    # test_root_4()
+    #test_root_1()
+    #test_root_2()
+    test_insert_to_root_1()
+    # test_insert_to_root_2()
 
 
 test()
