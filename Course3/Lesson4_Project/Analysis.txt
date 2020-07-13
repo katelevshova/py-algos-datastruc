@@ -21,13 +21,18 @@ Analysis. Project "Problems vs. Algorithms"
 ------------------------------------------------------------------------------------------------------------------------
 #Problem3
 
-    I'm using QuickSort algorithm to sort the input array and then create a pair of numbers for result.
-    QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array
-    around the picked pivot.
-    QuickSort is very popular because it's average time complexity is much quicker. With a good pivot the QuickSort
-    would partition the array into halves which grows logarithmically with N. The average time is O(NlogN).
-    When the smallest of largest element is selected as the pivot it would lead to a worst case
-    time complexity of O(N^2).
+    To implement the task first I need to sort the array and then create a pair of numbers to return as a result.
+
+    In function sort_list_slower() I'm using QuickSort algorithm to sort the input array.
+        QuickSort is a Divide and Conquer algorithm. It picks an element as pivot and partitions the given array
+        around the picked pivot.
+        QuickSort is very popular because it's average time complexity is much quicker. With a good pivot the QuickSort
+        would partition the array into halves which grows logarithmically with N. The average time is O(NlogN).
+        When the smallest of largest element is selected as the pivot it would lead to a worst case
+        time complexity of O(N^2).
+    In function sort_list() I'm using HeapSort algorithm which guarantee to take O(NlogN) which is better than the
+        worst case of QuickSort.
+    The overall time complexity of rearrange_digits() function is O(NlogN) with HeapSort.
 
 
 
