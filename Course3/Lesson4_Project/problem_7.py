@@ -104,7 +104,7 @@ class Router:
 
     def split_path(self, path_str) -> list:
         split_path_list = [y for y in path_str.split("/") if y]
-        # print("split_path_list=" + str(split_path_list))
+        print("split_path_list=" + str(split_path_list))
         return split_path_list
 
 
@@ -133,13 +133,20 @@ def test_root_2():
 def test_root_3():
     print("------------------------------------")
     print("->test_root_3: start")
+    router = Router()
+    router.add_handler("/home/about", "about handler")
+    assert router.lookup("/home") == "not found handler"
+    assert router.lookup("/home/about") == "about handler"
+    assert router.lookup("/home/about") == "about handler"
+    assert router.lookup("/home/about/") == "about handler"
+    assert router.lookup("/home/about/me") == "not found handler"
     print("->test_root_3: end")
 
 
 def test():
     test_root_1()
     test_root_2()
-    #test_root_3()
+    test_root_3()
 
 
 test()
