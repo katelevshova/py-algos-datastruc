@@ -49,16 +49,24 @@ class RouteTrie:
             node = node.dir_nodes_dict[dir_name]
         if handler_str is not '':
             node.handler = handler_str
-        print("handler= "+str(node.handler))
+        print("handler= " + str(node.handler))
 
-    def find(self, dir_name):
-        if self.root.dir_nodes_dict.get(dir_name):
-            if self.root.dir_nodes_dict[dir_name].handler is None:
-                return "not found handler"
-            else:
-                return self.root.dir_nodes_dict[dir_name].handler
-        else:
+    def find(self, dir_list: list):
+        print("->find: dir_name="+str(dir_list))
+        node = self.root
+
+        for dir_name in dir_list:
+            if not node.dir_nodes_dict.get(dir_name):
+                print("not found!")
+                break
+            node = node.dir_nodes_dict[dir_name]
+            print("Found node="+str(node))
+            print("handler= "+str(node.handler))
+
+        if node.handler is None or node.handler is "":
             return "not found handler"
+        else:
+            return node.handler
 
 
 class Router:
@@ -76,7 +84,7 @@ class Router:
     # Create a new RouteTrie for holding our routes
     # You could also add a handler for 404 page not found responses as well!
     def add_handler(self, path_str, handler_str):
-        print("->add_handler: path_str= "+path_str+", handler_str= "+handler_str)
+        print("->add_handler: path_str= " + path_str + ", handler_str= " + handler_str)
         checked_path = self.dir_name_checker(path_str)
         self.route_trie.insert(self.split_path(checked_path), handler_str)
 
@@ -92,15 +100,18 @@ class Router:
         # e.g. /about and /about/ both return the /about handler
         checked_path = self.dir_name_checker(path_str)
         split_path_list = self.split_path(checked_path)
+
+        '''
         if len(split_path_list) > 0:
             dir_name = split_path_list[-1]
         else:
             dir_name = split_path_list[0]
 
-        result_handler = self.route_trie.find(dir_name)
-        print("->lookup: result_handler= "+result_handler)
-        return result_handler
+        print("root= "+str(self.route_trie.root))'''
 
+        result_handler = self.route_trie.find(split_path_list)
+        print("->lookup: result_handler= " + result_handler)
+        return result_handler
 
     def split_path(self, path_str) -> list:
         split_path_list = [y for y in path_str.split("/") if y]
@@ -135,18 +146,47 @@ def test_root_3():
     print("->test_root_3: start")
     router = Router()
     router.add_handler("/home/about", "about handler")
-    assert router.lookup("/home") == "not found handler"
-    assert router.lookup("/home/about") == "about handler"
-    assert router.lookup("/home/about") == "about handler"
+    # case1
+    print("case1:")
+    actual_result = router.lookup("/home")
+    expected_result = "not found handler"
+    assert actual_result == expected_result, "{}, actual= '{}', expected= {}".format("case1", actual_result,
+                                                                                     expected_result)
+    # case2
+    print("case2:")
+    actual_result = router.lookup("/home/about")
+    expected_result = "about handler"
+    assert actual_result == expected_result, "{}, actual= '{}', expected= {}".format("case2", actual_result,
+                                                                                     expected_result)
+    # case3
+    print("case3:")
     assert router.lookup("/home/about/") == "about handler"
+    assert router.lookup("/home /about /") == "not found handler"
     assert router.lookup("/home/about/me") == "not found handler"
     print("->test_root_3: end")
+
+
+def test_root_4():
+    print("------------------------------------")
+    print("->test_root_4: start")
+    router = Router()
+    router.add_handler("/home/about", "about handler")
+    assert router.lookup("/home/username/group/about") == "not found handler"
+
+    router.add_handler("/home/about/test_none_handler")
+    assert router.lookup("/home/about/test_none_handler") == "not found handler"
+
+    router.add_handler("/home/about/test_empty_handler", "")
+    assert router.lookup("/home/about/test_empty_handler") == "1"
+
+    print("->test_root_4: end")
 
 
 def test():
     test_root_1()
     test_root_2()
     test_root_3()
+    # test_root_4()
 
 
 test()
