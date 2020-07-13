@@ -13,6 +13,9 @@ In scenarios such as these when there are more than one possible answers, return
 
 
 class QuickSort:
+    def __init__(self):
+        print("QuickSort:")
+
     def swap_numbers(self, input_list, lower_index: int, higher_index: int):
         if input_list[lower_index] != input_list[higher_index]:  # optimization: swap only if different
             input_list[lower_index], input_list[higher_index] = input_list[higher_index], input_list[lower_index]
@@ -40,6 +43,52 @@ class QuickSort:
             pivot_index = self.partition(input_list, low_index, high_index)
             self.perform(input_list, low_index, pivot_index - 1)
             self.perform(input_list, pivot_index + 1, high_index)
+
+
+class HeapSort:
+
+    def __init__(self):
+        print("HeapSort:")
+
+    def heapify(self, input_list, heap_size, root_index):
+        # Assume the index of the largest element is the root index
+        largest = root_index
+        left_child = (2 * root_index) + 1
+        right_child = (2 * root_index) + 2
+
+        # If the left child of the root is a valid index, and the element is greater
+        # than the current largest element, then update the largest element
+        if left_child < heap_size and input_list[left_child] > input_list[largest]:
+            largest = left_child
+
+        # Do the same for the right child of the root
+        if right_child < heap_size and input_list[right_child] > input_list[largest]:
+            largest = right_child
+
+        # If the largest element is no longer the root element, swap them
+        if largest != root_index:
+            input_list[root_index], input_list[largest] = input_list[largest], input_list[root_index]
+            # Heapify the new root element to ensure it's the largest
+            self.heapify(input_list, heap_size, largest)
+
+    def perform(self, input_list):
+        list_length = len(input_list)
+
+        if None in input_list:
+            raise ValueError("Input list must not contain None value!")
+
+        # Create a Max Heap from the list
+        # The 2nd argument of range means we stop at the element before -1 i.e.
+        # the first element of the list.
+        # The 3rd argument of range means we iterate backwards, reducing the count
+        # of i by 1
+        for i in range(list_length, -1, -1):
+            self.heapify(input_list, list_length, i)
+
+        # Move the root of the max heap to the end of
+        for i in range(list_length - 1, 0, -1):
+            input_list[i], input_list[0] = input_list[0], input_list[i]
+            self.heapify(input_list, i, 0)
 
 
 def rearrange_digits(input_list) -> list:
@@ -70,10 +119,18 @@ def rearrange_digits(input_list) -> list:
         return [int(second_number_str), int(first_number_str)]
 
 
-def sort_list(input_list) -> list:
-    print("->sort_list: input_list= " + str(input_list))
+def sort_list_slower(input_list) -> list:
+    print("->sort_list_slower: input_list= " + str(input_list))
     quick_sort: QuickSort = QuickSort()
     quick_sort.perform(input_list, 0, len(input_list) - 1)
+    print("->sort_list_slower: result= " + str(input_list))
+    return input_list
+
+
+def sort_list(input_list) -> list:
+    print("->sort_list: input_list= " + str(input_list))
+    heap_sort: HeapSort = HeapSort()
+    heap_sort.perform(input_list)
     print("->sort_list: result= " + str(input_list))
     return input_list
 
