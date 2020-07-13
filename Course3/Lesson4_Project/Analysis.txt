@@ -9,12 +9,12 @@ Analysis. Project "Problems vs. Algorithms"
     Or, in other words, it stops when x = square root of N.
     The runtime is significantly slower than implementation of sqrt() function by Newton's method
     which takes O(logN) as it was expected in the task. Here we divide N by 2 until we reach square root of N
-    skipping several steps.
+    skipping several steps. Space is O(1).
 
 ------------------------------------------------------------------------------------------------------------------------
 #Problem2
 
-    We are using a binary search to implement this task which takes O(logN) time.
+    We are using a binary search to implement this task which takes O(logN) time. Space is O(1).
     We divide the array on 2 parts recursively to determine which side is normally ordered,
     then use the normally ordered half to figure out which side to search to find the target.
 
@@ -33,6 +33,7 @@ Analysis. Project "Problems vs. Algorithms"
     In function sort_list() I'm using HeapSort algorithm which guarantee to take O(NlogN) which is better than the
         worst case of QuickSort.
     The overall time complexity of rearrange_digits() function is O(NlogN) with HeapSort.
+    Space is O(1) because the heap is built inside the array to be sorted.
 
 ------------------------------------------------------------------------------------------------------------------------
 #Problem4
