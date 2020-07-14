@@ -25,6 +25,8 @@ class RouteTrieNode:
     def insert(self, dir_name):
         if not self.dir_nodes_dict.get(dir_name):
             self.dir_nodes_dict[dir_name] = RouteTrieNode()
+        else:
+            print("     ...already exists.")
 
     def __str__(self) -> str:
         result = ""
