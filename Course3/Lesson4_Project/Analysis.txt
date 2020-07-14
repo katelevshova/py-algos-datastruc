@@ -50,6 +50,21 @@ Analysis. Project "Problems vs. Algorithms"
 
     In a swap_numbers() function I swap elements only if they are different as an optimization.
 
+------------------------------------------------------------------------------------------------------------------------
+#Problem5
+
+    To insert a word into a Trie takes O(N) where N is the number of characters in the word.
+    If M is the number of words than to build a Trie giving a list of words takes O(M*N) since we are going
+    through all characters of each word.
+    To find a prefix node in the Trie by giving a prefix takes O(N) where N is the number of characters in the prefix.
+        Getting a value from a dictionary by a key takes O(1).
+
+    When insert ant search takes O(N) time, the space complexity is
+    O(ALPHABET_SIZE * key_length * N) where N is number of keys in Trie.
+
+    To get all suffixes of the prefix node we need recursively go through all items of the prefix node dictionary
+    until the last node. This will take O(N^M) where N is the number of branches and M the depth.
+    Space complexity is O(N) since only one level exists at a single time.
 
 
 
