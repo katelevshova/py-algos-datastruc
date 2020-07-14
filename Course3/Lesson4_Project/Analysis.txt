@@ -76,5 +76,18 @@ Analysis. Project "Problems vs. Algorithms"
     and max_value accordingly. The worst case occurs when elements are sorted in descending order.
     Space complexity is O(1).
 
-    
+------------------------------------------------------------------------------------------------------------------------
+#Problem7
+
+    We start from creating the Router instance. The first node is going to be a Root node.
+    Method add_handler() first takes a path and converts it to a single format for a root node which takes O(1).
+        Then we split the path using "/" separator which takes O(N), N - the length of the path string.
+        Using the result we insert all directories from the list into the RouteTrie which takes O(N) time and
+        space O(M*N), where M - the length of the directories list, N - the number of keys in Trie.
+
+    Method lookup() also takes a path and converts it to a single format for a root node and splits it by "/".
+        After that method find() takes the resulted directories list and searches for the directory name in the list
+        and returns its handler value. In overall it takes O(N) time and O(N) space.
+
+
 
