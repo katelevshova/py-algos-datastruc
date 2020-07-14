@@ -23,7 +23,8 @@ class RouteTrieNode:
         self.handler = None
 
     def insert(self, dir_name):
-        self.dir_nodes_dict[dir_name] = RouteTrieNode()
+        if not self.dir_nodes_dict.get(dir_name):
+            self.dir_nodes_dict[dir_name] = RouteTrieNode()
 
     def __str__(self) -> str:
         result = ""
@@ -194,6 +195,11 @@ def test_insert_to_root_1():
     assert router.lookup("/home/about/") == "about handler"
     assert router.lookup("/home /about /") == "not found handler"
     assert router.lookup("/home/about/me") == "not found handler"
+
+    # case4
+    print("\ncase4:")
+    router.add_handler("home/books", "books handler")
+    assert router.lookup("/home/books") == "books handler"
 
     print("->test_insert_to_root_1: END")
 
