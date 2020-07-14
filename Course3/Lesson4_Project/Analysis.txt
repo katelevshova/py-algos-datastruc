@@ -66,5 +66,15 @@ Analysis. Project "Problems vs. Algorithms"
     until the last node. This will take O(N^M) where N is the number of branches and M the depth.
     Space complexity is O(N) since only one level exists at a single time.
 
+------------------------------------------------------------------------------------------------------------------------
+#Problem6
 
+    Function get_min_max() takes O(N) linear time in a single traversal.
+    The length of the input list must be at least 2.
+    We initialize the min_value and max_value using first 2 elements.
+    Start traversing the input list from the 3rd element, compare each element with min_value
+    and max_value accordingly. The worst case occurs when elements are sorted in descending order.
+    Space complexity is O(1).
+
+    
 
