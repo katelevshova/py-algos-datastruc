@@ -1,5 +1,0 @@
-Task0 - updated according to the provided example. Added a comment that it would be better to mark it as Suggestion.
-Task1 - removed not necessary IFs (line 40, 41)
-Task3 - removed usage of global, fixed format of percentage value (It would be great to have examples of input/output under the task.)
-Task4 - removed checking for '140'. (In Task3 there was a mentioning that all telemarketers have code '140' so when I saw the word telemarketers in Task4 it led to a false assumption that I need additional check for the code 140. It would be better to ask just to print all numbers that only call, but never answer the call or send/receive messages without calling them telemarketers. Or add this clarification to the task that it does not have to be numbers with 140. Or add some input/output examples.)
-Analysis - removed analysis for the code that was provided with a task.
