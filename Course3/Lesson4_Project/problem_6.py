@@ -19,10 +19,11 @@ def get_min_max(input_list: list) -> tuple:
     """
     print("->get_min_max: input_list= " + str(input_list))
 
-    if len(input_list) < 2:
-        # raise ValueError("input_list must be initialized with at least 2 elements!")
-        print("input_list must be initialized with at least 2 elements!")
+    if len(input_list) == 0:
         return None, None
+
+    if len(input_list) == 1:
+        return input_list[0], input_list[0]
 
     if input_list[0] is None or input_list[1] is None:
         print("input_list must not contain None values!")
@@ -68,8 +69,12 @@ def test_get_min_max_1():
 def test_get_min_max_2():
     print("-----------------------------------")
     print("->test_get_min_max_2:start ")
-    assert get_min_max([2]) == (None, None)
-    assert get_min_max([]) == (None, None)
+    actual_result = get_min_max([2])
+    assert actual_result == (2, 2)
+    print("result= "+str(actual_result))
+    actual_result = get_min_max([])
+    assert actual_result == (None, None)
+    print("result= " + str(actual_result))
     print("->test_get_min_max_2:end ")
 
 
@@ -112,6 +117,8 @@ def test():
     test_get_min_max_4()
     test_get_min_max_5()
     test_get_min_max_6()
+    print("\n======================================")
+    print("ALL TESTS FINISHED SUCCESSFULLY!")
 
 
 test()
