@@ -79,25 +79,44 @@ def test():
     print("case3: \n" + str(actual_result))
     assert actual_result == expected_result, "{}, actual={}, expected={}".format("case3", actual_result,
                                                                                  expected_result)
-
-    actual_result = sort_012([])
-    print("case4: \n" + str(actual_result))
-    assert actual_result == [], "{}, actual={}, expected={}".format("case4", actual_result,
-                                                                    expected_result)
-
-    test_list = [-1, -2, 0, 2, 3]
+    test_list = []
     actual_result = sort_012(test_list)
-    expected_result = []
+    print("case4: \n" + str(actual_result))
+    assert actual_result == test_list, "{}, actual={}, expected={}".format("case4", actual_result, test_list)
+
+    test_list = [2]
+    actual_result = sort_012(test_list)
     print("case5: \n" + str(actual_result))
+    assert actual_result == test_list, "{}, actual={}, expected={}".format("case5", actual_result, test_list)
+
+    test_list = [2, 0]
+    actual_result = sort_012(test_list)
+    expected_result = sorted(test_list)
+    print("case6: \n" + str(actual_result))
     assert actual_result == expected_result, "{}, actual={}, expected={}".format("case5", actual_result,
                                                                                  expected_result)
 
-    test_list = [0, 0, 0, 0, 0, None, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, -2]
+    test_list = [0, 0, 0]
     actual_result = sort_012(test_list)
-    expected_result = []
-    print("case6: \n" + str(actual_result))
-    assert actual_result == expected_result, "{}, actual={}, expected={}".format("case6", actual_result,
-                                                                                 expected_result)
+    print("case7: \n" + str(actual_result))
+    assert actual_result == test_list, "{}, actual={}, expected={}".format("case6", actual_result, test_list)
+
+    test_list = [2, 1, 1]
+    actual_result = sort_012(test_list)
+    expected_result = sorted(test_list)
+    print("case8: \n" + str(actual_result))
+    assert actual_result == test_list, "{}, actual={}, expected={}".format("case7", actual_result,
+                                                                           expected_result)
+
+    test_list = [2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0]
+    actual_result = sort_012(test_list)
+    expected_result = sorted(test_list)
+    print("case9: \n" + str(actual_result))
+    assert actual_result == test_list, "{}, actual={}, expected={}".format("case9", actual_result,
+                                                                           expected_result)
+
+    print("\n======================================")
+    print("ALL TESTS FINISHED SUCCESSFULLY!")
 
 
 test()
