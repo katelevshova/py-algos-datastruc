@@ -14,9 +14,11 @@ Analysis. Project "Problems vs. Algorithms"
 ------------------------------------------------------------------------------------------------------------------------
 #Problem2
 
-    We are using a binary search to implement this task which takes O(logN) time. Space is O(1).
+    We are using a binary search to implement this task which takes O(logN) time.
     We divide the array on 2 parts recursively to determine which side is normally ordered,
     then use the normally ordered half to figure out which side to search to find the target.
+    Since this is a recursive version of binary search, the space complexity of algorithm is O(logN), because
+    we make logN recursive calls to function, each of which requires O(1) space.
 
 ------------------------------------------------------------------------------------------------------------------------
 #Problem3
