@@ -100,10 +100,13 @@ def rearrange_digits(input_list) -> list:
     Returns:
        (int),(int): Two maximum sums
     """
+    print("->rearrange_digits:")
+    if len(input_list) < 2:
+        print("result= "+str(input_list))
+        return input_list
 
     # sort the list
     sorted_list = sort_list(input_list)
-    print("->rearrange_digits:")
     first_number_str = ""
     second_number_str = ""
 
@@ -136,13 +139,20 @@ def sort_list(input_list) -> list:
 
 
 def test():
+    print("TEST CASES FOR SORTING")
     test_sort_list_1()
     test_sort_list_2()
     # test_sort_list_3()
     test_sort_list_4()
+    print("\nTEST CASES FOR TASK")
     test_rearrange_digits_1()
     test_rearrange_digits_2()
     test_rearrange_digits_3()
+    test_rearrange_digits_4()
+    test_rearrange_digits_5()
+    test_rearrange_digits_6()
+    print("\n======================================")
+    print("ALL TESTS FINISHED SUCCESSFULLY!")
 
 
 def test_rearrange_digits_1():
@@ -170,6 +180,33 @@ def test_rearrange_digits_3():
     expected_result = [984, 952]
     assert expected_result == actual_result, "expected is {}, actual is {}".format(expected_result, actual_result)
     print("->test_rearrange_digits_3: end")
+
+
+def test_rearrange_digits_4():
+    print("---------------------------------")
+    print("->test_rearrange_digits_4: start")
+    actual_result = rearrange_digits([])
+    expected_result = []
+    assert expected_result == actual_result, "expected is {}, actual is {}".format(expected_result, actual_result)
+    print("->test_rearrange_digits_4: end")
+
+
+def test_rearrange_digits_5():
+    print("---------------------------------")
+    print("->test_rearrange_digits_5: start")
+    actual_result = rearrange_digits([898])
+    expected_result = [898]
+    assert expected_result == actual_result, "expected is {}, actual is {}".format(expected_result, actual_result)
+    print("->test_rearrange_digits_5: end")
+
+
+def test_rearrange_digits_6():
+    print("---------------------------------")
+    print("->test_rearrange_digits_6: start")
+    actual_result = rearrange_digits([55, 6])
+    expected_result = [6, 55]
+    assert expected_result == actual_result, "expected is {}, actual is {}".format(expected_result, actual_result)
+    print("->test_rearrange_digits_6: end")
 
 
 def test_sort_list_1():
@@ -204,6 +241,7 @@ def test_sort_list_4():
     expected_result = [0, 1, 2, 3, 4, 5, 6, 9]
     assert expected_result == actual_result, "expected is {}, actual is {}".format(expected_result, actual_result)
     print("->test_sort_list_4: end")
+
 
 
 test()
