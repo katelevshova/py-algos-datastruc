@@ -32,6 +32,18 @@ class LinkedList:
             node = node.next
         return out_list
 
+    def __str__(self) -> str:
+        result = ""
+        node = self.head
+
+        while node:
+            result += str(node.value)
+
+            if node.next is not None:
+                result += " -> "
+            node = node.next
+        return result
+
     def prepend(self, value):
         """ Prepend a node to the beginning of the list """
         if self.head is None:
@@ -207,5 +219,9 @@ def test_size():
     linked_list.append(1)
     linked_list.append(4)
     assert linked_list.size() == 2, "list contents: {}".format(linked_list.to_list())
+
+    print("------")
+    print(linked_list)
+    print(linked_list.to_list())
 
 test()
