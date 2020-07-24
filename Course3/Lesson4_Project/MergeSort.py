@@ -1,34 +1,25 @@
 def perform_merge_sort(input_list) -> list:
-    if len(input_list) <= 1:
-        return input_list
+    unit = 1
+    while unit <= len(input_list):
+        h = 0
+        for h in range(0, len(input_list), unit * 2):
+            l, r = h, min(len(input_list), h + 2 * unit)
+            mid = h + unit
+            # merge input_list[h:h + 2 * unit]
+            p, q = l, mid
+            while p < mid and q < r:
+                # use <= for stable merge merge
+                if input_list[p] <= input_list[q]:
+                    p += 1
+                else:
+                    tmp = input_list[q]
+                    input_list[p + 1: q + 1] = input_list[p:q]
+                    input_list[p] = tmp
+                    p, mid, q = p + 1, mid + 1, q + 1
 
-    mid_index = len(input_list) // 2  # finding the middle of the arr
-    left_part = input_list[:mid_index]
-    right_part = input_list[mid_index:]
+        unit *= 2
 
-    left_part = perform_merge_sort(left_part)
-    right_part = perform_merge_sort(right_part)
-
-    return merge(left_part, right_part)
-
-
-def merge(left_part, right_part) -> list:
-    merged_list = []
-    left_index = 0
-    right_index = 0
-
-    while left_index < len(left_part) and right_index < len(right_part):
-        if left_part[left_index] < right_part[right_index]:
-            merged_list.append(left_part[left_index])
-            left_index += 1
-        else:
-            merged_list.append(right_part[right_index])
-            right_index += 1
-
-    merged_list += left_part[left_index:]
-    merged_list += right_part[right_index:]
-
-    return merged_list
+    return input_list
 
 
 def test_sort_list_1():
