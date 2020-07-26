@@ -9,14 +9,20 @@ class Node:
         self.path_cost_g = 0
         self.est_dist_h = 0
         self.total_path_f = 0
+        self.x_y = [None, None]
 
     def __eq__(self, other):
         return other.index == self.index
 
+    def __str__(self):
+        return "Node: i= " + str(self.index) + ", g= " + str(self.path_cost_g) + ", h= " + str(
+            self.est_dist_h) + ", f= " + str(self.total_path_f) + ", x_y= "+str(self.x_y)
+
 
 def shortest_path(graph_map, start_index, target_index):
     print("INPUT: start==============================================================================")
-    print("->shortest_path: graph_map={}, start_index={}, target={}".format(str(graph_map), str(start_index), str(target_index)))
+    print("->shortest_path: graph_map={}, start_index={}, target={}".format(str(graph_map), str(start_index),
+                                                                            str(target_index)))
     print("intersections=\n" + str(graph_map.intersections))
     print("roads= ")
     print(*graph_map.roads, sep="\n")
@@ -28,53 +34,55 @@ def shortest_path(graph_map, start_index, target_index):
 
     # Create start and target nodes
     start_node = Node(None, start_index)
+    start_node.x_y = graph_map.intersections[start_index]
     target_node = Node(None, target_index)
+    target_node.x_y = graph_map.intersections[target_index]
 
-    perform_a_star(graph_map, start_node, target_node)
+    result_list = perform_a_star(graph_map, start_node, target_node)
 
     print("\n")
     return [6, 7]
 
 
-def perform_a_star(graph_map, start_index: Node, goal_index: Node):
+def perform_a_star(graph_map, start_node: Node, target_node: Node):
     print("\n->perform_a_star:")
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
     open_queue = PriorityQueue()
-    open_queue.put(start_index, 0)
-
-    print("start_index=" + str(start_index) + ", goal_index=" + str(goal_index))
+    open_queue.put(start_node)
+    print(start_node)
+    print(target_node)
 
     print("===================================")
 
     while not open_queue.empty():
-        current_node_index = open_queue.get()  # open_queue.queue[0]
-        print("current_node_index=" + str(current_node_index))
+        current_node = open_queue.get()  # open_queue.queue[0]
+        print("CURRENT NODE:")
+        print(current_node)
 
-        if current_node_index == goal_index:
+        if current_node == target_node:
             create_path()
 
-        connected_nodes_list = graph_map.roads[current_node_index]
+        connected_nodes_list = graph_map.roads[current_node.index]
         print("connected_nodes_list=" + str(connected_nodes_list))
-
-        print("\n")
-
-        # f = g + h, where g = path cost, h = esimated distance and f = total path
-        current_node_x_y = graph_map.intersections[current_node_index]
-        target_node_x_y = graph_map.intersections[goal_index]
-        # print("target_node_x_y="+str(target_node_x_y))
-        est_dist_h = get_euclidean_distance(current_node_x_y, target_node_x_y)
 
         for node_index in connected_nodes_list:
             print("-------------")
-            print("node_index= " + str(node_index))
 
-            connected_node_x_y = graph_map.intersections[node_index]
-            path_cost_g = get_euclidean_distance(current_node_x_y, connected_node_x_y)
-            print("path_cost_g=" + str(path_cost_g))
-            print("est_dist_h=" + str(est_dist_h))
-            total_path_f = path_cost_g + est_dist_h
-            print("total_path_f=" + str(total_path_f))
+            # f = g + h, where g = path cost, h = esimated distance and f = total path
+
+            connected_node = Node(current_node, node_index)
+            connected_node.x_y = graph_map.intersections[node_index]
+            print("connected_node "+str(node_index))
+            print(connected_node)
+
+            distance_to_connected_node = get_euclidean_distance(current_node.x_y, connected_node.x_y)
+            print("distance_to_connected_node=" + str(distance_to_connected_node))
+            connected_node.path_cost_g = connected_node.path_cost_g + distance_to_connected_node
+            connected_node.est_dist_h = get_euclidean_distance(connected_node.x_y, target_node.x_y)
+            connected_node.total_path_f = connected_node.path_cost_g + connected_node.est_dist_h
+            print("updated g, h, f:")
+            print(connected_node)
 
     print("open_queue= " + str(open_queue.queue))
 
