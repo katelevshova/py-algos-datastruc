@@ -16,7 +16,7 @@ class Node:
 
     def __str__(self):
         return "Node: i= " + str(self.index) + ", g= " + str(self.path_cost_g) + ", h= " + str(
-            self.est_dist_h) + ", f= " + str(self.total_path_f) + ", x_y= "+str(self.x_y)
+            self.est_dist_h) + ", f= " + str(self.total_path_f) + ", x_y= " + str(self.x_y)
 
 
 def shortest_path(graph_map, start_index, target_index):
@@ -48,20 +48,17 @@ def perform_a_star(graph_map, start_node: Node, target_node: Node):
     print("\n->perform_a_star:")
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
-    open_queue = PriorityQueue()
-    open_queue.put(start_node)
+    path_queue = PriorityQueue()
+    path_queue.put(start_node)  # by default is 0
     print(start_node)
     print(target_node)
 
     print("===================================")
 
-    while not open_queue.empty():
-        current_node = open_queue.get()  # open_queue.queue[0]
+    while not path_queue.empty():
+        current_node = path_queue.get()  # open_queue.queue[0]
         print("CURRENT NODE:")
         print(current_node)
-
-        if current_node == target_node:
-            create_path()
 
         connected_nodes_list = graph_map.roads[current_node.index]
         print("connected_nodes_list=" + str(connected_nodes_list))
@@ -69,22 +66,39 @@ def perform_a_star(graph_map, start_node: Node, target_node: Node):
         for node_index in connected_nodes_list:
             print("-------------")
 
+            if current_node == target_node:
+                create_path(current_node.parent, start_node, target_node)
+
             # f = g + h, where g = path cost, h = esimated distance and f = total path
 
             connected_node = Node(current_node, node_index)
             connected_node.x_y = graph_map.intersections[node_index]
-            print("connected_node "+str(node_index))
+            print("connected_node " + str(node_index))
             print(connected_node)
 
             distance_to_connected_node = get_euclidean_distance(current_node.x_y, connected_node.x_y)
             print("distance_to_connected_node=" + str(distance_to_connected_node))
-            connected_node.path_cost_g = connected_node.path_cost_g + distance_to_connected_node
-            connected_node.est_dist_h = get_euclidean_distance(connected_node.x_y, target_node.x_y)
-            connected_node.total_path_f = connected_node.path_cost_g + connected_node.est_dist_h
-            print("updated g, h, f:")
-            print(connected_node)
+            updated_path_cost_g = connected_node.path_cost_g + distance_to_connected_node
+            prev_path_total_f = connected_node.path_cost_g
+            print("updated_path_cost_g=" + str(updated_path_cost_g), ", prev_path_total_f=" + str(prev_path_total_f))
+            is_not_visited = (connected_node not in path_queue.queue)
+            print("is_not_visited="+str(is_not_visited))
 
-    print("open_queue= " + str(open_queue.queue))
+            # if not visited yet OR
+            # the node is visited but the distance from the starting node is less
+            # than the distance stored previously for this node
+            if is_not_visited or updated_path_cost_g < prev_path_total_f:
+                print("UPDATE")
+                connected_node.path_cost_g = updated_path_cost_g
+                connected_node.est_dist_h = get_euclidean_distance(connected_node.x_y, target_node.x_y)
+                connected_node.total_path_f = connected_node.path_cost_g + connected_node.est_dist_h
+                print("updated g, h, f:")
+                print(connected_node)
+                path_queue.put(connected_node)
+            else:
+                print("Do nothing...")
+
+    print("path_queue= " + str(path_queue.queue))
 
 
 def get_euclidean_distance(current_x_y: list, target_x_y: list):
