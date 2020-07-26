@@ -2,6 +2,18 @@ import math
 from queue import PriorityQueue
 
 
+class Node:
+    def __init__(self, _parent=None, _index=None):
+        self.parent = _parent
+        self.index = _index
+        self.path_cost_g = 0
+        self.est_dist_h = 0
+        self.total_path_f = 0
+
+    def __eq__(self, other):
+        return other.index == self.index
+
+
 def shortest_path(graph_map, start, goal):
     print("INPUT: start==============================================================================")
     print("->shortest_path: graph_map={}, start={}, target={}".format(str(graph_map), str(start), str(goal)))
@@ -77,7 +89,7 @@ def create_path(prev, start, target) -> list:
         curr = prev[curr]
         path.append(curr)
     path.reverse()
-    print("path="+str(path))
+    print("path=" + str(path))
     return path
 
 
