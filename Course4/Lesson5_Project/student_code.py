@@ -14,25 +14,29 @@ class Node:
         return other.index == self.index
 
 
-def shortest_path(graph_map, start, goal):
+def shortest_path(graph_map, start_index, target_index):
     print("INPUT: start==============================================================================")
-    print("->shortest_path: graph_map={}, start={}, target={}".format(str(graph_map), str(start), str(goal)))
+    print("->shortest_path: graph_map={}, start_index={}, target={}".format(str(graph_map), str(start_index), str(target_index)))
     print("intersections=\n" + str(graph_map.intersections))
     print("roads= ")
     print(*graph_map.roads, sep="\n")
     print("INPUT: end==============================================================================\n")
 
-    if start == goal:
+    if start_index == target_index:
         print("Already there")
-        return [start]
+        return [start_index]
 
-    perform_a_star(graph_map, start, goal)
+    # Create start and target nodes
+    start_node = Node(None, start_index)
+    target_node = Node(None, target_index)
+
+    perform_a_star(graph_map, start_node, target_node)
 
     print("\n")
     return [6, 7]
 
 
-def perform_a_star(graph_map, start_index: int, goal_index: int):
+def perform_a_star(graph_map, start_index: Node, goal_index: Node):
     print("\n->perform_a_star:")
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
