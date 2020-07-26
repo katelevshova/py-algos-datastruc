@@ -12,7 +12,13 @@ class Node:
         self.x_y = [None, None]
 
     def __eq__(self, other):
-        return other.index == self.index
+        return other.total_path_f == self.total_path_f
+
+    def __lt__(self, other):
+        return other.total_path_f < self.total_path_f
+
+    def __gt__(self, other):
+        return other.total_path_f > self.total_path_f
 
     def __str__(self):
         return "Node: i= " + str(self.index) + ", g= " + str(self.path_cost_g) + ", h= " + str(
@@ -49,14 +55,15 @@ def perform_a_star(graph_map, start_node: Node, target_node: Node):
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
     path_queue = PriorityQueue()
-    path_queue.put(start_node)  # by default is 0
+    path_queue.put((start_node.index, start_node))  # by default is 0
+
     print(start_node)
     print(target_node)
 
     print("===================================")
 
     while not path_queue.empty():
-        current_node = path_queue.get()  # open_queue.queue[0]
+        index, current_node = path_queue.get()  # open_queue.queue[0]
         print("CURRENT NODE:")
         print(current_node)
 
@@ -66,7 +73,8 @@ def perform_a_star(graph_map, start_node: Node, target_node: Node):
         for node_index in connected_nodes_list:
             print("-------------")
 
-            if current_node == target_node:
+            if current_node.index == target_node.index:
+                print("REACHED TARGET>>>>>>")
                 create_path(current_node.parent, start_node, target_node)
 
             # f = g + h, where g = path cost, h = esimated distance and f = total path
@@ -81,8 +89,10 @@ def perform_a_star(graph_map, start_node: Node, target_node: Node):
             updated_path_cost_g = connected_node.path_cost_g + distance_to_connected_node
             prev_path_total_f = connected_node.path_cost_g
             print("updated_path_cost_g=" + str(updated_path_cost_g), ", prev_path_total_f=" + str(prev_path_total_f))
-            is_not_visited = (connected_node not in path_queue.queue)
-            print("is_not_visited="+str(is_not_visited))
+            is_not_visited = ((connected_node.index, connected_node) not in path_queue.queue)
+            print("is_not_visited=" + str(is_not_visited))
+
+            #print_queue(path_queue)
 
             # if not visited yet OR
             # the node is visited but the distance from the starting node is less
@@ -94,11 +104,17 @@ def perform_a_star(graph_map, start_node: Node, target_node: Node):
                 connected_node.total_path_f = connected_node.path_cost_g + connected_node.est_dist_h
                 print("updated g, h, f:")
                 print(connected_node)
-                path_queue.put(connected_node)
+                path_queue.put((connected_node.index, connected_node))
             else:
                 print("Do nothing...")
 
-    print("path_queue= " + str(path_queue.queue))
+
+
+
+def print_queue(_queue):
+    print("->print_queue:")
+    for item in _queue.queue:
+        print(item)
 
 
 def get_euclidean_distance(current_x_y: list, target_x_y: list):
