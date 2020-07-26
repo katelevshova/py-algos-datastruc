@@ -24,15 +24,15 @@ def perform_a_star(graph_map, start_index: int, goal_index: int):
     print("\n->perform_a_star:")
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
-    path_priority_queue = PriorityQueue()
-    path_priority_queue.put(start_index, 0)
+    open_queue = PriorityQueue()
+    open_queue.put(start_index, 0)
 
     print("start_index=" + str(start_index) + ", goal_index=" + str(goal_index))
 
     print("===================================")
 
-    while not path_priority_queue.empty():
-        current_node_index = path_priority_queue.get()  # path_priority_queue.queue[0]
+    while not open_queue.empty():
+        current_node_index = open_queue.get()  # open_queue.queue[0]
         print("current_node_index=" + str(current_node_index))
 
         if current_node_index == goal_index:
@@ -60,7 +60,7 @@ def perform_a_star(graph_map, start_index: int, goal_index: int):
             total_path_f = path_cost_g + est_dist_h
             print("total_path_f=" + str(total_path_f))
 
-    print("path_priority_queue= " + str(path_priority_queue.queue))
+    print("open_queue= " + str(open_queue.queue))
 
 
 def get_euclidean_distance(current_x_y: list, target_x_y: list):
@@ -68,6 +68,20 @@ def get_euclidean_distance(current_x_y: list, target_x_y: list):
     # print("->get_euclidean_distance: distance= "+str(distance))
     return distance
 
+
+def create_path(prev, start, target) -> list:
+    print("->create_path: ")
+    curr = target
+    path = [curr]
+    while curr != start:
+        curr = prev[curr]
+        path.append(curr)
+    path.reverse()
+    print("path="+str(path))
+    return path
+
+
+# -----------------TESTING-------------------------------------------------------------------------------------------
 
 class graph_map:
     intersections = {0: [0.7801603911549438, 0.49474860768712914], 1: [0.5249831588690298, 0.14953665513987202],
