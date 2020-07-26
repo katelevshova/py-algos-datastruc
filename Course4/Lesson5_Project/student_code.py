@@ -54,6 +54,7 @@ def perform_a_star(graph_map, start_node: Node, target_node: Node):
     print("\n->perform_a_star:")
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
+    #  Entries are typically tuples of the form:  (priority number, data).
     path_queue = PriorityQueue()
     path_queue.put((start_node.index, start_node))  # by default is 0
 
@@ -89,7 +90,8 @@ def perform_a_star(graph_map, start_node: Node, target_node: Node):
             updated_path_cost_g = connected_node.path_cost_g + distance_to_connected_node
             prev_path_total_f = connected_node.path_cost_g
             print("updated_path_cost_g=" + str(updated_path_cost_g), ", prev_path_total_f=" + str(prev_path_total_f))
-            is_not_visited = ((connected_node.index, connected_node) not in path_queue.queue)
+
+            is_not_visited = (search_queue(connected_node.index, path_queue) is False)   # (val not in path_queue.queue)
             print("is_not_visited=" + str(is_not_visited))
 
             #print_queue(path_queue)
@@ -109,6 +111,13 @@ def perform_a_star(graph_map, start_node: Node, target_node: Node):
                 print("Do nothing...")
 
 
+def search_queue(index: int, _queue: PriorityQueue) -> bool:
+    while not _queue.empty():
+        val_tuple = _queue.get()
+        print("val_tuple= "+str(val_tuple)+", index="+str(index))
+        if val_tuple[0] == index:
+            return True
+    return False
 
 
 def print_queue(_queue):
