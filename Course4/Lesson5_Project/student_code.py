@@ -1,5 +1,5 @@
-import math
 from queue import PriorityQueue
+import math
 
 
 def shortest_path(graph_map, start, goal):
@@ -13,47 +13,63 @@ def shortest_path(graph_map, start, goal):
         pritn("Already there")
         return [start]
 
-    create_visitation_priority_queue(graph_map, start, goal)
+    perform_a_star(graph_map, start, goal)
 
     print("\n")
     return [6, 7]
 
 
-def create_visitation_priority_queue(graph_map, start_index: int, goal_index: int):
-    print("\n->create_visitation_priority_queue:")
+def perform_a_star(graph_map, start_index: int, goal_index: int):
+    print("\n->perform_a_star:")
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
     path_priority_queue = PriorityQueue()
     path_priority_queue.put(start_index, 0)
 
-    current_intersection_node = graph_map.intersections[start_index]
-    print("Current start_index={}, node={}".format(str(start_index), str(current_intersection_node)))
+    print("start_index=" + str(start_index) + ", goal_index=" + str(goal_index))
 
-    connected_nodes_list = graph_map.roads[start_index]
-    print("connected_nodes_list=" + str(connected_nodes_list))
+    print("____________________________________________")
 
-    print("\n_________")
+    while not path_priority_queue.empty():
+        current_node_index = path_priority_queue.get()  # path_priority_queue.queue[0]
+        print("current_node_index=" + str(current_node_index))
 
-    while True:
+        if current_node_index == goal_index:
+            create_path()
+
+        connected_nodes_list = graph_map.roads[current_node_index]
+        print("connected_nodes_list=" + str(connected_nodes_list))
+
+        print("\n")
+
+        # f = g + h, where g = path cost, h = esimated distance and f = total path
+        current_node_x_y = graph_map.intersections[current_node_index]
+        target_node_x_y = graph_map.intersections[goal_index]
+        # print("target_node_x_y="+str(target_node_x_y))
+        est_dist_h = get_euclidean_distance(current_node_x_y, target_node_x_y)
 
         for node_index in connected_nodes_list:
+            print("-------------")
             print("node_index= " + str(node_index))
 
-            # f = g + h, where g = path cost, h = esimated distance and f = total path
-
-            path_cost_g = 0  # calculate this
-
-            current_node_x_y = graph_map.intersections[node_index]
-            print("current_node_x_y=" + str(current_node_x_y))
-
-            # est_dist_h = get_euclidean_distance(, )
-
-            # if path_priority_queue.get()
+            connected_node_x_y = graph_map.intersections[node_index]
+            path_cost_g = get_euclidean_distance(current_node_x_y, connected_node_x_y)
+            print("path_cost_g=" + str(path_cost_g))
+            print("est_dist_h=" + str(est_dist_h))
+            total_path_f = path_cost_g + est_dist_h
+            print("total_path_f=" + str(total_path_f))
 
     print("path_priority_queue= " + str(path_priority_queue.queue))
 
 
 def get_euclidean_distance(current_x_y: list, target_x_y: list):
     distance = math.sqrt(sum([(a - b) ** 2 for a, b in zip(current_x_y, target_x_y)]))
-    print("->get_euclidean_distance: distance= " + str(distance))
+    # print("->get_euclidean_distance: distance= "+str(distance))
     return distance
+
+
+
+
+
+
+
