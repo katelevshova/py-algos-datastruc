@@ -1,6 +1,14 @@
 import math
 from queue import PriorityQueue
 
+"""
+USED MATERIALS:
+1. Knowledge - Mentor Help - answers for other students 
+   https://knowledge.udacity.com/?nanodegree=nd256&page=1&project=603&rubric=2499
+2. Computing of euclidean distance
+   https://www.w3resource.com/python-exercises/math/python-math-exercise-79.php
+"""
+
 
 def shortest_path(graph_map, start_index, target_index):
     print("INPUT: start==============================================================================")
@@ -118,13 +126,13 @@ def get_euclidean_distance(current_x_y: list, target_x_y: list):
     return distance
 
 
-def create_path(prev, start, target) -> list:
+def create_path(came_from_node_dict: dict, start_index: int, target_index: int) -> list:
     print("->create_path: ")
-    curr = target
-    path = [curr]
-    while curr != start:
-        curr = prev[curr]
-        path.append(curr)
+    curr_index = target_index
+    path = [curr_index]
+    while curr_index != start_index:
+        curr_index = came_from_node_dict[curr_index]
+        path.append(curr_index)
     path.reverse()
     print("path=" + str(path))
     return path
