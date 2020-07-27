@@ -1,30 +1,6 @@
 import math
 from queue import PriorityQueue
 
-'''
-class Node:
-    def __init__(self, _parent=None, _index=None):
-        self.parent = _parent
-        self.index = _index
-        self.path_cost_g = 0
-        self.est_dist_h = 0
-        self.total_path_f = 0
-        self.x_y = [None, None]
-
-    def __eq__(self, other):
-        return other.total_path_f == self.total_path_f
-
-    def __lt__(self, other):
-        return other.total_path_f < self.total_path_f
-
-    def __gt__(self, other):
-        return other.total_path_f > self.total_path_f
-
-    def __str__(self):
-        return "Node: i= " + str(self.index) + ", g= " + str(self.path_cost_g) + ", h= " + str(
-            self.est_dist_h) + ", f= " + str(self.total_path_f) + ", x_y= " + str(self.x_y)
-'''
-
 
 def shortest_path(graph_map, start_index, target_index):
     print("INPUT: start==============================================================================")
@@ -47,13 +23,6 @@ def shortest_path(graph_map, start_index, target_index):
 
     if start_index in graph_map.intersections and target_index not in graph_map.intersections:
         return [start_index]
-
-
-    # Create start and target nodes
-    # start_node = Node(None, start_index)
-    # start_node.x_y = graph_map.intersections[start_index]
-    # target_node = Node(None, target_index)
-    # target_node.x_y = graph_map.intersections[target_index]
 
     result_list = perform_a_star(graph_map, start_index, target_index)
     print("\n")
@@ -80,7 +49,7 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
 
     while not path_priority_queue.empty():
         current_node_index = path_priority_queue.get()  # returns and deletes the smallest item
-        print("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         print("CURRENT NODE index:" + str(current_node_index))
         current_node_x_y = graph_map.intersections[current_node_index]
 
@@ -90,7 +59,7 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
         for connected_node_index in connected_nodes_list:
             print("-------------connected_node_index:= " + str(connected_node_index))
             print("total_f_dict=" + str(total_f_dict))
-            print_queue(path_priority_queue)
+            # print_queue(path_priority_queue)
 
             if current_node_index == target_node_index:
                 print("     >>>>>>REACHED TARGET>>>>>>")
@@ -112,17 +81,17 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
             is_not_visited = (connected_node_index not in total_f_dict)
             print("is_not_visited=" + str(is_not_visited))
 
-            # is_lesser_distance = (updated_path_cost_g < total_f_so_far)
-            # print("is_lesser_distance=" + str(is_lesser_distance))
+            is_lesser_distance = (connected_node_index in total_f_dict and updated_path_cost_g < total_f_dict[
+                connected_node_index])
+            print("is_lesser_distance= " + str(is_lesser_distance))
 
             # if not visited yet OR
             # the node is visited but the distance from the starting node is less
             # than the distance stored previously for this node
-            if is_not_visited or updated_path_cost_g < total_f_dict[connected_node_index]:
+            if is_not_visited or is_lesser_distance:
                 print("UPDATE")
                 total_f_dict[connected_node_index] = updated_path_cost_g
-                print("            total_f_dict[" + str(current_node_index) + "]=" + str(
-                    total_f_dict[current_node_index]))
+                print("total_f_dict[" + str(connected_node_index) + "]=" + str(total_f_dict[current_node_index]))
 
                 target_node_x_y = graph_map.intersections[target_node_index]
                 est_dist_h = get_euclidean_distance(connected_node_x_y, target_node_x_y)
@@ -138,15 +107,6 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
     return result_path
 
 
-def search_queue(index: int, _queue: PriorityQueue) -> bool:
-    while not _queue.empty():
-        val_tuple = _queue.get()
-        print("val_tuple= " + str(val_tuple) + ", index=" + str(index))
-        if val_tuple[0] == index:
-            return True
-    return False
-
-
 def print_queue(_queue):
     print("->print_queue:")
     for item in _queue.queue:
@@ -155,7 +115,6 @@ def print_queue(_queue):
 
 def get_euclidean_distance(current_x_y: list, target_x_y: list):
     distance = math.sqrt(sum([(a - b) ** 2 for a, b in zip(current_x_y, target_x_y)]))
-    # print("->get_euclidean_distance: distance= "+str(distance))
     return distance
 
 
@@ -280,7 +239,7 @@ def test_9():
 
 
 def test():
-    # test_1()
+    test_1()
     # test_2()
     # test_3()
     # test_4()
