@@ -35,9 +35,19 @@ def shortest_path(graph_map, start_index, target_index):
     print(*graph_map.roads, sep="\n")
     print("INPUT: end==============================================================================\n")
 
+    if start_index not in graph_map.intersections and target_index not in graph_map.intersections:
+        return []
+
     if start_index == target_index:
         print("Already there")
         return [start_index]
+
+    if start_index not in graph_map.intersections and target_index in graph_map.intersections:
+        return [target_index]
+
+    if start_index in graph_map.intersections and target_index not in graph_map.intersections:
+        return [start_index]
+
 
     # Create start and target nodes
     # start_node = Node(None, start_index)
@@ -58,8 +68,8 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
     path_priority_queue = PriorityQueue()
     path_priority_queue.put(start_node_index, 0)  # total_f is 0 for start
 
-    prev_total_f_dict = dict()
-    prev_total_f_dict[start_node_index] = None
+    came_from_node_dict = dict()
+    came_from_node_dict[start_node_index] = None  # stores node_index: prev_node_index
     total_f_dict = dict()
     total_f_dict[start_node_index] = 0
 
@@ -70,52 +80,59 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
 
     while not path_priority_queue.empty():
         current_node_index = path_priority_queue.get()  # returns and deletes the smallest item
+        print("\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         print("CURRENT NODE index:" + str(current_node_index))
         current_node_x_y = graph_map.intersections[current_node_index]
 
         connected_nodes_list = graph_map.roads[current_node_index]
         print("connected_nodes_list=" + str(connected_nodes_list))
 
-        for node_index in connected_nodes_list:
-            print("-------------node_index:= " + str(node_index))
+        for connected_node_index in connected_nodes_list:
+            print("-------------connected_node_index:= " + str(connected_node_index))
+            print("total_f_dict=" + str(total_f_dict))
+            print_queue(path_priority_queue)
 
             if current_node_index == target_node_index:
                 print("     >>>>>>REACHED TARGET>>>>>>")
-                result_path = create_path(prev_total_f_dict, start_node_index, target_node_index)
+                result_path = create_path(came_from_node_dict, start_node_index, target_node_index)
 
             # f = g + h, where g = path cost, h = estimated distance and f = total path
+            # g - is the distance traveled from start node to the frontier
+            # h -  is straight line distance from the frontier to the goal (heuristic)
 
-            connected_node_x_y = graph_map.intersections[node_index]
+            connected_node_x_y = graph_map.intersections[connected_node_index]
             print("connected_node_x_y " + str(connected_node_x_y))
 
             distance_curr_to_connected = get_euclidean_distance(current_node_x_y, connected_node_x_y)
-            print("distance_curr_to_connected=" + str(distance_curr_to_connected))
+            print("distance= {} from curr {} to connected {}".format(distance_curr_to_connected, current_node_index,
+                                                                     connected_node_index))
 
-            print("total_f_dict["+str(current_node_index)+"]= " + str(total_f_dict[current_node_index]))
             updated_path_cost_g = total_f_dict[current_node_index] + distance_curr_to_connected
-            prev_path_cost_g = total_f_dict[current_node_index]
-            print("updated_path_cost_g=" + str(updated_path_cost_g), ", prev_path_cost_g=" + str(prev_path_cost_g))
-
-            print("total_f_dict="+str(total_f_dict))
-
-            is_not_visited = (node_index not in total_f_dict)
+            print("updated_path_cost_g=" + str(updated_path_cost_g))
+            is_not_visited = (connected_node_index not in total_f_dict)
             print("is_not_visited=" + str(is_not_visited))
-            is_lesser_distance = (updated_path_cost_g < prev_path_cost_g)
-            print("is_lesser_distance=" + str(is_lesser_distance))
+
+            # is_lesser_distance = (updated_path_cost_g < total_f_so_far)
+            # print("is_lesser_distance=" + str(is_lesser_distance))
 
             # if not visited yet OR
             # the node is visited but the distance from the starting node is less
             # than the distance stored previously for this node
-            if is_not_visited or is_lesser_distance:
+            if is_not_visited or updated_path_cost_g < total_f_dict[connected_node_index]:
                 print("UPDATE")
-                total_f_dict[node_index] = updated_path_cost_g
+                total_f_dict[connected_node_index] = updated_path_cost_g
+                print("            total_f_dict[" + str(current_node_index) + "]=" + str(
+                    total_f_dict[current_node_index]))
 
                 target_node_x_y = graph_map.intersections[target_node_index]
                 est_dist_h = get_euclidean_distance(connected_node_x_y, target_node_x_y)
+                print("est_dist_h=" + str(est_dist_h))
                 total_path_f = updated_path_cost_g + est_dist_h
-                path_priority_queue.put(node_index, total_path_f)
+                print("total_path_f=" + str(total_path_f))
+                path_priority_queue.put(connected_node_index, total_path_f)
 
-                prev_total_f_dict[node_index] = current_node_index
+                # key - connected_node_index, value - current_node_index
+                came_from_node_dict[connected_node_index] = current_node_index
             else:
                 print("Do nothing...")
     return result_path
@@ -226,11 +243,52 @@ def test_4():
     print("->test_4: end-------------------------------")
 
 
+def test_5():
+    print("->test_5: start-------------------------------")
+    actual_path = shortest_path(graph_map, 8, 24)
+    expected_path = [8, 14, 16, 37, 12, 17, 10, 24]
+    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
+    assert actual_path == expected_path
+    print("->test_5: end-------------------------------")
+
+
+def test_6():
+    print("->test_5: start-------------------------------")
+    actual_path = shortest_path(graph_map, 8, 8)
+    expected_path = [8]
+    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
+    assert actual_path == expected_path
+    print("->test_6: end-------------------------------")
+
+
+def test_8():
+    print("->test_8: start-------------------------------")
+    actual_path = shortest_path(graph_map, 118, 34)
+    expected_path = [34]
+    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
+    assert actual_path == expected_path
+    print("->test_8: end-------------------------------")
+
+
+def test_9():
+    print("->test_9: start-------------------------------")
+    actual_path = shortest_path(graph_map, 118, 245)
+    expected_path = []
+    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
+    assert actual_path == expected_path
+    print("->test_9: end-------------------------------")
+
+
 def test():
     # test_1()
     # test_2()
     # test_3()
-    test_4()
+    # test_4()
+    # test_5()
+    # test_6()
+    # test_7()
+    # test_8()
+    test_9()
 
 
 test()
