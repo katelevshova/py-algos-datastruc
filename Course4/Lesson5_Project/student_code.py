@@ -80,7 +80,7 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
             print("-------------node_index:= " + str(node_index))
 
             if current_node_index == target_node_index:
-                print("REACHED TARGET>>>>>>")
+                print("     >>>>>>REACHED TARGET>>>>>>")
                 result_path = create_path(prev_total_f_dict, start_node_index, target_node_index)
 
             # f = g + h, where g = path cost, h = estimated distance and f = total path
@@ -208,9 +208,29 @@ def test_2():
     print("->test_2: end-------------------------------")
 
 
+def test_3():
+    print("->test_3: start-------------------------------")
+    actual_path = shortest_path(graph_map, 5, 37)
+    expected_path = [5, 16, 37]
+    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
+    assert actual_path == expected_path
+    print("->test_3: end-------------------------------")
+
+
+def test_4():
+    print("->test_4: start-------------------------------")
+    actual_path = shortest_path(graph_map, 5, 12)
+    expected_path = [5, 16, 37, 12]
+    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
+    assert actual_path == expected_path
+    print("->test_4: end-------------------------------")
+
+
 def test():
     # test_1()
-    test_2()
+    # test_2()
+    # test_3()
+    test_4()
 
 
 test()
