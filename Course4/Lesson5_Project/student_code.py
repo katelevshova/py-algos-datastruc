@@ -56,20 +56,20 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int):
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
     # Entries are typically tuples of the form:  (priority number, data).
-    path_queue = PriorityQueue()
-    path_queue.put(start_node_index, 0)  # total_f is 0 for start
+    path_priority_queue = PriorityQueue()
+    path_priority_queue.put(start_node_index, 0)  # total_f is 0 for start
 
-    prev_total_f = dict()
-    prev_total_f[start_node_index] = None
-    total_f = dict()
-    total_f[start_node_index] = 0
+    prev_total_f_dict = dict()
+    prev_total_f_dict[start_node_index] = None
+    total_f_dict = dict()
+    total_f_dict[start_node_index] = 0
 
     print("start_node_index={}, target_node_index={}".format(start_node_index, target_node_index))
 
     print("===================================")
 
-    while not path_queue.empty():
-        current_node_index = path_queue.get()  # open_queue.queue[0]
+    while not path_priority_queue.empty():
+        current_node_index = path_priority_queue.get()  # returns and deletes the smallest item
         print("CURRENT NODE index:" + str(current_node_index))
         current_node_x_y = graph_map.intersections[current_node_index]
 
@@ -81,7 +81,7 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int):
 
             if current_node_index == target_node_index:
                 print("REACHED TARGET>>>>>>")
-                create_path(prev_total_f, start_node_index, target_node_index)
+                create_path(prev_total_f_dict, start_node_index, target_node_index)
 
             # f = g + h, where g = path cost, h = estimated distance and f = total path
 
@@ -90,15 +90,15 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int):
 
             distance_curr_to_connected = get_euclidean_distance(current_node_x_y, connected_node_x_y)
             print("distance_curr_to_connected=" + str(distance_curr_to_connected))
-            print("total_f["+str(current_node_index)+"]= " + str(total_f[current_node_index]))
 
-            updated_path_cost_g = total_f[current_node_index] + distance_curr_to_connected
-            prev_path_cost_g = total_f[current_node_index]
+            print("total_f_dict["+str(current_node_index)+"]= " + str(total_f_dict[current_node_index]))
+            updated_path_cost_g = total_f_dict[current_node_index] + distance_curr_to_connected
+            prev_path_cost_g = total_f_dict[current_node_index]
             print("updated_path_cost_g=" + str(updated_path_cost_g), ", prev_path_cost_g=" + str(prev_path_cost_g))
 
-            print("total_f="+str(total_f))
+            print("total_f_dict="+str(total_f_dict))
 
-            is_not_visited = (node_index not in total_f)
+            is_not_visited = (node_index not in total_f_dict)
             print("is_not_visited=" + str(is_not_visited))
             is_lesser_distance = (updated_path_cost_g < prev_path_cost_g)
             print("is_lesser_distance=" + str(is_lesser_distance))
@@ -108,14 +108,14 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int):
             # than the distance stored previously for this node
             if is_not_visited or is_lesser_distance:
                 print("UPDATE")
-                total_f[node_index] = updated_path_cost_g
+                total_f_dict[node_index] = updated_path_cost_g
 
                 target_node_x_y = graph_map.intersections[target_node_index]
                 est_dist_h = get_euclidean_distance(connected_node_x_y, target_node_x_y)
                 total_path_f = updated_path_cost_g + est_dist_h
-                path_queue.put(node_index, total_path_f)
+                path_priority_queue.put(node_index, total_path_f)
 
-                prev_total_f[node_index] = current_node_index
+                prev_total_f_dict[node_index] = current_node_index
             else:
                 print("Do nothing...")
 
