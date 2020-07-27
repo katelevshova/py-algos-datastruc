@@ -46,12 +46,11 @@ def shortest_path(graph_map, start_index, target_index):
     # target_node.x_y = graph_map.intersections[target_index]
 
     result_list = perform_a_star(graph_map, start_index, target_index)
-
     print("\n")
-    return [6, 7]
+    return result_list
 
 
-def perform_a_star(graph_map, start_node_index: int, target_node_index: int):
+def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> list:
     print("\n->perform_a_star:")
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
@@ -65,6 +64,7 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int):
     total_f_dict[start_node_index] = 0
 
     print("start_node_index={}, target_node_index={}".format(start_node_index, target_node_index))
+    result_path = []
 
     print("===================================")
 
@@ -81,7 +81,7 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int):
 
             if current_node_index == target_node_index:
                 print("REACHED TARGET>>>>>>")
-                create_path(prev_total_f_dict, start_node_index, target_node_index)
+                result_path = create_path(prev_total_f_dict, start_node_index, target_node_index)
 
             # f = g + h, where g = path cost, h = estimated distance and f = total path
 
@@ -118,6 +118,7 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int):
                 prev_total_f_dict[node_index] = current_node_index
             else:
                 print("Do nothing...")
+    return result_path
 
 
 def search_queue(index: int, _queue: PriorityQueue) -> bool:
@@ -190,17 +191,26 @@ class graph_map:
 
 
 def test_1():
-    path = shortest_path(graph_map, 5, 34)
+    print("->test_1: start-------------------------------")
+    actual_path = shortest_path(graph_map, 5, 34)
+    expected_path = [5, 16, 37, 12, 34]
+    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
+    assert actual_path == expected_path
+    print("->test_1: end-------------------------------")
 
-    if path == [5, 16, 37, 12, 34]:
-        print("great! Your code works for these inputs!")
-    else:
-        print("something is off, your code produced the following:")
-        print(path)
+
+def test_2():
+    print("->test_2: start-------------------------------")
+    actual_path = shortest_path(graph_map, 5, 16)
+    expected_path = [5, 16]
+    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
+    assert actual_path == expected_path
+    print("->test_2: end-------------------------------")
 
 
 def test():
-    test_1()
+    # test_1()
+    test_2()
 
 
 test()
