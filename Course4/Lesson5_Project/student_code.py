@@ -212,7 +212,7 @@ def test_5():
 
 
 def test_6():
-    print("->test_5: start-------------------------------")
+    print("->test_6: start-------------------------------")
     actual_path = shortest_path(graph_map, 8, 8)
     expected_path = [8]
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
@@ -220,34 +220,35 @@ def test_6():
     print("->test_6: end-------------------------------")
 
 
-def test_8():
-    print("->test_8: start-------------------------------")
+def test_7():
+    print("->test_7: start-------------------------------")
     actual_path = shortest_path(graph_map, 118, 34)
     expected_path = [34]
+    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
+    assert actual_path == expected_path
+    print("->test_7: end-------------------------------")
+
+
+def test_8():
+    print("->test_8: start-------------------------------")
+    actual_path = shortest_path(graph_map, 118, 245)
+    expected_path = []
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
     assert actual_path == expected_path
     print("->test_8: end-------------------------------")
 
 
-def test_9():
-    print("->test_9: start-------------------------------")
-    actual_path = shortest_path(graph_map, 118, 245)
-    expected_path = []
-    print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
-    assert actual_path == expected_path
-    print("->test_9: end-------------------------------")
-
-
 def test():
     test_1()
-    # test_2()
-    # test_3()
-    # test_4()
-    # test_5()
-    # test_6()
-    # test_7()
-    # test_8()
-    test_9()
+    test_2()
+    test_3()
+    test_4()
+    test_5()
+    test_6()
+    test_7()
+    test_8()
+    print("\n==============================")
+    print("ALL TESTS FINISHED!")
 
 
 test()
