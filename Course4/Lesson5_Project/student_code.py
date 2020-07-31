@@ -1,5 +1,5 @@
 import math
-from queue import PriorityQueue
+import heapq
 
 """
 USED MATERIALS:
@@ -10,20 +10,46 @@ USED MATERIALS:
 """
 
 
-def shortest_path(graph_map, start_index, target_index): 
-    print("INPUT: start==============================================================================")
-    print("->shortest_path: graph_map={}, start_index={}, target={}".format(str(graph_map), str(start_index),
-                                                                            str(target_index)))
-    print("intersections=\n" + str(graph_map.intersections))
-    print("roads= ")
-    print(*graph_map.roads, sep="\n")
-    print("INPUT: end==============================================================================\n")
+class PathPriorityQueue:
+    def __init__(self):
+        self.queue = []
+        self.index = 0
+
+    def get(self) -> int:
+        """
+        Returns and removes item from the queue which has lesser priority
+        :return: item key
+        """
+        return heapq.heappop(self.queue)[-1]
+
+    def put(self, key: int, priority: float):
+        """
+        Adds new item into the queue using priority
+        :param key:
+        :param priority:
+        :return:
+        """
+        heapq.heappush(self.queue, (priority, self.index, key))
+        self.index += 1
+
+    def empty(self) -> bool:
+        return len(self.queue) == 0
+
+
+def shortest_path(graph_map, start_index, target_index):
+    # print("INPUT: start==============================================================================")
+    # print("->shortest_path: graph_map={}, start_index={}, target={}".format(str(graph_map), str(start_index),
+    #                                                                        str(target_index)))
+    # print("intersections=\n" + str(graph_map.intersections))
+    # print("roads= ")
+    # print(*graph_map.roads, sep="\n")
+    # print("INPUT: end==============================================================================\n")
 
     if start_index not in graph_map.intersections and target_index not in graph_map.intersections:
         return []
 
     if start_index == target_index:
-        print("Already there")
+        # print("Already there")
         return [start_index]
 
     if start_index not in graph_map.intersections and target_index in graph_map.intersections:
@@ -38,11 +64,12 @@ def shortest_path(graph_map, start_index, target_index):
 
 
 def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> list:
-    print("\n->perform_a_star:")
+    # print("\n->perform_a_star:")
 
     # The Python priority queue is built on the heapq module, which is basically a binary heap.
     # Entries are typically tuples of the form:  (priority number, data).
-    path_priority_queue = PriorityQueue()
+    path_priority_queue = PathPriorityQueue()
+    # key - node index, priority - path
     path_priority_queue.put(start_node_index, 0)  # total_f is 0 for start
 
     came_from_node_dict = dict()
@@ -50,9 +77,7 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
     total_f_dict = dict()
     total_f_dict[start_node_index] = 0
 
-    print("start_node_index={}, target_node_index={}".format(start_node_index, target_node_index))
-    result_path = []
-
+    # print("start_node_index={}, target_node_index={}".format(start_node_index, target_node_index))
     print("===================================")
 
     while not path_priority_queue.empty():
@@ -65,54 +90,53 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
         print("connected_nodes_list=" + str(connected_nodes_list))
 
         for connected_node_index in connected_nodes_list:
-            print("-------------connected_node_index:= " + str(connected_node_index))
-            print("total_f_dict=" + str(total_f_dict))
+            # print("-------------connected_node_index:= " + str(connected_node_index))
+            # print("total_f_dict=" + str(total_f_dict))
             # print_queue(path_priority_queue)
 
             if current_node_index == target_node_index:
                 print("     >>>>>>REACHED TARGET>>>>>>")
-                result_path = create_path(came_from_node_dict, start_node_index, target_node_index)
+                return create_path(came_from_node_dict, start_node_index, target_node_index)
 
             # f = g + h, where g = path cost, h = estimated distance and f = total path
             # g - is the distance traveled from start node to the frontier
             # h -  is straight line distance from the frontier to the goal (heuristic)
 
             connected_node_x_y = graph_map.intersections[connected_node_index]
-            print("connected_node_x_y " + str(connected_node_x_y))
+            # print("connected_node_x_y " + str(connected_node_x_y))
 
             distance_curr_to_connected = get_euclidean_distance(current_node_x_y, connected_node_x_y)
-            print("distance= {} from curr {} to connected {}".format(distance_curr_to_connected, current_node_index,
-                                                                     connected_node_index))
+            # print("distance= {} from curr {} to connected {}".format(distance_curr_to_connected, current_node_index,
+            #                                                       connected_node_index))
 
             updated_path_cost_g = total_f_dict[current_node_index] + distance_curr_to_connected
-            print("updated_path_cost_g=" + str(updated_path_cost_g))
+            # print("updated_path_cost_g=" + str(updated_path_cost_g))
             is_not_visited = (connected_node_index not in total_f_dict)
-            print("is_not_visited=" + str(is_not_visited))
+            # print("is_not_visited=" + str(is_not_visited))
 
             is_lesser_distance = (connected_node_index in total_f_dict and updated_path_cost_g < total_f_dict[
                 connected_node_index])
-            print("is_lesser_distance= " + str(is_lesser_distance))
+            # print("is_lesser_distance= " + str(is_lesser_distance))
 
             # if not visited yet OR
             # the node is visited but the distance from the starting node is less
             # than the distance stored previously for this node
             if is_not_visited or is_lesser_distance:
-                print("UPDATE")
+                # print("UPDATE")
                 total_f_dict[connected_node_index] = updated_path_cost_g
-                print("total_f_dict[" + str(connected_node_index) + "]=" + str(total_f_dict[current_node_index]))
+                # print("total_f_dict[" + str(connected_node_index) + "]=" + str(total_f_dict[current_node_index]))
 
                 target_node_x_y = graph_map.intersections[target_node_index]
                 est_dist_h = get_euclidean_distance(connected_node_x_y, target_node_x_y)
-                print("est_dist_h=" + str(est_dist_h))
+                # print("est_dist_h=" + str(est_dist_h))
                 total_path_f = updated_path_cost_g + est_dist_h
-                print("total_path_f=" + str(total_path_f))
+                # print("total_path_f=" + str(total_path_f))
                 path_priority_queue.put(connected_node_index, total_path_f)
 
                 # key - connected_node_index, value - current_node_index
                 came_from_node_dict[connected_node_index] = current_node_index
-            else:
-                print("Do nothing...")
-    return result_path
+            # else:
+                # print("Do nothing...")
 
 
 def print_queue(_queue):
@@ -127,14 +151,14 @@ def get_euclidean_distance(current_x_y: list, target_x_y: list):
 
 
 def create_path(came_from_node_dict: dict, start_index: int, target_index: int) -> list:
-    print("->create_path: ")
+    # print("->create_path: ")
     curr_index = target_index
     path = [curr_index]
     while curr_index != start_index:
         curr_index = came_from_node_dict[curr_index]
         path.append(curr_index)
     path.reverse()
-    print("path=" + str(path))
+    # print("path=" + str(path))
     return path
 
 
@@ -175,7 +199,7 @@ class graph_map:
 
 
 def test_1():
-    print("->test_1: start-------------------------------")
+    print("\n->test_1: start-------------------------------")
     actual_path = shortest_path(graph_map, 5, 34)
     expected_path = [5, 16, 37, 12, 34]
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
@@ -184,7 +208,7 @@ def test_1():
 
 
 def test_2():
-    print("->test_2: start-------------------------------")
+    print("\n->test_2: start-------------------------------")
     actual_path = shortest_path(graph_map, 5, 16)
     expected_path = [5, 16]
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
@@ -193,7 +217,7 @@ def test_2():
 
 
 def test_3():
-    print("->test_3: start-------------------------------")
+    print("\n->test_3: start-------------------------------")
     actual_path = shortest_path(graph_map, 5, 37)
     expected_path = [5, 16, 37]
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
@@ -202,7 +226,7 @@ def test_3():
 
 
 def test_4():
-    print("->test_4: start-------------------------------")
+    print("\n->test_4: start-------------------------------")
     actual_path = shortest_path(graph_map, 5, 12)
     expected_path = [5, 16, 37, 12]
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
@@ -211,7 +235,7 @@ def test_4():
 
 
 def test_5():
-    print("->test_5: start-------------------------------")
+    print("\n->test_5: start-------------------------------")
     actual_path = shortest_path(graph_map, 8, 24)
     expected_path = [8, 14, 16, 37, 12, 17, 10, 24]
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
@@ -220,7 +244,7 @@ def test_5():
 
 
 def test_6():
-    print("->test_6: start-------------------------------")
+    print("\n->test_6: start-------------------------------")
     actual_path = shortest_path(graph_map, 8, 8)
     expected_path = [8]
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
@@ -229,7 +253,7 @@ def test_6():
 
 
 def test_7():
-    print("->test_7: start-------------------------------")
+    print("\n->test_7: start-------------------------------")
     actual_path = shortest_path(graph_map, 118, 34)
     expected_path = [34]
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
@@ -238,7 +262,7 @@ def test_7():
 
 
 def test_8():
-    print("->test_8: start-------------------------------")
+    print("\n->test_8: start-------------------------------")
     actual_path = shortest_path(graph_map, 118, 245)
     expected_path = []
     print("actual_path=   {} \nexpected_path= {}".format(actual_path, expected_path))
@@ -246,7 +270,24 @@ def test_8():
     print("->test_8: end-------------------------------")
 
 
+def test_path_queue_1():
+    print("\n->test_path_queue_1: start-------------------------------")
+    path_queue = PathPriorityQueue()
+    path_queue.put(33, 0)
+    path_queue.put(14, 4.5)
+    path_queue.put(20, 2)
+    print(path_queue.queue)
+    item = path_queue.get()
+    print(item)
+    item = path_queue.get()
+    print(item)
+    item = path_queue.get()
+    print(item)
+    print("->test_path_queue_1: end-------------------------------")
+
+
 def test():
+    test_path_queue_1()
     test_1()
     test_2()
     test_3()
