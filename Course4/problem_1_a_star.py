@@ -1,12 +1,10 @@
-import math
 import heapq
+import math
 
 """
-USED MATERIALS:
-1. Knowledge - Mentor Help - answers for other students 
-   https://knowledge.udacity.com/?nanodegree=nd256&page=1&project=603&rubric=2499
-2. Computing of euclidean distance
-   https://www.w3resource.com/python-exercises/math/python-math-exercise-79.php
+TASK:
+Build a route-planning algorithm like the one used in Google Maps to calculate
+the shortest path between two points on a map.
 """
 
 
@@ -136,7 +134,7 @@ def perform_a_star(graph_map, start_node_index: int, target_node_index: int) -> 
                 # key - connected_node_index, value - current_node_index
                 came_from_node_dict[connected_node_index] = current_node_index
             # else:
-                # print("Do nothing...")
+            # print("Do nothing...")
 
 
 def print_queue(_queue):
