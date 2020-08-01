@@ -2,13 +2,13 @@
 Time complexity analysis
 ########################################################################################
 
-#Problem0------------------------
+#Problem1------------------------
 SOLUTION complexity:
 To get the value by index from a list takes 0(1)
 To print the result message takes O(1)
 ANSWER: O(1)
 
-#Problem1------------------------
+#Problem2------------------------
 SOLUTION complexity:
 Let's N be the number of elements in calls list which is equal to the amount of records in a file calls.
 Going through all elements of calls list in the function count_unique_telephone_number() will take O(N).
@@ -22,7 +22,7 @@ Since we call count_unique_telephone_number() sequentially we can sum up the res
 O(N+N) = O(2N), we can omit any constants.
 ANSWER: O(N)
 
-#Problem2------------------------
+#Problem3------------------------
 SOLUTION complexity:
 We start analysis from function main().
 Let's N be the number of elements in a calls list.
@@ -43,7 +43,7 @@ sum up the result O(N+A). However N>A that's why we can omit A.
 ANSWER: O(N)
 
 
-#Problem3------------------------
+#Problem4------------------------
 SOLUTION complexity:
 Start analysis from function main().
 Let's N be the number of elements in a calls list (equal to the amount of records in a calls file).
@@ -64,7 +64,7 @@ the letter does not matter in this case.
 ANSWER: O(N*logN)
 
 
-#Problem4------------------------
+#Problem5------------------------
 SOLUTION complexity:
 Start analysis from function main().
 create_telemarketers_set() function is consists of 2 sequential calls:

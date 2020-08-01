@@ -14,7 +14,7 @@ with open('calls.csv', 'r') as f:
     # print("calls= " + str(calls))
 
 """
-TASK 0:
+TASK 1:
 What is the first record of texts and what is the last record of calls?
 Print messages:
 "First record of texts, <incoming number> texts <answering number> at time <time>"
