@@ -1,29 +1,5 @@
 """
 TASK: Find deletion distance between 2 strings.
-Levenshtein distance is a string metric for measuring the difference between two sequences.
-Informally, the Levenshtein distance between two words is the minimum number
-of single-character edits (insertions, deletions or substitutions) required to change one word into the other.
-
-The Levenshtein distance has several simple upper and lower bounds. These include:
-
-    It is at least the difference of the sizes of the two strings.
-    It is at most the length of the longer string.
-    It is zero if and only if the strings are equal.
-    If the strings are the same size, the Hamming distance is an upper bound on the Levenshtein distance.
-        The Hamming distance is the number of positions at which the corresponding
-        symbols in the two strings are different.
-    The Levenshtein distance between two strings is no greater than the sum of their Levenshtein distances
-        from a third string (triangle inequality).
-
-
-The deletion distance between two strings is the minimum sum of ASCII values of characters
-that you need to delete in the two strings in order to have the same string.
-The deletion distance between cat and at is 99, because you can just delete the first
-character of cat and the ASCII value of 'c' is 99.
-The deletion distance between cat and bat is 98 + 99, because you need to delete the first character of both words.
-Of course, the deletion distance between two strings can't be greater than the sum of their total ASCII values,
-because you can always just delete both of the strings entirely.
-Implement an efficient function to find the deletion distance between two strings.
 
 For example:
 str1="thought", str2="sloughs"
@@ -121,6 +97,15 @@ def test_deletion_distance_7():
     print("->test_deletion_distance_7: end\n")
 
 
+def test_edit_distance_8():
+    print("->test_edit_distance_8: start")
+    result = deletion_distance("kitten", "sitting")
+    expected = 5
+    print("result={}, expected={}".format(result, expected))
+    assert result == expected
+    print("->test_edit_distance_8: end\n")
+
+
 def test():
     test_deletion_distance_1()
     test_deletion_distance_2()
@@ -129,6 +114,7 @@ def test():
     test_deletion_distance_5()
     test_deletion_distance_6()
     test_deletion_distance_7()
+    test_edit_distance_8()
     print("======================")
     print("ALL TEST CASES FINISHED")
 
