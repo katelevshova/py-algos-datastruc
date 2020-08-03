@@ -1,5 +1,20 @@
 """
 TASK: Find deletion distance between 2 strings.
+Levenshtein distance is a string metric for measuring the difference between two sequences.
+Informally, the Levenshtein distance between two words is the minimum number
+of single-character edits (insertions, deletions or substitutions) required to change one word into the other.
+
+The Levenshtein distance has several simple upper and lower bounds. These include:
+
+    It is at least the difference of the sizes of the two strings.
+    It is at most the length of the longer string.
+    It is zero if and only if the strings are equal.
+    If the strings are the same size, the Hamming distance is an upper bound on the Levenshtein distance.
+        The Hamming distance is the number of positions at which the corresponding
+        symbols in the two strings are different.
+    The Levenshtein distance between two strings is no greater than the sum of their Levenshtein distances
+        from a third string (triangle inequality).
+
 
 The deletion distance between two strings is the minimum sum of ASCII values of characters
 that you need to delete in the two strings in order to have the same string.
