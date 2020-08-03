@@ -1,8 +1,9 @@
 """
 TASK: Find deletion distance between 2 strings.
 
-For example:
-str1="thought", str2="sloughs"
+For example.
+Input: str1="thought", str2="sloughs"
+Output: 6
 Both strings have 'ough' so we need to delete 'th' and 't' from str1 (3 chars) and 'sl' and 's' from str2 (3 chars),
 in total we need to remove 6 chars which is our deletion distance.
 """
