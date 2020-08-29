@@ -1,105 +1,41 @@
-"""
-Given a set of integers, the task is to divide it into
-two sets S1 and S2 such that the absolute difference between their sums is minimum.
-
-If there is a set S with n elements,
-then if we assume Subset1 has m elements,
-Subset2 must have n-m elements and
-the value of abs(sum(Subset1) – sum(Subset2)) should be minimum.
-
-"""
-import sys
-
-class NonBinTree:
-
-    def __init__(self, val):
-        self.val = val
-        self.nodes = []
-
-    def add_node(self, val):
-        self.nodes.append(NonBinTree(val))
-
-    def __repr__(self):
-        return f"NonBinTree({self.val}): {self.nodes}"
-
 def balanced_partition(parent, files_size) -> int:
     print("parent= " + str(parent))
     print("files_size= " + str(files_size))
 
-    #split on 2 halfs
-    # calculate sum of each half
-    # save the absolute difference between them
-    # find the minimum
+    # get index of 1st 0
 
-    sum = 0
-    n = len(files_size)
+    separator_index = parent[1]
 
-    #calculate sum of all elements
-    for i in range (n):
-        sum += files_size[i]
+    subs_number = 0
+    for i in parent:
+        if i == 0:
+            subs_number += 1
+    print("subs_number=" + str(subs_number))
+    sub_dict = {}
 
-    print("sum="+str(sum))
+    for j in range(1, subs_number + 1):
+        if sub_dict.get(j) is None:
+            sub_dict[j] = []
 
-    # Create an 2d list to store results of subproblems
-    table = [[0 for i in range(sum + 1)]
-          for j in range(n + 1)]
-
-    print(*table, sep="\n")
-    print("---------------------------------")
-
-    """
-    Initialize first column as true.
-    0 sum is possible with all elements.
-    """
-    for i in range(n + 1):
-        table[i][0] = True
-
-    print(*table, sep="\n")
-
-    print("---------------------------------")
-    """
-    Initialize top row, except table[0][0] as false. 
-    With 0 elements, no other sum except 0 is possible
-    """
-    for j in range(1, sum + 1):
-        table[0][j] = False
-
-    print(*table, sep="\n")
-
-    print("---------------------------------")
-
-    # Fill the partition table in
-    # bottom up manner
-    for i in range(1, n + 1):
-        for j in range(1, sum + 1):
-
-            # If i'th element is excluded
-            table[i][j] = table[i - 1][j]
-
-            # If i'th element is included
-            if files_size[i - 1] <= j:
-                table[i][j] |= table[i - 1][j - files_size[i - 1]]
-
-    print(*table, sep="\n")
-
-    print("---------------------------------")
-
-    # Initialize difference
-    # of two sums.
-    diff = sys.maxsize
-
-    # Find the largest j such that dp[n][j]
-    # is true where j loops from sum/2 t0 0
-    for j in range(sum // 2, -1, -1):
-        if table[n][j] == True:
-            diff = sum - (2 * j)
-            break
+    print("sub_dict=" + str(sub_dict))
 
 
+    for key in sub_dict:
+        print("key=" + str(key))
+        for i in range(0, len(parent)):
+            print("i=" + str(i) + ", parent[" + str(i) + "]=" + str(parent[i]))
+            if parent[i] == key or i == key:  # index of first child of root
+                file_size_value = files_size[i]
+                print("file_size_value=" + str(file_size_value))
+                sub_dict[key].append(file_size_value)
+                print("sub_dict[" + str(key) + "]=" + str(sub_dict[key]))
 
-    return diff
+    sub_dict[subs_number].append(files_size[0]) # add root value
+
+    print("sub_dict=" + str(sub_dict))
 
 
+    return 0
 
 
 def test_case_1():
@@ -136,8 +72,8 @@ def test_case_3():
 
 def test():
     test_case_1()
-    test_case_2()
-    test_case_3()
+    # test_case_2()
+    # test_case_3()
     print("=====================")
     print("ALL TESTS FINISHED")
 
