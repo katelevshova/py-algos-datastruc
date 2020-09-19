@@ -72,15 +72,26 @@ def test_case3():  # NOT anabell 2 times in 1 review
     print("->test_case3: end")
 
 
-def test_case4():  # test_comp > length of competitors
+def test_case4():  # topN > length of competitors
     print("\n->test_case4: start")
 
     test_comp = ["bartt", "betalar", "anabell", "cecular", "delcecular", "eurgel"]
     rev = ["anabell Best by anabell bartt", "betalar has great", " betalar prvocide"]
     actual_result = topCompetitors(999, test_comp, rev)
-    expected_result = ["betalar", "anabell", "bartt"]
+    expected_result = ["betalar", "anabell", "bartt", 'cecular', 'delcecular', 'eurgel']
     assert actual_result == expected_result, "actual={}, expected={}".format(actual_result, expected_result)
     print("->test_case4: end")
+
+
+def test_case5():  # topN = length of competitors
+    print("\n->test_case5: start")
+
+    test_comp = ["bartt", "betalar", "anabell", "cecular", "delcecular", "eurgel"]
+    rev = ["anabell Best by anabell bartt", "betalar has great", " betalar prvocide"]
+    actual_result = topCompetitors(6, test_comp, rev)
+    expected_result = ["betalar", "anabell", "bartt", 'cecular', 'delcecular', 'eurgel']
+    assert actual_result == expected_result, "actual={}, expected={}".format(actual_result, expected_result)
+    print("->test_case5: end")
 
 
 def test():
@@ -88,6 +99,7 @@ def test():
     test_case2()
     test_case3()
     test_case4()
+    test_case5()
     print("=====================")
     print("ALL TESTS FINISHED")
 
