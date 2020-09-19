@@ -1,4 +1,4 @@
-class Multiset:
+class MultipleSet:
     def __init__(self):
         self.internal_dict = {}
 
@@ -49,7 +49,7 @@ def test_case_1():
     size
     """
 
-    multiset_1 = Multiset()
+    multiset_1 = MultipleSet()
     print(1 in multiset_1)  # 1
     multiset_1.add(1)
     print(1 in multiset_1)  # 2
@@ -77,7 +77,7 @@ def test_case_1():
 
 def test_case_2():
     print("->test_case_2")
-    multiset_1 = Multiset()
+    multiset_1 = MultipleSet()
     multiset_1.remove(1)
 
 
